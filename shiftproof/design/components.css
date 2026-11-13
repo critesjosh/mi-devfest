@@ -54,6 +54,8 @@ body {
   background-image: linear-gradient(to bottom, transparent calc(100% - var(--border-hairline)), var(--rule) calc(100% - var(--border-hairline)));
   background-size: 100% var(--quote-line); background-position: 0 var(--space-3); background-attachment: local;
 }
+/* A short quote sits flush on the rules: no top padding, so no stray rule under the header and no empty strip below. */
+.sp-quote--pad p.sp-quote__text { padding-block: 0 var(--space-1); background-position: 0 0; }
 /* A highlighter stroke: it overshoots the letters a little, the way a marker does. */
 mark, .sp-mark {
   background: var(--highlight); color: var(--ink); padding: 0 var(--space-1); margin: 0 calc(-1 * var(--space-1));

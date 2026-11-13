@@ -145,7 +145,7 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
       </div>
       <div className="sp-field">
         <label className="sp-field__label" htmlFor={`sc-${card.id}`}>Scope</label>
-        <input className="sp-field__input" id={`sc-${card.id}`} type="text" value={f.scope} onChange={set("scope")} />
+        <textarea className="sp-field__input sp-field__input--line" id={`sc-${card.id}`} rows={1} value={f.scope} onChange={set("scope")} />
       </div>
       {([["steps", "Steps (one per line)"], ["applies_when", "Applies when"], ["do_not_apply_when", "Does not apply when"], ["escalate_if", "Escalate if"]] as const).map(([k, label]) => (
         <div className={`sp-field${k === "steps" || k === "escalate_if" ? " sp-card__wide" : ""}`} key={k}>
@@ -207,6 +207,15 @@ export default function Home() {
     const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     answerRef.current.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });
   }, [ask]);
+  // After a Find gaps click (not on load), bring the findings into view.
+  const findingsRef = useRef<HTMLDivElement>(null);
+  const jumpToFindings = useRef(false);
+  useEffect(() => {
+    if (!cmp || !jumpToFindings.current || !findingsRef.current) return;
+    jumpToFindings.current = false;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    findingsRef.current.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });
+  }, [cmp]);
 
   const load = useCallback(async () => {
     try {
@@ -223,7 +232,7 @@ export default function Home() {
     setBusy("");
   };
 
-  const findGaps = () => guard("compare", async () => { setCmp(await api<Compare>("/api/compare", "POST", {})); await load(); });
+  const findGaps = () => guard("compare", async () => { const r = await api<Compare>("/api/compare", "POST", {}); jumpToFindings.current = true; setCmp(r); await load(); });
   const draft = (id: string) => guard("draft-" + id, async () => {
     const r = await api<{ card: Card } & Meta>("/api/cards", "POST", { finding_id: id, expert_answer: answers[id] || "" });
     await load();
@@ -365,7 +374,7 @@ export default function Home() {
                 {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} pad label="Veteran notes, full text" />}
               </div>
             </div>
-            {cmp && <Banner meta={cmp} />}
+            <div ref={findingsRef} className="sp-findings-top">{cmp && <Banner meta={cmp} />}</div>
             {findings.map((f) => {
               const ok = f.instruction_quote_verified && f.veteran_quote_verified;
               const mark = (v: boolean) => (
