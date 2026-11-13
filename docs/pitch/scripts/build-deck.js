@@ -338,7 +338,7 @@ bullets(
   { x: 5.9, y: 1.45, w: 3.6, h: 3.4 },
 );
 s.addNotes(
-  "1:50 to 2:15, Ask. Back at the machine, the apprentice asks: my first bracket measured 0.002 over, should I bump the wear offset? The answer comes only from the approved card: let it cool, measure again, then follow the work instruction. It cites the veteran's own words. Then the spindle-speed question: no approved card covers it, so the app says so and sends them to a lead. The answer always shows the cited card and the veteran's words, so the apprentice can check it. It never says a part is good. That is quality's call.",
+  "1:50 to 2:15, Ask. Back at the machine, the apprentice asks: my first bracket measured 0.002 over, should I bump the wear offset? The answer comes only from the approved card: let it cool, measure again, then follow the work instruction. It cites the veteran's own words. Then the spindle-speed question: no approved card covers it, so the app says so and sends them to a lead. The answer shows the approved card it cites, so the apprentice can check it. Whether a part is good stays quality's call.",
 );
 
 // ==================================================================
@@ -364,7 +364,7 @@ flow.forEach((f, i) => {
 caption(s, "IBM Granite ibm/granite-4-h-small on watsonx.ai · Next.js and TypeScript · model JSON validated with zod", { x: 0.5, y: 2.8, w: 9, h: 0.25 });
 label(s, "Trust rules, enforced in app code, not in the prompt", { x: 0.5, y: 3.06, w: 9, h: 0.26 });
 const rules = [
-  "Quotes are checked against the veteran's notes and the work instruction step. A finding with a quote the app can't find is marked and can't become a card.",
+  "The veteran's quote, and the instruction quote when a step is named, are checked against the sources. If one isn't found, the finding can't become a card.",
   "Cards move one way: candidate, expert confirmed, approved. The server rejects a skipped step.",
   "Ask uses only approved cards for WI-114 Rev C. When none exist, the model isn't called at all.",
   "Citations are filtered on the server, and the app writes the refusal itself, never the model.",

@@ -1,5 +1,6 @@
 // Drives the ShiftProof golden path and captures screenshots for the deck.
-// Run it against live Granite. In offline mode every capture shows the app's "Sample output (offline)" banner.
+// Run it against live Granite. In offline mode only the full-page captures show the "Sample output (offline)" banner;
+// the element crops don't, so caption slides built from an offline run as sample output.
 const { chromium } = require("playwright");
 const path = require("path");
 const fs = require("fs");
