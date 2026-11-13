@@ -56,6 +56,7 @@ The hackathon asks teams to disclose AI tools. Update this list as you go.
 - OpenAI Codex (GPT-6.1 Terra, high reasoning): blind judge between two Synchro redesigns
 - Claude Fable 5.2 (Claude Code subagent): final UI polish (spindle art, card editor layout, Ask answer focus)
 - Claude Fable 5.2 (Claude Code subagents, in parallel): "traveler" craft pass on the UI, the ShiftProof logo, favicon and app icons (`design/brand/`), and the animated robot arm (`app/RobotArm.tsx`)
+- OpenAI Codex (GPT-6 Astra): logo concepts; Claude Fable 5.2 (Claude Code subagent): refined them into the "milled pass" mark (`design/brand/`)
 - Claude Opus 5.5 (Claude Code): demo video plan, storyboard, voiceover script and on-screen text (`docs/video/`)
 - Claude Fable 5.2 (Claude Code subagent): read-only review of the video concept and storyboard
 - Google Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, Gemini API): reads the video voiceover exactly as written
