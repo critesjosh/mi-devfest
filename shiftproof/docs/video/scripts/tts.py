@@ -16,11 +16,12 @@ Usage (from the repo root):
   timing check can line beats up with shots. Writes beat WAVs plus one
   joined WAV with the gaps from vo-script.txt.
 - Model: gemini-3.8-flash-tts (override with GEMINI_TTS_MODEL).
+- Offline fallback only: VO_SCRIPT=shiftproof/docs/video/vo-script-offline.txt
 """
 import base64, json, os, re, sys, urllib.error, urllib.request, wave
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.path.join(HERE, "..", "vo-script.txt")
+SCRIPT = os.environ.get("VO_SCRIPT") or os.path.join(HERE, "..", "vo-script.txt")
 MODEL = os.environ.get("GEMINI_TTS_MODEL", "gemini-3.8-flash-tts")
 ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
 ONLY = next((sys.argv[i + 1].split(",") for i, a in enumerate(sys.argv) if a == "--only" and i + 1 < len(sys.argv)), None)

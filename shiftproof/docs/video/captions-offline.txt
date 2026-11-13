@@ -1,0 +1,32 @@
+# Burned-in captions, OFFLINE FALLBACK ONLY: the written forms of vo-script-offline.txt.
+# Written by Claude Opus 5.5. Same words as the voiceover, with the app's spellings (COPY.md: "WI-114 Rev C", "0.002 in").
+# audio_check.py --srt spreads each beat's captions over that beat's spoken time.
+
+[user]
+An apprentice's first bracket reads 0.002 in over.
+Work instruction WI-114 Rev C says to adjust the wear offset.
+
+[problem]
+The veteran's notes say: wait.
+A warm part reads long, and chasing the offset makes every part after it short.
+The instruction doesn't say that.
+
+[compare]
+ShiftProof puts the two side by side.
+Model output here is a saved sample, labelled on screen.
+The app still checks every quote.
+
+[review]
+The veteran answers a follow-up, and a sample guide card is drafted.
+The veteran confirms it. The quality lead approves it.
+
+[ask]
+Back at the machine, the apprentice asks.
+This answer is a saved sample too, labelled on screen.
+
+[refuse]
+No card covers it? Ask your lead or quality.
+
+[impact]
+What the veteran knows, reviewed, at the machine.
+ShiftProof, on IBM Granite.

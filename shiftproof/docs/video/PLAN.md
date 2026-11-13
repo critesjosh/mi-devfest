@@ -11,6 +11,7 @@ Everything in this folder:
 | `PLAN.md` | This plan |
 | `vo-script.txt` | The voiceover, with a cue time per beat. The only source for the spoken words |
 | `captions.txt` | The same words in written form (WI-114 Rev C, 0.002 in), for burned-in captions |
+| `vo-script-offline.txt`, `captions-offline.txt` | Offline fallback only (section 10). Never mixed with live footage |
 | `scripts/tts.py` | Renders the voiceover with Gemini TTS, reading `vo-script.txt` exactly |
 | `scripts/audio_check.py` | Checks levels (ffmpeg), wording and timing (Gemini Argon), and writes the captions file |
 | `prompts/codex-capture.md` | Computer-use brief for Codex GPT-6.1 Terra to capture the live app |
@@ -95,7 +96,7 @@ The video opens and closes on the same question, first unanswered, then answered
 | 0:40.8–0:49.5 | **S5a** 3 Ask | Phone view: the app at 375 wide, centred in a plain ruled frame (`border-control`, `ink`) on paper. No device mock-up. Role "Apprentice". Tap the quick question (same text as S1a), "Asking...", chip `GRANITE CALL · {n} S, TRIMMED`. Answer panel "Answer from approved guidance", scrolling to the cited card with its approved status and "Veteran's words". Lower third `3 ASK` | "Back at the machine, the apprentice asks. The answer uses only approved cards, and cites the veteran's words." | Live capture | Codex Terra |
 | 0:49.5–0:53.3 | **S5b** 3 Ask | Tap "What spindle speed should I run for the roughing pass?". The panel reads "Out of scope" and "No approved guidance covers this. Ask your lead or quality." Callout around the refusal | "No card covers it? Ask your lead or quality." | Live capture | Codex Terra |
 | 0:53.3–0:56.0 | **S6a** Impact | Back to the S1 layout. The question card from S1a, and beside it the answer panel from S5a (still frame, its source line visible). Bug off | "What the veteran knows, reviewed, at the machine." | Motion graphic + still from capture | Opus |
-| 0:56.0–0:59.5 | **S6b** Impact | End card on `granite`: "ShiftProof" (display, `on-granite`). Under it: "What the work instruction leaves out, reviewed for the next shift." Then `IBM GRANITE ON WATSONX.AI · ibm/granite-4-h-small`, and `github.com/critesjosh/mi-devfest`. Footer note (`on-granite-muted`): "Fictional training fixtures. Live Granite calls; waits trimmed." | "ShiftProof, on IBM Granite." | Motion graphic | Opus |
+| 0:56.0–0:59.5 | **S6b** Impact | End card on `granite`: "ShiftProof" (display, `on-granite`). Under it: "What the work instruction leaves out, reviewed for the next shift." Then `IBM GRANITE ON WATSONX.AI · ibm/granite-4-h-small`, and `github.com/critesjosh/mi-devfest`. Footer note (`on-granite-muted`): "Fictional training fixtures. Live Granite calls; waits trimmed." Offline cut: the end card in section 10 replaces this one | "ShiftProof, on IBM Granite." | Motion graphic | Opus |
 | 0:59.5–1:00.0 | — | Hold the end card, then cut | — | — | — |
 
 Captions are burned in, bottom centre, through the whole video. Their text comes from `captions.txt` and their timing from `audio_check.py --srt`.
@@ -106,6 +107,7 @@ Captions are burned in, bottom centre, through the whole video. Their text comes
 - The chips "Granite call · {n} s, trimmed" and "Typing sped up".
 - The tagline "What the work instruction leaves out, reviewed for the next shift."
 - The footer "Fictional training fixtures. Live Granite calls; waits trimmed."
+- Offline variant only (section 10): the bug "Sample output (offline) · fictional training fixtures", the model line "BUILT FOR IBM GRANITE ON WATSONX.AI", and the footer "Fictional training fixtures. Sample output (offline), not a live model call."
 
 Everything else on screen is the app's own text or an exact fixture quote.
 
@@ -234,7 +236,7 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 
 | Risk | Fallback |
 |---|---|
-| Live Granite call fails or hits quota during capture | Retake. If 5:00 PM capture fails, use the 4:30 PM rehearsal take (step 8), which is also live. If both fail, record with `SHIFTPROOF_OFFLINE=1`:<br>- The "Sample output (offline), not a live model call." banner stays visible and uncropped.<br>- The bug changes to "Sample output (offline) · fictional training fixtures".<br>- The voiceover for Compare changes to the fallback line below.<br>Never trim the banner or call it live |
+| Live Granite call fails or hits quota during capture | Retake. If 5:00 PM capture fails, use the 4:30 PM rehearsal take (step 8), which is also live. If both fail, record with `SHIFTPROOF_OFFLINE=1` and switch the **whole** cut to the offline variant below. Never mix live and offline material in one cut |
 | Granite's live output differs from `expected.md` (no Step 6 cooling finding, or the Ask answer suggests touching the offset) | Reset and retake. Don't use a take whose answer says the part is good or tells the apprentice to change the offset |
 | UI restyle (Alex, 3:30 PM) moves things | The capture happens after the freeze on whatever `main` shows; the storyboard names text, not positions. Re-run the capture checklist |
 | 375px Ask view needs scrolling | Planned in S5a. The Codex brief scrolls and holds |
@@ -245,26 +247,45 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 | The voiceover take's true peak is over 0 dBTP (+4.4 dBTP on the test take) | Step 3 `loudnorm` brings it to -1.5 dBTP, and step 4 re-checks it |
 | Something private appears in a frame (notification, bookmark, terminal) | Guest Chrome window, Do Not Disturb, window-only recording, and the frame check in step 12 |
 | Josh leaves before the video is done | Every step runs on Daniel's machine and Daniel can do all of them. Josh only has to approve the voice (or leave it to Daniel) and submit the portal entry, which he can do remotely with the URL |
+| Local dev server won't start or `.env.local` is missing | The app is also deployed live on IBM Code Engine. Capture from that URL instead, with the same checklist: the source line must still show live Granite. Ask Daniel for the URL; it is not written into this repo |
 | Codex computer use can't run in this setup (not yet tried) | A person follows `prompts/codex-capture.md` by hand. The steps are written so a person can follow them as-is |
 | The cut runs over 60 s | Trim holds in S1, S2 and S6b first. Never add speed to the voice, and never exceed 3:00 |
 
-**Fallback voiceover line for Compare, only if the capture is offline** (Claude Opus 5.5; render with `tts.py` only if needed):
+### Offline variant (only if no live capture exists)
 
-> In this recording, Granite's output is a saved sample, labelled on screen. The app still checks every quote.
+`lib/offline.ts` serves *recorded sample output*. The offline cut must not claim that Granite ran, that a call was live, or that a wait was trimmed, anywhere: voice, captions, overlays or end card. Every element that differs from the live cut:
+
+| Element | Live cut | Offline cut |
+|---|---|---|
+| App banner | Not present | The app's "Sample output (offline), not a live model call." stays visible and uncropped in every shot that shows model output (S3b, S4a, S4b, S5a, S6a) |
+| Bug | "Live Granite · fictional training fixtures" | "Sample output (offline) · fictional training fixtures" |
+| Model-call chips | "Granite call · {n} s, trimmed" | None. No chip is rendered, because no call was made. "Typing sped up" stays |
+| Voiceover | `vo-script.txt` | `vo-script-offline.txt`: Compare, Review and Ask lines changed (below) |
+| Captions | `captions.txt` | `captions-offline.txt` |
+| S6a | Answer panel with the live source line | Answer panel with the sample banner in frame |
+| S6b end card | Model line `IBM GRANITE ON WATSONX.AI · ibm/granite-4-h-small`, footer "Fictional training fixtures. Live Granite calls; waits trimmed." | Model line becomes `BUILT FOR IBM GRANITE ON WATSONX.AI`. Footer: "Fictional training fixtures. Sample output (offline), not a live model call." |
+| Step 12 rules check | Live source line visible | No live claim anywhere. The sample banner is visible in every model-output shot. The script and captions are the offline files |
+
+Changed voiceover lines (Claude Opus 5.5; render only if needed with `VO_SCRIPT=shiftproof/docs/video/vo-script-offline.txt python3 -I shiftproof/docs/video/scripts/tts.py`, then check with the same `VO_SCRIPT` plus `VO_CAPTIONS=shiftproof/docs/video/captions-offline.txt` on `audio_check.py`):
+
+> **Compare:** ShiftProof puts the two side by side. Model output here is a saved sample, labelled on screen. The app still checks every quote.
+>
+> **Review:** The veteran answers a follow-up, and a sample guide card is drafted. The veteran confirms it. The quality lead approves it.
+>
+> **Ask:** Back at the machine, the apprentice asks. This answer is a saved sample too, labelled on screen.
+
+The user, problem, refusal and impact lines are unchanged. The refusal is written by the app, and the impact line describes the product, not this recording.
 
 ## 11. Open questions
 
-Length is decided (section 1), so it is no longer an open question.
+Decided, no longer open:
+- **Length:** section 1.
+- **watsonx Orchestrate (about 3:15 PM):** it isn't wired up, so the video doesn't mention it.
 
 1. **Upload and submit if Josh has left.** The workbook (p. 23) says the team lead submits. If Josh leaves before 5:25 PM, Daniel uploads the video and sends Josh the URL. Josh then either submits from wherever he is by 5:45 PM, or tells the team in writing who submits for him. Confirm before Josh leaves.
 2. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh or Daniel decides, whoever uploads.
 3. **Voice.** Gemini's Charon voice (rendered), Orus, or a teammate reading it. Josh or Daniel decides after listening to `~/ShiftProof-video/audio/vo-charon.wav`.
-4. **watsonx Orchestrate.** `docs/SUBMISSION.md` says the Ask step may move onto a watsonx Orchestrate agent before submission.
-   - If it is live at the freeze, check what the Ask source line says in the capture.
-   - Daniel decides whether the end card should name Orchestrate as well as Granite; Claude writes the words.
-   - The voiceover still holds either way ("uses only approved cards" is enforced by app code).
-   - If Orchestrate isn't live, the video doesn't mention it.
-5. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
+4. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
    - Ask at 375px: if the cited card and "Veteran's words" could sit closer to the answer, S5a would need less scrolling.
    - Review: the status sits at the top of the card and the confirm and approve buttons at the bottom, so S4b uses crops. A status next to the buttons would read better on camera.
    - Compare: highlighting the quoted spans in the source panes (already in stream 4) would make S3 stronger.

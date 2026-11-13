@@ -14,19 +14,20 @@ Usage (from the repo root):
 3. With --srt, writes burned-in captions: the words come from captions.txt
    (written by Claude); only the timings come from the audio.
 
-Needs GEMINI_API_KEY (never printed) and ffmpeg.
+Needs GEMINI_API_KEY (never printed) and ffmpeg. Exits non-zero if levels, wording or timing fail.
+Offline fallback only: VO_SCRIPT=.../vo-script-offline.txt VO_CAPTIONS=.../captions-offline.txt
 """
 import base64, difflib, json, os, re, subprocess, sys, urllib.request
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.path.join(HERE, "..", "vo-script.txt")
+SCRIPT = os.environ.get("VO_SCRIPT") or os.path.join(HERE, "..", "vo-script.txt")
 ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
 SRT = next((sys.argv[i + 1] for i, a in enumerate(sys.argv) if a == "--srt" and i + 1 < len(sys.argv)), None)
 if SRT in ARGS:
     ARGS.remove(SRT)
 AUDIO = ARGS[0]
 MODEL = ARGS[1] if len(ARGS) > 1 else "gemini-4-argon"
-CAPTIONS = os.path.join(HERE, "..", "captions.txt")
+CAPTIONS = os.environ.get("VO_CAPTIONS") or os.path.join(HERE, "..", "captions.txt")
 
 
 def beats():
@@ -53,9 +54,10 @@ def levels():
     lra = get(r"LRA:\s+(-?[\d.]+) LU")
     tp = get(r"Peak:\s+(-?[\d.]+) dBFS")
     ok = -17.5 <= i <= -14.5 and tp <= -1.0
-    print(f"Levels: {i:.1f} LUFS integrated, true peak {tp:.1f} dBTP, LRA {lra:.1f} LU -> {'OK' if ok else 'ADJUST'}")
+    print(f"Levels: {i:.1f} LUFS integrated, true peak {tp:.1f} dBTP, LRA {lra:.1f} LU -> {'OK' if ok else 'FAIL'}")
     if not ok:
         print("  Fix: ffmpeg -i in.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 out.wav")
+    return ok
 
 
 def transcribe(script_beats):
@@ -123,7 +125,7 @@ def write_srt(got):
 
 
 def main():
-    levels()
+    levels_ok = levels()
     want = beats()
     got = {g["beat"]: g for g in transcribe(want)}
     problems = 0
@@ -143,7 +145,9 @@ def main():
     if SRT:
         write_srt(got)
     print(f"Model: {MODEL}. {'All beats OK.' if not problems else f'{problems} beat(s) need a fix.'}")
-    sys.exit(1 if problems else 0)
+    if not levels_ok:
+        print("Levels FAIL. Normalise and run the check again.")
+    sys.exit(1 if problems or not levels_ok else 0)
 
 
 if __name__ == "__main__":

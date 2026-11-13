@@ -30,6 +30,13 @@ Rules:
 - When `DRYRUN=1`, use solid-colour placeholders for missing clips, with the shot ID drawn on them, and name the output `export/DRYRUN-shiftproof-demo.mp4`.
 - Don't add transitions beyond hard cuts, plus the 200 ms fades already in the motion graphics.
 - Don't write or change any on-screen text. All text comes from the overlays and the `.srt`.
+- Support `OFFLINE=1` for the offline fallback (PLAN.md section 10). It switches the whole cut, never part of it:
+  - voiceover and captions come from `audio/vo-offline-final.wav` and `.srt`;
+  - the bug overlay is the offline one, and `S6b-offline.mov` replaces `S6b.mov`;
+  - every "Granite call" chip overlay is dropped;
+  - the output is `export/shiftproof-demo-OFFLINE.mp4`.
+
+  The script must refuse to mix live and offline inputs.
 
 Fill in `shots.tsv` from the storyboard in `shiftproof/docs/video/PLAN.md` section 4, using its times. Leave `file` and `in` as `TODO` for live shots until the capture exists.
 
