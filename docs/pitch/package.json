@@ -1,0 +1,11 @@
+{
+  "name": "shiftproof-pitch",
+  "private": true,
+  "description": "Builds the ShiftProof pitch deck from captures of the running app.",
+  "scripts": {
+    "capture": "node scripts/capture.js",
+    "crop": "python3 scripts/crop.py",
+    "build": "node scripts/build-deck.js"
+  },
+  "dependencies": { "pptxgenjs": "4.0.1" }
+}
