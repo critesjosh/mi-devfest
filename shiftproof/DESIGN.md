@@ -69,7 +69,7 @@ Keep answers and card steps under `measure` (68ch). Headings use `text-wrap: bal
 - Compare shows the two sources side by side and stacks them below 720px. Findings stack the same way.
 - Corners: `radius-panel` (6px) for sheets and answers, `radius-inner` (3px) for buttons, fields, quotes, banners, tags and stamps. `radius-pill` only for round things: the tag punch hole and the live-source dot.
 - Findings: the type is a plain label beside the step, the two quotes sit side by side, and "Why it matters" and "Follow-up" are a fact list (`sp-facts`) with the term in the margin (`facts-term`).
-- Veteran's words: any quote from the veteran, and the veteran notes pane, adds `sp-quote--pad` (ruled lines at `quote-line` pitch on `surface`). Text stays mono. Highlighted spans look like a highlighter stroke.
+- Veteran's words: any quote from the veteran, and the veteran notes pane, adds `sp-quote--pad` (ruled lines at `quote-line` pitch on `surface`). Text stays mono. Highlighted spans look like a highlighter stroke. A short quote (`p.sp-quote__text`) has no top padding, so its text sits on the first rule with no stray rule under the header. Scrolling panes (`sp-scroll`) fade the edge that has more text and show a "More below" or "More above" cue.
 - Sign-off: "Confirmed by" and "Approved by" sit on ruled sign-off lines (`sp-card__sign`).
 - Motion: `dur-fast` with `ease-out` for hover and press (buttons scale to 0.97 on press, step tabs to 0.96), `dur-base` for the step change. Hanging tags straighten on hover (fine pointers only). All motion is off under `prefers-reduced-motion`.
 
