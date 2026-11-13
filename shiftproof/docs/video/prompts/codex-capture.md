@@ -2,7 +2,7 @@
 
 **Model:** Codex GPT-6.1 Terra, reasoning **medium**. Pin both: `codex -m gpt-6.1-terra -c model_reasoning_effort=medium`, or pick them in the Codex app before you start. Don't rely on the default.
 **Tool:** Codex Computer Use (installed at `~/.codex/computer-use`). Give it access to Google Chrome only.
-**Who runs it:** Josh or Daniel, after the 5:00 PM feature freeze. The person starts the dev server and the screen recording. Codex only drives Chrome.
+**Who runs it:** Daniel (Josh likely doesn't use OpenAI models), at the 4:30 PM freeze check and, if needed, after the 5:00 PM feature freeze. The person starts the dev server and the screen recording. Codex only drives Chrome.
 
 Before you paste the prompt, do these yourself:
 

@@ -1,6 +1,6 @@
 # ShiftProof demo video: plan
 
-**Owner:** Josh (video). **Plan and words:** Claude Opus 5.5. **Reviewed by:** Claude Fable 5.2.
+**Owners:** Josh and Daniel. Daniel runs every Codex step (Josh likely doesn't use OpenAI models) and covers any step Josh can't, since Josh leaves early. **Plan and words:** Claude Opus 5.5. **Reviewed by:** Claude Fable 5.2.
 **Status:** plan final, Nov 13, 2026, about 2:30 PM ET. A voiceover take is rendered, normalised and checked (see "Asset list").
 **Record:** after the 5:00 PM feature freeze. **Upload:** by 5:30 PM. **Submit:** 5:45 PM.
 
@@ -45,7 +45,7 @@ Sources, read directly from `~/Downloads/Michigan_DevFest_Hackathon_Workbook.ppt
 | Beat 0:50, "The impact" | Workbook p. 21 | 0:49.5–0:60: the refusal shows the limit, then the answered question and the end card. About 3 s later than the template, because Ask needs the time (Fable note 3) |
 | "Show it working for the one person you built it for. Three clicks, one clear outcome" | Keynote p. 22 | One thread from start to end: the apprentice's 0.002 in reading. The outcome is a cited answer from approved guidance |
 | Name the IBM and Google tools and what each does | Keynote p. 22 ("How it works"); workbook p. 23 | Voiceover names IBM Granite at Compare and on the end card. The source line "Granite on watsonx.ai · ibm/granite-4-h-small" stays on screen in every live shot. Google's Gemini voices the video; it is listed in the submission tool list and the README (production step 14) |
-| Video uploaded, URL in the submission and on workbook p. 21 | Workbook p. 21, p. 23 | Production step 13. Josh pastes the URL in the portal and on p. 21 |
+| Video uploaded, URL in the submission and on workbook p. 21 | Workbook p. 21, p. 23 | Production step 13. The URL goes in the portal and on p. 21 (Open question 1) |
 | Public repo, no API keys | Workbook p. 19, p. 23 | Capture shows only Chrome on localhost. No terminal, `.env.local` or IBM Cloud console (capture checklist) |
 | Note the AI tools you used | Workbook p. 19 | Every model used for the video is listed in the README (production step 14) |
 | Permitted data only | Workbook p. 19 | Fictional fixtures only, labelled "Fictional training fixture" in every shot that shows them |
@@ -169,11 +169,11 @@ The full computer-use brief is in `prompts/codex-capture.md`. The person running
 
 ## 7. Asset list
 
-All media lives **outside git**, in `~/ShiftProof-video/` on the machine that edits (Daniel's or Josh's). Share it through the team drive if Josh edits on his own machine. Nothing below is committed.
+All media lives **outside git**, in `~/ShiftProof-video/` on Daniel's machine. That machine has the Codex CLI, the Gemini key, ffmpeg and the voiceover already rendered, so the whole edit can finish there without Josh. Share the export through the team drive if Josh needs it. Nothing below is committed.
 
 | Asset | Path | Made by | Status |
 |---|---|---|---|
-| Voiceover, beat files and joined | `~/ShiftProof-video/audio/vo-charon.wav`, `vo-charon-<beat>.wav` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, voice Charon), via `scripts/tts.py` | Rendered with the final cues and checked, 2:45 PM. Josh still has to approve the voice (Open questions) |
+| Voiceover, beat files and joined | `~/ShiftProof-video/audio/vo-charon.wav`, `vo-charon-<beat>.wav` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, voice Charon), via `scripts/tts.py` | Rendered with the final cues and checked, 2:45 PM. Josh or Daniel still has to approve the voice (Open questions) |
 | Voiceover, normalised | `~/ShiftProof-video/audio/vo-final.wav` | ffmpeg `loudnorm` | Done: -16.8 LUFS, true peak -1.5 dBTP |
 | Captions | `~/ShiftProof-video/audio/vo-final.srt` | `scripts/audio_check.py --srt` (Claude's words, Argon's timings) | Written from the 2:45 PM take (`vo-final.srt`) |
 | Motion graphics | `~/ShiftProof-video/motion/` (`S1.mov`, `S2.mov`, `S6.mov`, overlays as PNG with alpha) | Claude Opus 5.5, HTML and CSS on `design/tokens.css`, rendered with headless Chrome and ffmpeg (`prompts/motion-graphics.md`) | To do, before 4:15 PM |
@@ -195,13 +195,13 @@ All media lives **outside git**, in `~/ShiftProof-video/` on the machine that ed
 | 4 | Done, 2:45 PM | Check wording, timing and levels, and write captions: `python3 -I shiftproof/docs/video/scripts/audio_check.py ~/ShiftProof-video/audio/vo-final.wav gemini-4-argon --srt ~/ShiftProof-video/audio/vo-final.srt` | Gemini 4 Argon (`gemini-4-argon`); `gemini-4-hydrogen` as the alternative | "All beats OK", levels OK |
 | 5 | By 4:15 PM | Build and render the motion graphics: S1, S2, S6, bug, lower thirds, chips, callouts, phone frame (`prompts/motion-graphics.md`) | Claude Opus 5.5 (Fable 5.2 if Opus is unavailable) | Renders reviewed against `DESIGN.md` at full size |
 | 6 | By 4:15 PM | Write `assemble.sh`: cuts, speed-ups, overlays, captions, audio, export (`prompts/assemble.md`) | Claude Sonnet 5.5 | A dry-run cut with placeholder clips plays end to end. The file is named `DRYRUN`, and it is never uploaded |
-| 7 | 4:30 PM | Rehearsal capture during the MVP freeze check (`prompts/codex-capture.md`) | Codex GPT-6.1 Terra, reasoning medium, computer use; Daniel or Josh records | Capture checklist passes |
+| 7 | 4:30 PM | Rehearsal capture during the MVP freeze check (`prompts/codex-capture.md`) | Codex GPT-6.1 Terra, reasoning medium, computer use. Daniel runs Codex and the screen recording | Capture checklist passes |
 | 8 | 4:35 PM | Rough cut from the rehearsal take | Claude Sonnet 5.5 (fill in `assemble.sh` timings from the Codex log) | A full cut exists. **This is the fallback if 5:00 PM goes wrong** |
-| 9 | 5:00 PM | Final capture, only if the UI on `main` changed after 4:30 PM. Otherwise keep the rehearsal take; it is live too | Codex GPT-6.1 Terra, medium | Capture checklist passes |
-| 10 | 5:10 PM | Final cut with the real wait times in the "trimmed" chips | Claude Sonnet 5.5 runs `assemble.sh`; Josh watches | — |
+| 9 | 5:00 PM | Final capture, only if the UI on `main` changed after 4:30 PM. Otherwise keep the rehearsal take; it is live too | Codex GPT-6.1 Terra, medium. Daniel runs it | Capture checklist passes |
+| 10 | 5:10 PM | Final cut with the real wait times in the "trimmed" chips | Claude Sonnet 5.5 runs `assemble.sh` on Daniel's machine; Josh watches if he is still there | — |
 | 11 | 5:18 PM | Audio check on the export: same command as step 4, on the `.mp4` | Gemini 4 Argon | "All beats OK" |
 | 12 | 5:20 PM | Rules check on the export: frames at each shot against sections 2 and 6 (live source line visible, fictional labels, no secrets, exact quotes, no claims) | Claude Opus 5.5 (Daniel's orchestrator session) | PASS, or a list of fixes |
-| 13 | 5:25 PM | Upload, unlisted, viewable without sign-in. Paste the URL in the portal and on workbook p. 21 | Josh | URL opens in a private window |
+| 13 | 5:25 PM | Upload, unlisted, viewable without sign-in. Paste the URL in the portal and on workbook p. 21 | Daniel uploads. The team lead submits the portal entry (workbook p. 23), see Open question 1 | URL opens in a private window |
 | 14 | After upload | Add the remaining video tools to the README AI-tool list: Codex GPT-6.1 Terra (capture) and Claude Sonnet 5.5 (assembly). Opus, Fable, Gemini TTS and Argon are already listed by this PR. Add Gemini to the submission's tool list with what it did (voiceover) | Daniel's orchestrator (Claude), through a PR | PR merged |
 
 Step 12 is the review gate. Opus didn't produce the export, Sonnet's script did. If Daniel wants a different-family check too, give the same frames to Codex GPT-6.1 Sol (read-only, medium).
@@ -239,11 +239,12 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 | UI restyle (Alex, 3:30 PM) moves things | The capture happens after the freeze on whatever `main` shows; the storyboard names text, not positions. Re-run the capture checklist |
 | 375px Ask view needs scrolling | Planned in S5a. The Codex brief scrolls and holds |
 | The 30 minutes from 5:00 to 5:30 is too short | Everything except the capture is built before 4:30 PM. The rehearsal cut at 4:35 PM is a complete video |
-| Gemini TTS mispronounces something, or the voice feels wrong | Re-render one beat with `tts.py ... --only <beat>`, or try voice `Orus`. Pacing varies by take: one take ran the Impact beat to 60.2 s, and redoing that beat alone brought it back to 59.4 s. Last resort: Josh reads `vo-script.txt` himself; a teammate's voice is allowed |
+| Gemini TTS mispronounces something, or the voice feels wrong | Re-render one beat with `tts.py ... --only <beat>`, or try voice `Orus`. Pacing varies by take: one take ran the Impact beat to 60.2 s, and redoing that beat alone brought it back to 59.4 s. Last resort: Daniel or Josh reads `vo-script.txt`; a teammate's voice is allowed |
 | Gemini API rate limit (HTTP 429, seen at 2:20 PM) | `tts.py` retries with back-off. Render the voiceover before 3:30 PM, not at 5:00 PM |
 | Argon's timestamps drift between runs (about ±0.5 s seen) | Treat cue offsets under 0.5 s as fine. For caption timing, nudge by eye in the edit if a caption lands early |
 | The voiceover take's true peak is over 0 dBTP (+4.4 dBTP on the test take) | Step 3 `loudnorm` brings it to -1.5 dBTP, and step 4 re-checks it |
 | Something private appears in a frame (notification, bookmark, terminal) | Guest Chrome window, Do Not Disturb, window-only recording, and the frame check in step 12 |
+| Josh leaves before the video is done | Every step runs on Daniel's machine and Daniel can do all of them. Josh only has to approve the voice (or leave it to Daniel) and submit the portal entry, which he can do remotely with the URL |
 | Codex computer use can't run in this setup (not yet tried) | A person follows `prompts/codex-capture.md` by hand. The steps are written so a person can follow them as-is |
 | The cut runs over 60 s | Trim holds in S1, S2 and S6b first. Never add speed to the voice, and never exceed 3:00 |
 
@@ -255,14 +256,15 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 
 Length is decided (section 1), so it is no longer an open question.
 
-1. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh decides.
-2. **Voice.** Gemini's Charon voice (rendered), Orus, or Josh reading it himself. Josh decides after listening to `~/ShiftProof-video/audio/vo-charon.wav`.
-3. **watsonx Orchestrate.** `docs/SUBMISSION.md` says the Ask step may move onto a watsonx Orchestrate agent before submission.
+1. **Upload and submit if Josh has left.** The workbook (p. 23) says the team lead submits. If Josh leaves before 5:25 PM, Daniel uploads the video and sends Josh the URL. Josh then either submits from wherever he is by 5:45 PM, or tells the team in writing who submits for him. Confirm before Josh leaves.
+2. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh or Daniel decides, whoever uploads.
+3. **Voice.** Gemini's Charon voice (rendered), Orus, or a teammate reading it. Josh or Daniel decides after listening to `~/ShiftProof-video/audio/vo-charon.wav`.
+4. **watsonx Orchestrate.** `docs/SUBMISSION.md` says the Ask step may move onto a watsonx Orchestrate agent before submission.
    - If it is live at the freeze, check what the Ask source line says in the capture.
    - Daniel decides whether the end card should name Orchestrate as well as Granite; Claude writes the words.
    - The voiceover still holds either way ("uses only approved cards" is enforced by app code).
    - If Orchestrate isn't live, the video doesn't mention it.
-4. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
+5. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
    - Ask at 375px: if the cited card and "Veteran's words" could sit closer to the answer, S5a would need less scrolling.
    - Review: the status sits at the top of the card and the confirm and approve buttons at the bottom, so S4b uses crops. A status next to the buttons would read better on camera.
    - Compare: highlighting the quoted spans in the source panes (already in stream 4) would make S3 stronger.
