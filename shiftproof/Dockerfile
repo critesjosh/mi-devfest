@@ -1,19 +1,18 @@
-# ShiftProof container for IBM Cloud Code Engine. Secrets come from Code Engine, never from this image.
 FROM node:22-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
-RUN npm run build && npm prune --omit=dev
+RUN npm run build
 
 FROM node:22-slim
 WORKDIR /app
-ENV NODE_ENV=production PORT=8080 NEXT_TELEMETRY_DISABLED=1
-COPY --from=build /app/package.json ./
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/.next ./.next
+ENV NODE_ENV=production PORT=8080 HOSTNAME=0.0.0.0 NEXT_TELEMETRY_DISABLED=1
+# The standalone server plus the static assets and fixtures it reads at runtime.
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
 COPY --from=build /app/data ./data
 RUN mkdir -p .data && chown -R node:node /app
 USER node
 EXPOSE 8080
-CMD ["npx", "next", "start", "-p", "8080"]
+CMD ["node", "server.js"]

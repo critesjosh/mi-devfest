@@ -89,7 +89,7 @@ Checked on Nov 13, 2026, through the flow, against the Code Engine deploy with o
 
 ## Deploy to Code Engine
 
-`../Dockerfile` builds the production app (Next.js on port 8080). The app keeps its state in a JSON file inside the container, so run exactly one instance. A restart clears the state, the same as Reset demo.
+`../Dockerfile` builds the production app (Next.js standalone output on port 8080, about 130 MB). The Container Registry free tier allows 512 MB per region, so keep one image per region and delete old tags. The app keeps its state in a JSON file inside the container, so run exactly one instance. A restart clears the state, the same as Reset demo.
 
 ```bash
 cd shiftproof
