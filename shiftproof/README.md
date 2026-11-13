@@ -52,6 +52,10 @@ The hackathon asks teams to disclose AI tools. Update this list as you go.
 - Claude Sonnet 5.5 (Claude Code subagent): first draft of the Orchestrate tool, agent and README (`orchestrate/`)
 - Claude Opus 5.5 (Claude Code): Dockerfile, Code Engine deploy, Orchestrate import and live tests
 - IBM Bob: AI coding assistant used by the team during the build
+- Claude Opus 5.5 (Claude Code): demo video plan, storyboard, voiceover script and on-screen text (`docs/video/`)
+- Claude Fable 5.2 (Claude Code subagent): read-only review of the video concept and storyboard
+- Google Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, Gemini API): reads the video voiceover exactly as written
+- Google Gemini 4 Argon (`gemini-4-argon`, Gemini API): checks the voiceover's wording and timing against the script
 
 ## Not in the MVP
 

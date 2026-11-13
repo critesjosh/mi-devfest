@@ -1,0 +1,32 @@
+# Burned-in captions: the written forms of vo-script.txt, one caption per line.
+# Written by Claude Opus 5.5. Same words as the voiceover, with the app's spellings (COPY.md: "WI-114 Rev C", "0.002 in").
+# audio_check.py --srt spreads each beat's captions over that beat's spoken time.
+
+[user]
+An apprentice's first bracket reads 0.002 in over.
+Work instruction WI-114 Rev C says to adjust the wear offset.
+
+[problem]
+The veteran's notes say: wait.
+A warm part reads long, and chasing the offset makes every part after it short.
+The instruction doesn't say that.
+
+[compare]
+ShiftProof puts the two side by side.
+IBM Granite flags what the instruction leaves out, and quotes both sources.
+The app checks every quote.
+
+[review]
+Granite asks the veteran a follow-up, then drafts a guide card from the answer.
+The veteran confirms it. The quality lead approves it.
+
+[ask]
+Back at the machine, the apprentice asks.
+The answer can cite only approved cards, and quotes the veteran's words.
+
+[refuse]
+No card covers it? Ask your lead or quality.
+
+[impact]
+What the veteran knows, reviewed, at the machine.
+ShiftProof, on IBM Granite and watsonx Orchestrate.
