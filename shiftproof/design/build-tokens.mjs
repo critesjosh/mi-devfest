@@ -15,7 +15,7 @@ const resolve = (v, theme) =>
   });
 const colors = (theme) =>
   t.color.tokens.map((c) => `  --${c.name}: ${resolve(c.value[theme], theme)};`).join("\n");
-const flat = ["spacing", "radius", "border", "size"]
+const flat = ["spacing", "radius", "border", "size", "effect"]
   .flatMap((g) => t[g].tokens.map((x) => `  --${x.name}: ${x.value};`))
   .join("\n");
 const fonts = Object.entries(t.type.families)
