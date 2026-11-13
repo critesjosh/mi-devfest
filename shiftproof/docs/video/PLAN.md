@@ -258,7 +258,12 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
    - This plan targets 60 s or less, which meets both. Should Josh ask an organizer whether over 60 s is acceptable? Only matters if we decide to go longer.
 2. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh decides.
 3. **Voice.** Gemini's Charon voice (rendered), Orus, or Josh reading it himself. Josh decides after listening to `~/ShiftProof-video/audio/vo-charon.wav`.
-4. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
+4. **watsonx Orchestrate.** `docs/SUBMISSION.md` says the Ask step may move onto a watsonx Orchestrate agent before submission.
+   - If it is live at the freeze, check what the Ask source line says in the capture.
+   - Daniel decides whether the end card should name Orchestrate as well as Granite; Claude writes the words.
+   - The voiceover still holds either way ("uses only approved cards" is enforced by app code).
+   - If Orchestrate isn't live, the video doesn't mention it.
+5. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
    - Ask at 375px: if the cited card and "Veteran's words" could sit closer to the answer, S5a would need less scrolling.
    - Review: the status sits at the top of the card and the confirm and approve buttons at the bottom, so S4b uses crops. A status next to the buttons would read better on camera.
    - Compare: highlighting the quoted spans in the source panes (already in stream 4) would make S3 stronger.
