@@ -20,14 +20,15 @@ Everything in this folder:
 
 ---
 
-## 1. Length: 60 seconds or less
+## 1. Length: about 60 seconds (decided)
 
-**Target: 59.5 seconds, hard stop at 60.0.**
+**Decided by Daniel, Nov 13, about 2:55 PM:** follow the workbook's one-minute structure and aim as close to one minute as possible. 3:00 is the absolute hard maximum.
+
+**Target: 59.5 seconds**, in the workbook's six beats (p. 21): user, problem, click 1, click 2, click 3, impact.
 
 - The workbook (p. 21, "One-minute demo video script"; p. 23, "One-minute demo video uploaded") and the keynote (p. 22, "Same structure for your one-minute video") all ask for one minute.
-- The team's rule (Daniel, relayed at about 2:20 PM) treats one minute as the soft target and 3:00 as the hard maximum, longer only if it makes the video more compelling.
-- 60 seconds meets both. The story here is one thread and fits in a minute without rushing, so going longer would cost the workbook fit for little gain. The conflict is listed under "Open questions"; this plan doesn't need it resolved.
-- If the cut runs long, trim holds and pauses, never words. Never exceed 3:00.
+- The story is one thread and fits in a minute without rushing.
+- If the cut runs long, trim holds and pauses first, never words. Stay as close to 60 s as the cut allows, and never exceed 3:00.
 
 ## 2. Guidelines checklist
 
@@ -252,18 +253,16 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 
 ## 11. Open questions
 
-1. **Length rule conflict.**
-   - The workbook (p. 21, p. 23) and keynote (p. 22) say "one-minute demo video".
-   - Daniel's rule says one minute is the soft minimum and 3:00 the hard maximum.
-   - This plan targets 60 s or less, which meets both. Should Josh ask an organizer whether over 60 s is acceptable? Only matters if we decide to go longer.
-2. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh decides.
-3. **Voice.** Gemini's Charon voice (rendered), Orus, or Josh reading it himself. Josh decides after listening to `~/ShiftProof-video/audio/vo-charon.wav`.
-4. **watsonx Orchestrate.** `docs/SUBMISSION.md` says the Ask step may move onto a watsonx Orchestrate agent before submission.
+Length is decided (section 1), so it is no longer an open question.
+
+1. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh decides.
+2. **Voice.** Gemini's Charon voice (rendered), Orus, or Josh reading it himself. Josh decides after listening to `~/ShiftProof-video/audio/vo-charon.wav`.
+3. **watsonx Orchestrate.** `docs/SUBMISSION.md` says the Ask step may move onto a watsonx Orchestrate agent before submission.
    - If it is live at the freeze, check what the Ask source line says in the capture.
    - Daniel decides whether the end card should name Orchestrate as well as Granite; Claude writes the words.
    - The voiceover still holds either way ("uses only approved cards" is enforced by app code).
    - If Orchestrate isn't live, the video doesn't mention it.
-5. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
+4. **For Alex (UI owner). None of these block the video**; it is planned around today's UI, and no app change is requested for it.
    - Ask at 375px: if the cited card and "Veteran's words" could sit closer to the answer, S5a would need less scrolling.
    - Review: the status sits at the top of the card and the confirm and approve buttons at the bottom, so S4b uses crops. A status next to the buttons would read better on camera.
    - Compare: highlighting the quoted spans in the source panes (already in stream 4) would make S3 stronger.
