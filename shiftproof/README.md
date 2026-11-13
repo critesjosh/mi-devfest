@@ -47,6 +47,7 @@ The hackathon asks teams to disclose AI tools. Update this list as you go.
 - Claude Sonnet 5.5 (Claude Code subagent): API routes and UI
 - Claude Opus 5.5 (Claude Code + Claude Design): design system (`DESIGN.md`, `design/`) and copy contract (`COPY.md`)
 - OpenAI Codex (GPT-6.1 Sol, medium reasoning): independent read-only security review of the prompts, quote verification and Ask route
+- IBM Bob: AI coding assistant used by the team during the build
 
 ## Not in the MVP
 
