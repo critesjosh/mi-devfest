@@ -28,9 +28,9 @@ Turn what the work instruction leaves out into reviewed guidance the next shift 
 
 A written work instruction tells you the steps. It leaves out what experienced machinists know from years at the machine. When they retire or change shifts, that knowledge leaves with them.
 
-Our demo uses a fictional training fixture: work instruction WI-114 Rev C, a bracket job. An apprentice's first part reads 0.002 in over on the pocket. Step 7 says to adjust the tool wear offset and rerun. The veteran's notes say to wait: the first part comes off warm, a warm 4 in aluminum part reads about two thousandths long, and chasing the offset makes every part after it short once it cools. The instruction doesn't say that.
+Our demo uses a fictional training fixture: work instruction WI-114 Rev C, a bracket job. An apprentice's first part reads 0.002 in over on the pocket. Step 7 says to adjust the tool wear offset and rerun. The veteran's notes say to wait: the first part comes off warm, a 4 in aluminum bracket about 40 degrees over shop temperature reads about two thousandths long, and chasing the offset makes every part after it short once it cools. The instruction doesn't say that.
 
-Generic chat tools can't close this gap safely. They paraphrase, invent numbers, and answer whether or not anyone has checked the answer.
+A chat tool that answers from its general training can't close this gap. The answer has to come from the veteran's own words, checked by people who know the job.
 
 ## Solution statement
 
@@ -38,9 +38,9 @@ Generic chat tools can't close this gap safely. They paraphrase, invent numbers,
 
 ShiftProof puts the work instruction beside a veteran's account of the same job, finds what the instruction leaves out, has people review it, and gives the apprentice only approved guidance. The demo is three steps.
 
-1. **Compare.** WI-114 sits beside the veteran's notes. IBM Granite flags what the instruction leaves out, quotes both sources, and asks the veteran a follow-up question. In the fixture it finds three gaps: seat the part and shim it if it rocks, let the first part cool before measuring, and measure the pocket in two places. It does not flag Step 3, which the veteran confirms is right. The app checks every quote against the source text and marks any it can't find.
+1. **Compare.** WI-114 sits beside the veteran's notes. IBM Granite flags what the instruction leaves out, quotes both sources, and asks the veteran a follow-up question. In the fixture it finds three gaps: seat the part and shim it if it rocks, let the first part cool before measuring, and measure the pocket in two places. It does not flag Step 3, which the veteran confirms is right. The app checks the quotes against the source text and marks any it can't find.
 2. **Review.** The veteran answers the follow-up, Granite drafts a guide card, the veteran confirms it, and a quality lead approves it. Status moves candidate, expert confirmed, approved, one step at a time. Editing a card sends it back to candidate. The work instruction itself is not changed.
-3. **Ask.** An apprentice asks a question in their own words, on a phone at the machine. The answer comes only from approved guide cards for WI-114 Rev C and quotes the veteran's words. Asked "Should I bump the wear offset?", it says to let the part cool and re-measure first. Asked about spindle speed, which no card covers, it says: "No approved guidance covers this. Ask your lead or quality."
+3. **Ask.** An apprentice asks a question in their own words, on a phone at the machine. Granite answers from approved guide cards for WI-114 Rev C only, and the answer quotes the veteran's words from the card. Asked "Should I bump the wear offset?", it says to let the part cool and re-measure first. Asked about spindle speed, which no card covers, it says: "No approved guidance covers this. Ask your lead or quality."
 
 ## How we used IBM technology
 
@@ -56,9 +56,9 @@ ShiftProof puts the work instruction beside a veteran's account of the same job,
 
 App code enforces these rules, not prompts. A model can't talk its way past them.
 
-- **Quote verification.** Every quote Granite returns is checked against the source text (`lib/verify.ts`). A finding with a quote the app can't find is marked "quote not found in source" and cannot become a card.
+- **Quote verification.** The veteran's quote in every finding is checked against the veteran's notes, and the instruction quote is checked against the work instruction whenever the finding names a step (`lib/verify.ts`). A finding with a quote the app can't find is marked "quote not found in source" and cannot become a card.
 - **Review order.** A card moves candidate, expert confirmed, approved, one step at a time, and the server rejects any skip (`lib/store.ts`). Editing a card sends it back to candidate.
-- **Approved cards only.** Ask uses only approved cards for WI-114 Rev C. With no approved card, the app makes no model call and says so.
+- **Approved cards only.** Ask gives Granite only approved cards for WI-114 Rev C. With no approved card, the app makes no model call and says so. The app does not check every sentence of the answer against the card, so the answer always shows the cited card and the veteran's quote for the apprentice to check.
 - **Server-side citation filtering.** The server drops cited cards that are not approved and quotes that are not in the card sources. If an answer cites no approved card, the server writes the refusal itself.
 - **Sample output is always labelled.** Without an IBM key the app shows recorded sample output, and every result says "Sample output (offline), not a live model call." Live results show "Granite on watsonx.ai" and the model ID.
 
