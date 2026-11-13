@@ -1,3 +1,7 @@
 import type { NextConfig } from "next";
-const nextConfig: NextConfig = {};
+
+// "standalone" bundles only the files the server needs, which keeps the container image small
+// (the IBM Container Registry free tier allows 500 MB in total).
+const nextConfig: NextConfig = { output: "standalone" };
+
 export default nextConfig;
