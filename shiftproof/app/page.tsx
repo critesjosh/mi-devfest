@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Card, CheckedFinding } from "@/lib/schemas";
+import { BrandMark } from "./Brand";
+import { RobotArm } from "./RobotArm";
 
 type Role = "Veteran" | "Quality lead" | "Apprentice";
 type Meta = { source?: "live" | "sample" | "none"; model?: string; error?: string };
@@ -51,7 +53,7 @@ function Banner({ meta }: { meta: Meta }) {
   return null;
 }
 
-function Highlighted({ text, quotes }: { text: string; quotes: string[] }) {
+function Highlighted({ text, quotes, pad }: { text: string; quotes: string[]; pad?: boolean }) {
   const lower = text.toLowerCase();
   const ranges: [number, number][] = [];
   for (const q of quotes) {
@@ -67,38 +69,10 @@ function Highlighted({ text, quotes }: { text: string; quotes: string[] }) {
     pos = e;
   });
   out.push(text.slice(pos));
-  return <pre className="sp-quote sp-quote__text sp-src">{out}</pre>;
+  return <pre className={`sp-quote sp-quote__text sp-src${pad ? " sp-quote--pad" : ""}`}>{out}</pre>;
 }
 
-/* Decorative only: a CNC spindle arm, after the competing concept. No numbers, no data. */
-function SpindleArt() {
-  return (
-    <div className="sp-top__art" aria-hidden="true">
-      <svg viewBox="96 4 330 214" fill="none" focusable="false">
-        <defs>
-          <linearGradient id="sp-arm" x1="150" y1="20" x2="360" y2="210" gradientUnits="userSpaceOnUse">
-            <stop offset="0" style={{ stopColor: "var(--surface)" }} />
-            <stop offset="0.6" style={{ stopColor: "var(--rule)" }} />
-            <stop offset="1" style={{ stopColor: "var(--rule-strong)" }} />
-          </linearGradient>
-        </defs>
-        <ellipse className="sp-art__floor" cx="214" cy="212" rx="96" ry="6" />
-        <path className="sp-art__body sp-art__edge" d="M180 214 L212 122 L270 136 L242 214 Z" />
-        <rect className="sp-art__body sp-art__seam" x="150" y="62" width="155" height="74" rx="37" transform="rotate(-16 150 62)" />
-        <circle className="sp-art__joint sp-art__ring" cx="190" cy="118" r="30" />
-        <circle className="sp-art__joint sp-art__hub" cx="190" cy="118" r="17" />
-        <rect className="sp-art__body sp-art__seam" x="228" y="42" width="120" height="52" rx="26" transform="rotate(-8 228 42)" />
-        <rect className="sp-art__joint" x="318" y="36" width="32" height="44" rx="8" transform="rotate(-8 318 36)" />
-        <path className="sp-art__joint" d="M346 42 L392 18 L404 28 L364 52 Z" />
-        <path className="sp-art__joint" d="M348 64 L398 72 L394 86 L344 76 Z" />
-        <rect className="sp-art__warm" x="360" y="40" width="14" height="18" rx="4" transform="rotate(-8 360 40)" />
-        <polyline className="sp-art__lead" points="112,42 276,42 276,68" />
-        <circle className="sp-art__pin sp-art__pin--warm" cx="276" cy="68" r="4" />
-        <circle className="sp-art__pin" cx="398" cy="23" r="4" />
-      </svg>
-    </div>
-  );
-}
+/* Decorative only: a CNC spindle arm. No numbers, no data. Rendered inside .sp-hero__art. */
 
 const lines = (a: string[]) => a.join("\n");
 const unlines = (s: string) => s.split("\n").map((x) => x.trim()).filter(Boolean);
@@ -147,7 +121,7 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
       <div className="sp-field">
         <span className="sp-field__label">Source quotes</span>
         {card.source_quotes.map((q, i) => (
-          <div key={i} className="sp-quote">
+          <div key={i} className={`sp-quote${/veteran/i.test(q.source) ? " sp-quote--pad" : ""}`}>
             <div className="sp-quote__src"><span className="sp-label">{q.source}</span></div>
             <p className="sp-quote__text">{q.text}</p>
           </div>
@@ -230,30 +204,24 @@ export default function Home() {
   const insQuotes = findings.map((f) => f.instruction_quote);
 
   const titles = ["Find gaps", "Review guide cards", "Ask about WI-114"];
+  const ledes = [
+    "Granite reads the work instruction against the veteran's notes. The app checks every quote against its source.",
+    "The veteran confirms the card says what they meant. Then quality approves it for training.",
+    "Ask it the way you would ask your lead.",
+  ];
   const verified = findings.filter((f) => f.instruction_quote_verified && f.veteran_quote_verified).length;
   const count = (st: string) => cards.filter((c) => c.status === st).length;
   const segs = [
     { key: "candidate", label: "candidate", n: count("candidate") },
-    { key: "confirmed", label: "expert confirmed", n: count("expert_confirmed") },
+    { key: "expert_confirmed", label: "expert confirmed", n: count("expert_confirmed") },
     { key: "approved", label: "approved", n: count("approved") },
   ];
-  const C = 2 * Math.PI * 52;
-  let acc = 0;
 
   return (
     <div className="sp-app">
       <aside className="sp-rail">
         <div className="sp-rail__brand" aria-hidden="true">
-          <svg className="sp-mark-logo" viewBox="0 0 32 32">
-            <defs>
-              <linearGradient id="sp-spark" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" style={{ stopColor: "var(--paper-glow)" }} />
-                <stop offset="0.5" style={{ stopColor: "var(--focus-on-granite)" }} />
-                <stop offset="1" style={{ stopColor: "var(--ember)" }} />
-              </linearGradient>
-            </defs>
-            <path fill="url(#sp-spark)" d="M16 1c1.2 8.2 6.8 13.8 15 15-8.2 1.2-13.8 6.8-15 15-1.2-8.2-6.8-13.8-15-15C9.2 14.8 14.8 9.2 16 1Z" />
-          </svg>
+          <BrandMark size={32} tone="on-granite" />
         </div>
         <nav className="sp-tabs" role="tablist" aria-label="Steps" aria-orientation={railVertical ? "vertical" : "horizontal"}>
           {([["Compare", 1], ["Review", 2], ["Ask", 3]] as const).map(([l, n]) => (
@@ -273,64 +241,70 @@ export default function Home() {
 
       <div className="sp-shell">
         <header className="sp-top">
-          <div className="sp-top__titles">
-            <span className="sp-top__eyebrow"><span className="sp-label">ShiftProof</span><span aria-hidden="true">·</span><span className="sp-data">WI-114 Rev C</span></span>
-            <h1 className="sp-header__title">{titles[tab - 1]}</h1>
-          </div>
-          <SpindleArt />
+          <p className="sp-top__doc"><span className="sp-top__name"><BrandMark size={20} />ShiftProof</span><span className="sp-data">WI-114 Rev C</span></p>
           <div className="sp-header__controls">
             <label className="sp-role" htmlFor="role">
-              <span className="sp-label">Role</span>
+              <span className="sp-role__label">Role</span>
               <select className="sp-field__input sp-header__select" id="role" value={role} onChange={(e) => pickRole(e.target.value as Role)}>
                 <option>Veteran</option><option>Quality lead</option><option>Apprentice</option>
               </select>
             </label>
-            <button className="sp-btn sp-btn--on-granite" onClick={reset} disabled={busy === "reset"}>{busy === "reset" ? "Resetting..." : "Reset demo"}</button>
+            <button className="sp-btn" onClick={reset} disabled={busy === "reset"}>{busy === "reset" ? "Resetting..." : "Reset demo"}</button>
             <span className="sp-note sp-header__note">Demo roles, not real sign-in</span>
           </div>
         </header>
 
-        <section className="sp-overview" aria-label="Overview">
-          <div className="sp-panel sp-tile">
-            <div className="sp-tile__head"><span className="sp-tile__name">Findings</span><span className="sp-note">WI-114 vs veteran notes</span></div>
-            <div className="sp-tile__row">
-              <span className="sp-tile__big">{cmp ? findings.length : "–"}</span>
-              <span className="sp-note">{cmp ? `${verified} of ${findings.length} verified in source` : "Find gaps to compare the two sources."}</span>
-            </div>
-            <div className="sp-meter" aria-hidden="true"><span style={{ width: `${findings.length ? (verified / findings.length) * 100 : 0}%` }} /></div>
+        <div className="sp-hero">
+          <div className="sp-hero__titles">
+            <h1 className="sp-header__title">{titles[tab - 1]}</h1>
+            <p className="sp-hero__lede">{ledes[tab - 1]}</p>
+            {tab === 1 && <button className="sp-btn sp-btn--primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>}
           </div>
+          {/* Illustration slot: about 300px wide (--hero-art). Whatever goes here stands on the sheet's top edge. */}
+          <div className="sp-hero__art"><RobotArm working={busy === "compare" || busy === "ask" || busy.startsWith("draft-")} /></div>
+        </div>
 
-          <div className="sp-panel sp-tile">
-            <div className="sp-tile__head"><span className="sp-tile__name">Guide cards</span><span className="sp-note">{cards.length} total</span></div>
-            <div className="sp-cards-chart">
-              <div className="sp-donut">
-                <svg viewBox="0 0 132 132" aria-hidden="true">
-                  <circle className="sp-donut__track" cx="66" cy="66" r="52" />
-                  {cards.length > 0 && segs.map((g) => {
-                    const len = (g.n / cards.length) * C;
-                    const el = g.n > 0 ? <circle key={g.key} className={`sp-seg--${g.key}`} cx="66" cy="66" r="52" strokeDasharray={`${len} ${C - len}`} strokeDashoffset={-acc} /> : null;
-                    acc += len;
-                    return el;
+        <section className="sp-sheet" aria-label="Overview">
+          <div className="sp-sheet__cell">
+            <div className="sp-sheet__cap"><span>Gaps found</span></div>
+            <div className="sp-figure__row">
+              <span className="sp-figure">{cmp ? findings.length : "–"}</span>
+              {findings.length > 0 && (
+                <span className="sp-ticks" aria-hidden="true">
+                  {findings.map((f) => {
+                    const ok = f.instruction_quote_verified && f.veteran_quote_verified;
+                    return <span key={f.id} className={`sp-tick${ok ? "" : " sp-tick--bad"}`}>{ok ? "✓" : "×"}</span>;
                   })}
-                </svg>
-                <div className="sp-donut__center"><span className="sp-tile__big">{segs[2].n}</span><span className="sp-label sp-muted">approved</span></div>
-              </div>
-              <ul className="sp-legend">
-                {segs.map((g) => (
-                  <li key={g.key}><span className={`sp-dot sp-dot--${g.key}`} />{g.label}<span className="sp-data">{g.n}</span></li>
-                ))}
-              </ul>
+                </span>
+              )}
             </div>
+            <p className="sp-note">{cmp ? `${verified} of ${findings.length} verified in source` : "Nothing compared yet. Find gaps to start."}</p>
           </div>
 
-          <div className="sp-panel sp-tile sp-tile--source">
-            <div className="sp-tile__head"><span className="sp-tile__name">Model</span><span className="sp-label">IBM watsonx.ai</span></div>
+          <div className="sp-sheet__cell">
+            <div className="sp-sheet__cap">
+              <span>Guide cards</span>
+              <span className="sp-tally">{segs.map((g) => <span key={g.key}><b>{g.n}</b> {g.label}</span>)}</span>
+            </div>
+            <ul className="sp-rack">
+              {cards.length === 0 && <li className="sp-note sp-rack__empty">No cards yet.</li>}
+              {cards.map((c) => (
+                <li key={c.id} className={`sp-hang${c.status === "approved" ? " sp-hang--accept" : c.status === "expert_confirmed" ? " sp-hang--hold" : ""}`}>
+                  <span className="sp-label">{c.status.replace("_", " ")}</span>
+                  <span className="sp-hang__title">{c.title}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="sp-sheet__cell sp-sheet__cell--source">
+            <div className="sp-sheet__cap"><span>Model</span><span>IBM watsonx.ai</span></div>
             {app && (app.offline ? (
               <div className="sp-banner">
                 <span className="sp-banner__stripes" />
                 <span className="sp-banner__text">Sample output (offline), not a live model call.</span>
               </div>
-            ) : <span className="sp-data">Granite on watsonx.ai · {app.model}</span>)}
+            ) : <div className="sp-source sp-data">Granite on watsonx.ai · {app.model}</div>)}
             <p className="sp-note">Answers come only from approved guide cards.</p>
           </div>
         </section>
@@ -345,20 +319,14 @@ export default function Home() {
 
         {tab === 1 && (
           <section className="sp-stack sp-step" key="s1" id="sp-step-1" role="tabpanel" aria-labelledby="sp-tab-1">
-            <div className="sp-section-head">
-              <p className="sp-note">Granite compares the work instruction with the veteran&apos;s notes. The app checks every quote against its source.</p>
-              <button className="sp-btn sp-btn--primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>
-            </div>
             <div className="sp-grid2">
               <div className="sp-panel">
-                <h2 className="sp-heading">Work instruction WI-114 Rev C</h2>
-                <p className="sp-note">Fictional training fixture</p>
+                <div className="sp-doc__head"><h2 className="sp-heading">Work instruction WI-114 Rev C</h2><p className="sp-note">Fictional training fixture</p></div>
                 {app && <Highlighted text={app.fixtures.instruction} quotes={insQuotes} />}
               </div>
               <div className="sp-panel">
-                <h2 className="sp-heading">Veteran notes</h2>
-                <p className="sp-note">Fictional training fixture</p>
-                {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} />}
+                <div className="sp-doc__head"><h2 className="sp-heading">Veteran notes</h2><p className="sp-note">Fictional training fixture</p></div>
+                {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} pad />}
               </div>
             </div>
             {cmp && <Banner meta={cmp} />}
@@ -384,7 +352,7 @@ export default function Home() {
                       </div>
                       <p className="sp-quote__text">{f.instruction_quote}</p>
                     </div>
-                    <div className="sp-quote">
+                    <div className="sp-quote sp-quote--pad">
                       <div className="sp-quote__src">
                         <span className="sp-label">Veteran</span>
                         {mark(f.veteran_quote_verified)}
@@ -392,8 +360,10 @@ export default function Home() {
                       <p className="sp-quote__text">{f.veteran_quote}</p>
                     </div>
                   </div>
-                  <p className="sp-field-line"><b>Why it matters:</b> {f.why_it_matters}</p>
-                  <p className="sp-field-line"><b>Follow-up:</b> {f.follow_up_question}</p>
+                  <dl className="sp-facts">
+                    <dt>Why it matters</dt><dd>{f.why_it_matters}</dd>
+                    <dt>Follow-up</dt><dd>{f.follow_up_question}</dd>
+                  </dl>
                   {ok ? (
                     <>
                       <div className="sp-field">
@@ -456,7 +426,7 @@ export default function Home() {
                       <>
                         <p className="sp-field-line"><b>Veteran's words</b></p>
                         {ask.cited_quotes.map((q, i) => (
-                          <div key={i} className="sp-quote">
+                          <div key={i} className="sp-quote sp-quote--pad">
                             <div className="sp-quote__src"><span className="sp-label">Veteran</span></div>
                             <p className="sp-quote__text">{q}</p>
                           </div>

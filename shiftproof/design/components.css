@@ -1,9 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&display=swap");
 
 /* ShiftProof components. Every value comes from tokens.css; never write a literal colour here. */
 
 body {
-  background: radial-gradient(120% 60% at 50% -10%, var(--paper-glow), transparent 70%) no-repeat, var(--paper);
+  background: var(--paper);
   color: var(--ink); font-family: var(--font-sans); font-size: 16px; line-height: 24px;
   -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
 }
@@ -12,17 +12,17 @@ body {
 .sp-data { font-family: var(--font-mono); font-size: 14px; line-height: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
 .sp-note { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
 
-/* Button: pill. One primary per step. */
+/* Button: a squared key, not a pill. One primary per step. */
 .sp-btn {
   font: 600 15px/20px var(--font-sans); min-height: var(--control-min); padding: 10px var(--space-6);
-  border: var(--border-hairline) solid var(--rule-strong); border-radius: var(--radius-pill);
+  border: var(--border-hairline) solid var(--rule-strong); border-radius: var(--radius-inner);
   background: var(--surface); color: var(--ink); cursor: pointer; text-align: center;
   transition: background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
   touch-action: manipulation; user-select: none;
 }
 @media (hover: hover) { .sp-btn:hover:not(:disabled) { background: var(--dykem-tint); border-color: var(--dykem); } }
 .sp-btn:active:not(:disabled) { transform: scale(0.97); }
-.sp-btn--primary { background: var(--dykem); border-color: var(--dykem); color: var(--on-dykem); box-shadow: 0 8px 20px -10px var(--dykem); }
+.sp-btn--primary { background: var(--dykem); border-color: var(--dykem); color: var(--on-dykem); }
 @media (hover: hover) { .sp-btn--primary:hover:not(:disabled) { background: var(--dykem); filter: brightness(1.08); } }
 .sp-btn--on-granite { background: var(--granite); color: var(--on-granite); border-color: var(--granite); }
 @media (hover: hover) { .sp-btn--on-granite:hover:not(:disabled) { background: var(--granite); border-color: var(--granite); filter: brightness(1.4); } }
@@ -37,8 +37,8 @@ body {
   transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
   touch-action: manipulation;
 }
-.sp-tabs__tab .sp-data { font-size: 15px; line-height: 20px; }
-.sp-tabs__tab .sp-label { font-size: 11px; letter-spacing: 0.04em; }
+.sp-tabs__tab .sp-data { font-family: var(--font-display); font-size: var(--text-heading); line-height: var(--space-6); font-weight: 600; }
+.sp-tabs__tab .sp-label { text-transform: none; letter-spacing: 0; font-size: var(--text-small); font-weight: 500; }
 @media (hover: hover) { .sp-tabs__tab:hover { color: var(--on-granite); } }
 .sp-tabs__tab[aria-selected="true"] { background: var(--dykem); color: var(--on-dykem); }
 .sp-tabs__tab:active { transform: scale(0.96); }
@@ -47,16 +47,26 @@ body {
 /* Source quote: words copied from a document */
 .sp-quote { border: var(--border-hairline) solid var(--rule); border-radius: var(--radius-inner); background: var(--surface-sunken); overflow: hidden; }
 .sp-quote__src { display: flex; justify-content: space-between; align-items: center; gap: var(--space-2); flex-wrap: wrap; padding: var(--space-2) var(--space-3); border-bottom: var(--border-hairline) solid var(--rule); color: var(--ink-muted); }
-.sp-quote__text { margin: 0; padding: var(--space-3); font-family: var(--font-mono); font-size: 14px; line-height: 22px; overflow-wrap: anywhere; }
-mark, .sp-mark { background: var(--highlight); color: var(--ink); border-radius: 3px; padding: 0 2px; }
+.sp-quote__text { margin: 0; padding: var(--space-3); font-family: var(--font-mono); font-size: 14px; line-height: var(--quote-line); overflow-wrap: anywhere; }
+/* The veteran's words sit on a ruled pad; the work instruction stays a plain printed sheet. Both stay mono. */
+.sp-quote--pad { background: var(--surface); }
+.sp-quote--pad .sp-quote__text, .sp-quote--pad.sp-quote__text {
+  background-image: linear-gradient(to bottom, transparent calc(100% - var(--border-hairline)), var(--rule) calc(100% - var(--border-hairline)));
+  background-size: 100% var(--quote-line); background-position: 0 var(--space-3); background-attachment: local;
+}
+/* A highlighter stroke: it overshoots the letters a little, the way a marker does. */
+mark, .sp-mark {
+  background: var(--highlight); color: var(--ink); padding: 0 var(--space-1); margin: 0 calc(-1 * var(--space-1));
+  border-radius: var(--radius-inner) var(--space-2) var(--radius-inner) var(--space-2); box-decoration-break: clone; -webkit-box-decoration-break: clone;
+}
 
-/* Verify stamp */
-.sp-stamp { display: inline-flex; align-items: center; gap: var(--space-1); padding: 3px var(--space-3); border: var(--border-control) solid currentColor; border-radius: var(--radius-pill); }
+/* Verify stamp: a rubber stamp, pressed a touch off square */
+.sp-stamp { display: inline-flex; align-items: center; gap: var(--space-1); padding: var(--space-1) var(--space-2); border: var(--border-control) solid currentColor; border-radius: var(--radius-inner); transform: rotate(-1.2deg); }
 .sp-stamp--ok { color: var(--accept); background: var(--accept-bg); }
 .sp-stamp--bad { color: var(--reject); background: var(--reject-bg); border-style: dashed; }
 
 /* Inspection tag: card status */
-.sp-tag { display: inline-flex; align-items: center; gap: var(--space-2); padding: 3px var(--space-3) 3px var(--space-2); border: var(--border-control) solid var(--ink); border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); }
+.sp-tag { display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3) var(--space-1) var(--space-2); border: var(--border-control) solid var(--ink); border-radius: var(--radius-inner); background: var(--surface); color: var(--ink); }
 .sp-tag::before { content: ""; width: 8px; height: 8px; border: var(--border-control) solid currentColor; border-radius: var(--radius-pill); background: var(--surface); flex: none; }
 .sp-tag--hold { color: var(--hold); background: var(--hold-bg); border-color: var(--hold); }
 .sp-tag--accept { color: var(--accept); background: var(--accept-bg); border-color: var(--accept); }
@@ -66,9 +76,10 @@ mark, .sp-mark { background: var(--highlight); color: var(--ink); border-radius:
   background: var(--surface); border: var(--border-hairline) solid var(--rule); border-radius: var(--radius-panel);
   box-shadow: var(--shadow-panel); padding: var(--space-6); display: grid; gap: var(--space-4); min-width: 0;
 }
-.sp-panel h3, .sp-heading { margin: 0; font-family: var(--font-display); font-size: 20px; line-height: 26px; font-weight: 500; letter-spacing: -0.01em; text-wrap: balance; }
+.sp-panel h3, .sp-heading { margin: 0; font-family: var(--font-display); font-size: var(--text-heading); line-height: var(--space-6); font-weight: 600; text-wrap: balance; }
 .sp-finding__head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
-.sp-type { padding: 3px var(--space-3); border-radius: var(--radius-pill); background: var(--dykem-tint); color: var(--dykem); }
+/* Finding type: a word on the sheet, not a coloured chip. The accent is for the next action only. */
+.sp-type { color: var(--ink); padding-right: var(--space-2); border-right: var(--border-hairline) solid var(--rule-strong); }
 .sp-finding__quotes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
 .sp-finding__quotes > * { min-width: 0; }
 @media (max-width: 720px) { .sp-finding__quotes { grid-template-columns: 1fr; } }
