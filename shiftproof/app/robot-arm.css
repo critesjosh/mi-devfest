@@ -1,0 +1,196 @@
+/* RobotArm: articulated hero illustration. Colours come from design tokens only.
+   Lengths below are SVG user units of the 380x250 viewBox (joint pivots), not layout pixels.
+
+   Motion model
+   - Each joint runs two animations: an idle sway on `rotate` and an "inspecting" dip on
+     `transform`. The two properties compose, so nothing has to be swapped between states.
+   - --ra-w (0 idle, 1 working) is a registered number that transitions, so the idle sway
+     fades down and the dip fades in without a snap.
+   - --ra-s flips the sign. Leader lines sit in counter-rotating groups (--ra-s: -1) with the
+     same timing, so they stay upright while their pin rides the joint. */
+
+@property --ra-w {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+.ra {
+  --ra-w: 0;
+  --ra-s: 1;
+  --ra-idle: 8.4s;
+  --ra-work: 3.6s;
+  --ra-ease: cubic-bezier(0.45, 0.05, 0.3, 1);
+  display: block;
+  width: 100%;
+  transition: --ra-w 1100ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.ra--working { --ra-w: 1; }
+
+/* Material ramp. Light: white enamel. Dark: brushed metal, lit from the top edge. */
+.ra {
+  --ra-lit: var(--surface);
+  --ra-body: color-mix(in srgb, var(--surface) 70%, var(--surface-sunken));
+  --ra-mid: color-mix(in srgb, var(--surface-sunken) 60%, var(--rule));
+  --ra-shade: color-mix(in srgb, var(--rule) 62%, var(--rule-strong));
+  --ra-dark: var(--granite);
+  --ra-spec: var(--surface);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .ra {
+    --ra-lit: color-mix(in srgb, var(--rule-strong) 82%, var(--ink));
+    --ra-body: color-mix(in srgb, var(--rule-strong) 62%, var(--surface));
+    --ra-mid: color-mix(in srgb, var(--rule-strong) 38%, var(--surface));
+    --ra-shade: color-mix(in srgb, var(--rule-strong) 16%, var(--surface));
+    --ra-dark: color-mix(in srgb, var(--granite) 78%, var(--rule-strong));
+    --ra-spec: color-mix(in srgb, var(--ink) 55%, transparent);
+  }
+}
+:root[data-theme="dark"] .ra {
+  --ra-lit: color-mix(in srgb, var(--rule-strong) 82%, var(--ink));
+  --ra-body: color-mix(in srgb, var(--rule-strong) 62%, var(--surface));
+  --ra-mid: color-mix(in srgb, var(--rule-strong) 38%, var(--surface));
+  --ra-shade: color-mix(in srgb, var(--rule-strong) 16%, var(--surface));
+  --ra-dark: color-mix(in srgb, var(--granite) 78%, var(--rule-strong));
+  --ra-spec: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+.ra svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+/* ---- Materials ---- */
+.ra-stop--lit { stop-color: var(--ra-lit); }
+.ra-stop--body { stop-color: var(--ra-body); }
+.ra-stop--mid { stop-color: var(--ra-mid); }
+.ra-stop--shade { stop-color: var(--ra-shade); }
+.ra-stop--hub-lit { stop-color: color-mix(in srgb, var(--ra-dark) 72%, var(--rule-strong)); }
+.ra-stop--hub { stop-color: var(--ra-dark); }
+.ra-stop--floor { stop-color: var(--ink-muted); stop-opacity: 0.3; }
+.ra-stop--clear { stop-color: var(--ink-muted); stop-opacity: 0; }
+
+.ra-edge { stroke: color-mix(in srgb, var(--rule-strong) 55%, transparent); stroke-width: 0.8; }
+.ra-seam { stroke: color-mix(in srgb, var(--rule-strong) 45%, transparent); stroke-width: 0.8; fill: none; }
+.ra-spec { stroke: var(--ra-spec); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: 0.9; }
+.ra-bolt { fill: color-mix(in srgb, var(--rule-strong) 70%, var(--surface)); stroke: color-mix(in srgb, var(--surface) 60%, transparent); stroke-width: 0.4; }
+.ra-dark { fill: var(--ra-dark); stroke: color-mix(in srgb, var(--rule-strong) 75%, transparent); stroke-width: 0.8; stroke-linejoin: round; }
+.ra-cuff-line { stroke: color-mix(in srgb, var(--rule-strong) 50%, transparent); stroke-width: 0.8; }
+.ra-cable { stroke: var(--ra-dark); stroke-width: 3.4; stroke-linecap: round; fill: none; }
+.ra-cable--thin { stroke: var(--ink-muted); stroke-width: 1.6; }
+.ra-ember-ring { stroke: var(--ember); stroke-width: 3; fill: none; }
+.ra-ember-ring--thin { stroke-width: 2; }
+.ra-ember-fill { fill: var(--ember); }
+.ra-hub-mark { stroke: var(--ember); stroke-width: 1.6; stroke-linecap: round; fill: none; opacity: 0.85; }
+.ra-hub-dot { fill: var(--ember); }
+.ra-part__block { fill: var(--dykem-tint); stroke: var(--dykem); stroke-width: 0.9; }
+.ra-beam {
+  stroke: var(--dykem);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-dasharray: 2 4;
+  opacity: calc(var(--ra-w) * 0.75);
+  animation: ra-beam 0.9s linear infinite;
+}
+
+.ra-lead { stroke: var(--rule-strong); stroke-width: 0.9; stroke-linejoin: round; fill: none; }
+.ra-pin { fill: var(--dykem); stroke: var(--surface); stroke-width: 1.4; }
+.ra-pin--warm { fill: var(--ember); }
+.ra-pin--end { fill: var(--surface); stroke: var(--rule-strong); stroke-width: 0.9; }
+.ra-halo {
+  fill: var(--dykem);
+  opacity: 0.22;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ra-halo 2.8s var(--ra-ease) infinite;
+}
+.ra-halo--warm { fill: var(--ember); animation-delay: -1.2s; }
+
+/* ---- Pivots (viewBox units) ---- */
+.ra-j { transform-box: view-box; }
+.ra-j--shoulder { transform-origin: 118px 150px; }
+.ra-j--elbow { transform-origin: 206px 84px; }
+.ra-j--wrist { transform-origin: 290px 100px; }
+/* Counter-rotation happens about the pin, not the joint. Must come after the joint origins. */
+.ra-j.ra-at-wrist { transform-origin: 290px 100px; }
+.ra-j.ra-at-elbow { transform-origin: 206px 84px; }
+.ra-counter { --ra-s: -1; }
+/* Fingers pivot in the gripper's own frame. */
+.ra-finger { transform-box: view-box; }
+.ra-finger--a { transform-origin: 29px -8px; }
+.ra-finger--b { transform-origin: 29px 8px; --ra-s: -1; }
+.ra-floor { transform-box: fill-box; transform-origin: 28% 50%; }
+
+/* ---- Motion ---- */
+.ra-j--shoulder {
+  animation:
+    ra-shoulder var(--ra-idle) var(--ra-ease) infinite,
+    ra-shoulder-work var(--ra-work) var(--ra-ease) infinite;
+}
+.ra-j--elbow {
+  animation:
+    ra-elbow var(--ra-idle) var(--ra-ease) -1.5s infinite,
+    ra-elbow-work var(--ra-work) var(--ra-ease) infinite;
+}
+.ra-j--wrist {
+  animation:
+    ra-wrist var(--ra-idle) var(--ra-ease) -3.1s infinite,
+    ra-wrist-work var(--ra-work) var(--ra-ease) infinite;
+}
+.ra-finger {
+  animation:
+    ra-grip var(--ra-idle) var(--ra-ease) -0.6s infinite,
+    ra-grip-work var(--ra-work) var(--ra-ease) infinite;
+}
+.ra-floor { animation: ra-floor var(--ra-idle) var(--ra-ease) infinite; }
+
+/* Idle sway: amplitude eases down to 35% while working. */
+@keyframes ra-shoulder {
+  0%, 100% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * -7deg); }
+  46% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * 8deg); }
+  58% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * 7deg); }
+}
+@keyframes ra-elbow {
+  0%, 100% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * -12deg); }
+  40% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * 10deg); }
+  52% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * 12deg); }
+}
+@keyframes ra-wrist {
+  0%, 100% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * -15deg); }
+  30% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * 6deg); }
+  55% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * 15deg); }
+  78% { rotate: calc(var(--ra-s) * (1 - var(--ra-w) * 0.65) * -4deg); }
+}
+@keyframes ra-grip {
+  0%, 18%, 100% { rotate: calc(var(--ra-s) * (1 - var(--ra-w)) * 3deg); }
+  42%, 62% { rotate: calc(var(--ra-s) * (1 - var(--ra-w)) * -15deg); }
+}
+@keyframes ra-floor {
+  0%, 100% { transform: scaleX(0.95); }
+  46% { transform: scaleX(1.06); }
+  58% { transform: scaleX(1.05); }
+}
+
+/* Inspecting: reach down to the part, hold, come back. Scaled by --ra-w. */
+@keyframes ra-shoulder-work {
+  0%, 100% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 1deg)); }
+  44%, 60% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 7deg)); }
+}
+@keyframes ra-elbow-work {
+  0%, 100% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 2deg)); }
+  46%, 60% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 13deg)); }
+}
+@keyframes ra-wrist-work {
+  0%, 100% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 4deg)); }
+  48%, 60% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 20deg)); }
+}
+@keyframes ra-grip-work {
+  0%, 30%, 100% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * -13deg)); }
+  50%, 62% { transform: rotate(calc(var(--ra-s) * var(--ra-w) * 1deg)); }
+}
+@keyframes ra-beam { to { stroke-dashoffset: -12; } }
+@keyframes ra-halo {
+  0%, 100% { transform: scale(0.8); opacity: 0.28; }
+  50% { transform: scale(1.5); opacity: 0.08; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ra { transition: none; }
+  .ra-j, .ra-finger, .ra-floor, .ra-halo, .ra-beam { animation: none; }
+}

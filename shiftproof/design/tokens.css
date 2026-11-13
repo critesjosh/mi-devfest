@@ -1,19 +1,19 @@
 /* ShiftProof — generated from tokens.json */
 :root {
-  --paper: #e7ebf5;
-  --surface: #ffffff;
-  --surface-sunken: #f1f3f9;
-  --ink: #14151b;
-  --ink-muted: #555b6c;
-  --rule: #dde1ec;
-  --granite: #16171e;
-  --on-granite: #f3f4f8;
-  --on-granite-muted: #a2a7b8;
-  --dykem: #4f46e5;
+  --paper: #e4e6e1;
+  --surface: #fbfbf8;
+  --surface-sunken: #eff0eb;
+  --ink: #16181a;
+  --ink-muted: #555b58;
+  --rule: #d2d5ce;
+  --granite: #1b1e1f;
+  --on-granite: #f2f3ef;
+  --on-granite-muted: #a3a8a4;
+  --dykem: #1f3f9e;
   --on-dykem: #ffffff;
-  --dykem-tint: #ecebfd;
-  --focus: #4f46e5;
-  --focus-on-granite: #a8a3ff;
+  --dykem-tint: #e2e8f7;
+  --focus: #1f3f9e;
+  --focus-on-granite: #a3b8ff;
   --highlight: #ffe58a;
   --accept: #17663a;
   --accept-bg: #dcf3e4;
@@ -24,14 +24,14 @@
   --hazard: #f2c200;
   --hazard-ink: #13171c;
   --paper-glow: #c6d0ef;
-  --rule-strong: #868ca0;
+  --rule-strong: #7c827d;
   --ember: #c2410c;
   --on-glow: #ffffff;
   --glow-a: #4338ca;
   --glow-mid: #4f46e5;
   --glow-sheen: rgb(255 255 255 / 0.18);
   --glow-b: #c2410c;
-  --font-display: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --space-1: 4px;
@@ -40,8 +40,8 @@
   --space-4: 16px;
   --space-6: 24px;
   --space-8: 32px;
-  --radius-panel: 20px;
-  --radius-inner: 12px;
+  --radius-panel: 6px;
+  --radius-inner: 3px;
   --radius-pill: 9999px;
   --border-hairline: 1px;
   --border-control: 2px;
@@ -51,7 +51,16 @@
   --measure: 68ch;
   --rail-width: 84px;
   --page-max: 1240px;
-  --shadow-panel: 0 1px 2px rgb(20 21 27 / 0.04), 0 12px 32px -16px rgb(40 48 90 / 0.18);
+  --quote-line: 22px;
+  --tag-width: 132px;
+  --hero-art: 300px;
+  --text-hero: clamp(40px, 5.4vw, 72px);
+  --text-figure: 56px;
+  --text-heading: 22px;
+  --text-lede: 18px;
+  --text-small: 13px;
+  --facts-term: 128px;
+  --shadow-panel: 0 1px 0 rgb(22 24 26 / 0.10), 0 3px 0 -1px rgb(22 24 26 / 0.05);
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --dur-fast: 140ms;
   --dur-base: 240ms;
@@ -59,20 +68,20 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: #0d0f15;
-    --surface: #161922;
-    --surface-sunken: #0f1219;
-    --ink: #e9ebf3;
-    --ink-muted: #a5aabc;
-    --rule: #272b38;
-    --granite: #07080c;
-    --on-granite: #eef0f6;
-    --on-granite-muted: #9097aa;
-    --dykem: #a8a3ff;
-    --on-dykem: #110e3a;
-    --dykem-tint: #23214a;
-    --focus: #a8a3ff;
-    --focus-on-granite: #a8a3ff;
+    --paper: #0f1110;
+    --surface: #181a19;
+    --surface-sunken: #111312;
+    --ink: #e8eae6;
+    --ink-muted: #a3a9a5;
+    --rule: #2a2d2b;
+    --granite: #080909;
+    --on-granite: #eceeea;
+    --on-granite-muted: #949a96;
+    --dykem: #a3b8ff;
+    --on-dykem: #0b1840;
+    --dykem-tint: #1a2446;
+    --focus: #a3b8ff;
+    --focus-on-granite: #a3b8ff;
     --highlight: #5c4a00;
     --accept: #7dd69c;
     --accept-bg: #10301c;
@@ -83,7 +92,7 @@
     --hazard: #f2c200;
     --hazard-ink: #13171c;
     --paper-glow: #1b2140;
-    --rule-strong: #626880;
+    --rule-strong: #676d69;
     --ember: #f08a5d;
     --on-glow: #ffffff;
     --glow-a: #3b33b8;
@@ -94,20 +103,20 @@
   }
 }
 :root[data-theme="dark"] {
-  --paper: #0d0f15;
-  --surface: #161922;
-  --surface-sunken: #0f1219;
-  --ink: #e9ebf3;
-  --ink-muted: #a5aabc;
-  --rule: #272b38;
-  --granite: #07080c;
-  --on-granite: #eef0f6;
-  --on-granite-muted: #9097aa;
-  --dykem: #a8a3ff;
-  --on-dykem: #110e3a;
-  --dykem-tint: #23214a;
-  --focus: #a8a3ff;
-  --focus-on-granite: #a8a3ff;
+  --paper: #0f1110;
+  --surface: #181a19;
+  --surface-sunken: #111312;
+  --ink: #e8eae6;
+  --ink-muted: #a3a9a5;
+  --rule: #2a2d2b;
+  --granite: #080909;
+  --on-granite: #eceeea;
+  --on-granite-muted: #949a96;
+  --dykem: #a3b8ff;
+  --on-dykem: #0b1840;
+  --dykem-tint: #1a2446;
+  --focus: #a3b8ff;
+  --focus-on-granite: #a3b8ff;
   --highlight: #5c4a00;
   --accept: #7dd69c;
   --accept-bg: #10301c;
@@ -118,7 +127,7 @@
   --hazard: #f2c200;
   --hazard-ink: #13171c;
   --paper-glow: #1b2140;
-  --rule-strong: #626880;
+  --rule-strong: #676d69;
   --ember: #f08a5d;
   --on-glow: #ffffff;
   --glow-a: #3b33b8;

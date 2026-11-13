@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 152 32" width="304" height="64" fill="none">
+  <path fill="#4f46e5" fill-rule="evenodd" d="M11 2H21L27 8V27A3 3 0 0 1 24 30H8A3 3 0 0 1 5 27V8ZM16 6.65a2.1 2.1 0 1 0 0 4.2a2.1 2.1 0 1 0 0-4.2Z"/>
+  <circle cx="16" cy="8.75" r="3.4" stroke="#ffffff" stroke-width="1.2" opacity="0.45"/>
+  <path stroke="#ffffff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="M10 20.5L14.25 24.75L22 15.5"/>
+  <text x="40" y="23" fill="#14151b" font-family="'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="20" font-weight="500" letter-spacing="-0.4">Shift<tspan font-weight="700">Proof</tspan></text>
+</svg>
