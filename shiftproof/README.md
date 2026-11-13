@@ -36,6 +36,8 @@ No key yet? Set `SHIFTPROOF_OFFLINE=1` (or leave the key empty). The app then us
 |---|---|
 | **IBM Granite on watsonx.ai** (`lib/watsonx.ts`, `lib/prompts.ts`) | Finds gaps between the instruction and the veteran's account, asks follow-ups, drafts guide cards, answers apprentice questions from approved cards only |
 | **App code** (`lib/verify.ts`, `lib/store.ts`) | Checks that quotes really appear in the sources, enforces review order, limits answers to approved cards for the right procedure revision |
+| **IBM watsonx Orchestrate** (`orchestrate/`) | Agent `shiftproof_apprentice` gives apprentices the Ask step through Orchestrate. Its one tool calls `POST /api/ask`, so the app's trust rules still apply, and it relays the answer unchanged |
+| **IBM Code Engine** (`Dockerfile`) | Hosts the app (ca-tor, one instance), so Orchestrate can reach it |
 | Next.js + TypeScript | UI and API routes |
 | JSON file store (`.data/`) | Demo persistence. Swap for Cloudant or SQLite later |
 
@@ -47,6 +49,8 @@ The hackathon asks teams to disclose AI tools. Update this list as you go.
 - Claude Sonnet 5.5 (Claude Code subagent): API routes and UI
 - Claude Opus 5.5 (Claude Code + Claude Design): design system (`DESIGN.md`, `design/`) and copy contract (`COPY.md`)
 - OpenAI Codex (GPT-6.1 Sol, medium reasoning): independent read-only security review of the prompts, quote verification and Ask route
+- Claude Sonnet 5.5 (Claude Code subagent): first draft of the Orchestrate tool, agent and README (`orchestrate/`)
+- Claude Opus 5.5 (Claude Code): Dockerfile, Code Engine deploy, Orchestrate import and live tests
 - IBM Bob: AI coding assistant used by the team during the build
 
 ## Not in the MVP

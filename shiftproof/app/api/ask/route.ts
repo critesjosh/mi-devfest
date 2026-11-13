@@ -7,6 +7,7 @@ import { PROCEDURE, PROCEDURE_REVISION } from "@/lib/fixtures";
 import { sampleAsk } from "@/lib/offline";
 import { quoteAppears } from "@/lib/verify";
 import { approvedCardsFor, readState } from "@/lib/store";
+import { buildReply } from "@/lib/reply";
 import { msgOf, parseBody } from "../_util";
 
 export const runtime = "nodejs";
@@ -21,8 +22,8 @@ export async function POST(req: Request) {
   const approved = approvedCardsFor(PROCEDURE, PROCEDURE_REVISION, readState().cards);
 
   if (approved.length === 0) {
-    return NextResponse.json({
-      source: "none",
+    const body = {
+      source: "none" as const,
       model: modelId(),
       in_scope: false,
       no_guidance: true,
@@ -30,7 +31,8 @@ export async function POST(req: Request) {
       missing_information: [],
       cited_cards: [],
       cited_quotes: [],
-    });
+    };
+    return NextResponse.json({ ...body, reply: buildReply(body) });
   }
 
   let result: AskResult;
@@ -55,15 +57,15 @@ export async function POST(req: Request) {
     ? result.cited_quotes.filter((q) => citedCards.some((c) => c.source_quotes.some((s) => quoteAppears(q, s.text))))
     : [];
 
-  return NextResponse.json({
+  const body = {
     source,
     model: modelId(),
-    ...(error ? { error } : {}),
     in_scope: grounded,
     no_guidance: false,
     answer: grounded && result.answer.trim() ? result.answer : "No approved guidance covers this. Ask your lead or quality.",
     missing_information: grounded ? result.missing_information : [],
     cited_cards: citedCards.map((c) => ({ id: c.id, title: c.title, status: c.status })),
     cited_quotes: quotes,
-  });
+  };
+  return NextResponse.json({ ...body, ...(error ? { error } : {}), reply: buildReply(body) });
 }
