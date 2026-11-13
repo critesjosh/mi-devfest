@@ -10,6 +10,7 @@ The product is ShiftProof, in `shiftproof/`. Start with `shiftproof/README.md`. 
 |---|---|
 | Any UI: layout, colour, type, spacing, components | `shiftproof/DESIGN.md` and `shiftproof/design/` |
 | Any text a person sees: UI strings, API error messages, prompts in `lib/prompts.ts` | `shiftproof/COPY.md` |
+| Opening a pull request | `CONTRIBUTING.md` |
 | Which model does what, reviews, commits | `shiftproof/docs/MODEL_ROUTING.md` |
 | Product decisions | `shiftproof/HANDOFF.md`, "Decisions already made". Don't reopen them without the owner. |
 
@@ -26,17 +27,13 @@ The product is ShiftProof, in `shiftproof/`. Start with `shiftproof/README.md`. 
 
 1. `git pull` on `main`, then create a branch named `<your-name>/<what>`, for example `alex/ask-phone-view`.
 2. Keep each PR to one workstream and the files you own (see issue #5). Push early. A draft PR is fine while you work.
-3. In the PR description, include:
-   - **What changed and why**, in a few lines.
-   - **How you checked it**, for example `npm run build`, or the screens you looked at in 375px and 1280px.
-   - **Models used**: which AI model wrote which part.
-   - **Copy changes**: every changed user-facing string, with old text, new text and where it appears. If there are none, write "None".
+3. Follow [`CONTRIBUTING.md`](CONTRIBUTING.md), the PR guide. GitHub pre-fills the description from `.github/pull_request_template.md`. Fill in every section: what and why, workstream and files, how you checked it, **visual proof** (screenshots or a short video for any UI or UX change), trust rules, copy changes, models used, and open questions.
 4. Open it against `main`, and mark it **ready for review** when it is done. You don't need to request a review.
    - **Who runs the loop:** Daniel's orchestrator session (Claude Code) checks for open PRs every minute. It skips drafts, and it picks up each new PR and each new push.
    - **Review:** a model from a different family than the one that wrote the code reviews it (Codex reviews Claude's code, and Claude reviews Codex's or Gemini's). The reviewer is read-only, as `shiftproof/docs/MODEL_ROUTING.md` requires. It checks the diff against this file, `DESIGN.md`, `COPY.md` and the trust rules.
    - **Build and fixes:** the orchestrator runs `npm run build` itself, checks each finding, and fixes the real ones on the PR branch. The next push starts a new review, until the review is clean.
    - **No review after 15 minutes?** Comment on issue #5 and mention Daniel.
-5. A clean PR is squash-merged and its branch deleted. A PR with copy changes waits for Daniel's approval, even when the review finds nothing.
+5. A clean PR is squash-merged and its branch deleted. A PR with copy changes waits for Daniel's approval, and a UI PR waits for visual proof, even when the review finds nothing.
 6. After 5:00 PM (feature freeze), only bug-fix PRs are merged.
 
 ## Check your work
