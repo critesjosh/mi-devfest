@@ -21,6 +21,9 @@ const QUICK = [
   "What spindle speed should I run for the roughing pass?",
 ];
 
+const tagClass = (s: string) =>
+  `sp-tag sp-label${s === "approved" ? " sp-tag--accept" : s === "expert_confirmed" ? " sp-tag--hold" : ""}`;
+
 async function api<T>(url: string, method = "GET", body?: unknown): Promise<T> {
   const res = await fetch(url, { method, headers: body ? { "Content-Type": "application/json" } : undefined, body: body ? JSON.stringify(body) : undefined });
   const data = await res.json().catch(() => ({}));
@@ -32,11 +35,19 @@ function Banner({ meta }: { meta: Meta }) {
   if (meta.source === "sample")
     return (
       <>
-        {meta.error && <div className="banner fail">watsonx.ai call failed: {meta.error} Showing sample output.</div>}
-        <div className="banner sample">Sample output (offline), not a live model call.</div>
+        {meta.error && (
+          <div className="sp-banner sp-banner--fail" role="alert">
+            <span className="sp-banner__stripes" />
+            <span className="sp-banner__text">watsonx.ai call failed: {meta.error} Showing sample output.</span>
+          </div>
+        )}
+        <div className="sp-banner">
+          <span className="sp-banner__stripes" />
+          <span className="sp-banner__text">Sample output (offline), not a live model call.</span>
+        </div>
       </>
     );
-  if (meta.source === "live") return <div className="tag">Granite on watsonx.ai · {meta.model}</div>;
+  if (meta.source === "live") return <div className="sp-source sp-data">Granite on watsonx.ai · {meta.model}</div>;
   return null;
 }
 
@@ -56,7 +67,7 @@ function Highlighted({ text, quotes }: { text: string; quotes: string[] }) {
     pos = e;
   });
   out.push(text.slice(pos));
-  return <pre className="src">{out}</pre>;
+  return <pre className="sp-quote sp-quote__text sp-src">{out}</pre>;
 }
 
 const lines = (a: string[]) => a.join("\n");
@@ -80,33 +91,47 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
   const save = () => run("save", () => api(`/api/cards/${card.id}`, "PUT", { edits: { title: f.title, scope: f.scope, steps: unlines(f.steps), applies_when: unlines(f.applies_when), do_not_apply_when: unlines(f.do_not_apply_when), escalate_if: unlines(f.escalate_if) } }));
   const move = (to: string) => run(to, () => api(`/api/cards/${card.id}/status`, "POST", { to }));
   return (
-    <div className="panel">
-      <p><span className={`status ${card.status}`}>{card.status.replace("_", " ")}</span> <span className="note">{card.procedure} {card.procedure_revision}</span></p>
-      <label className="f" htmlFor={`t-${card.id}`}>Title</label>
-      <input id={`t-${card.id}`} type="text" value={f.title} onChange={set("title")} />
-      <label className="f" htmlFor={`sc-${card.id}`}>Scope</label>
-      <input id={`sc-${card.id}`} type="text" value={f.scope} onChange={set("scope")} />
+    <article className="sp-panel">
+      <div className="sp-finding__head">
+        <span className={tagClass(card.status)}>{card.status.replace("_", " ")}</span>
+        <span className="sp-data sp-muted">{card.procedure} {card.procedure_revision}</span>
+      </div>
+      <div className="sp-field">
+        <label className="sp-field__label" htmlFor={`t-${card.id}`}>Title</label>
+        <input className="sp-field__input" id={`t-${card.id}`} type="text" value={f.title} onChange={set("title")} />
+      </div>
+      <div className="sp-field">
+        <label className="sp-field__label" htmlFor={`sc-${card.id}`}>Scope</label>
+        <input className="sp-field__input" id={`sc-${card.id}`} type="text" value={f.scope} onChange={set("scope")} />
+      </div>
       {([["steps", "Steps (one per line)"], ["applies_when", "Applies when"], ["do_not_apply_when", "Does not apply when"], ["escalate_if", "Escalate if"]] as const).map(([k, label]) => (
-        <div key={k}>
-          <label className="f" htmlFor={`${k}-${card.id}`}>{label}</label>
-          <textarea id={`${k}-${card.id}`} rows={3} value={f[k]} onChange={set(k)} />
+        <div className="sp-field" key={k}>
+          <label className="sp-field__label" htmlFor={`${k}-${card.id}`}>{label}</label>
+          <textarea className="sp-field__input" id={`${k}-${card.id}`} rows={3} value={f[k]} onChange={set(k)} />
         </div>
       ))}
-      <label className="f">Source quotes</label>
-      {card.source_quotes.map((q, i) => <blockquote key={i}><b>{q.source}:</b> {q.text}</blockquote>)}
-      {card.confirmed_by && <p className="note">Confirmed by {card.confirmed_by}</p>}
-      {card.approved_by && <p className="note">Approved by {card.approved_by}</p>}
-      <div className="row">
-        <button onClick={save} disabled={!!busy}>{busy === "save" ? "Saving..." : "Save edits"}</button>
-        <button className="primary" onClick={() => move("expert_confirmed")} disabled={!!busy || card.status !== "candidate" || role !== "Veteran"}>
+      <div className="sp-field">
+        <span className="sp-field__label">Source quotes</span>
+        {card.source_quotes.map((q, i) => (
+          <div key={i} className="sp-quote">
+            <div className="sp-quote__src"><span className="sp-label">{q.source}</span></div>
+            <p className="sp-quote__text">{q.text}</p>
+          </div>
+        ))}
+      </div>
+      {card.confirmed_by && <p className="sp-note">Confirmed by {card.confirmed_by}</p>}
+      {card.approved_by && <p className="sp-note">Approved by {card.approved_by}</p>}
+      <div className="sp-row">
+        <button className="sp-btn" onClick={save} disabled={!!busy}>{busy === "save" ? "Saving..." : "Save edits"}</button>
+        <button className={`sp-btn${card.status === "candidate" ? " sp-btn--primary" : ""}`} onClick={() => move("expert_confirmed")} disabled={!!busy || card.status !== "candidate" || role !== "Veteran"}>
           {busy === "expert_confirmed" ? "Confirming..." : "Confirm my account is accurate"}
         </button>
-        <button className="primary" onClick={() => move("approved")} disabled={!!busy || card.status !== "expert_confirmed" || role !== "Quality lead"}>
+        <button className={`sp-btn${card.status === "expert_confirmed" ? " sp-btn--primary" : ""}`} onClick={() => move("approved")} disabled={!!busy || card.status !== "expert_confirmed" || role !== "Quality lead"}>
           {busy === "approved" ? "Approving..." : "Approve for training"}
         </button>
       </div>
-      <p className="note">Saving edits sends the card back to candidate. Confirm needs the Veteran role; approve needs the Quality lead role.</p>
-    </div>
+      <p className="sp-note">Saving edits sends the card back to candidate. Confirm needs the Veteran role; approve needs the Quality lead role.</p>
+    </article>
   );
 }
 
@@ -154,93 +179,163 @@ export default function Home() {
 
   return (
     <>
-      <header>
-        <h1>ShiftProof</h1>
-        <div className="hdr-controls">
-          <label htmlFor="role">Role</label>
-          <select id="role" value={role} onChange={(e) => pickRole(e.target.value as Role)}>
+      <header className="sp-header">
+        <h1 className="sp-header__title">ShiftProof</h1>
+        <div className="sp-header__controls">
+          <label className="sp-label" htmlFor="role">Role</label>
+          <select className="sp-field__input sp-header__select" id="role" value={role} onChange={(e) => pickRole(e.target.value as Role)}>
             <option>Veteran</option><option>Quality lead</option><option>Apprentice</option>
           </select>
-          <button onClick={reset} disabled={busy === "reset"}>{busy === "reset" ? "Resetting..." : "Reset demo"}</button>
-          <span className="note">Demo roles, not real sign-in</span>
+          <button className="sp-btn sp-btn--on-granite" onClick={reset} disabled={busy === "reset"}>{busy === "reset" ? "Resetting..." : "Reset demo"}</button>
+          <span className="sp-note sp-header__note">Demo roles, not real sign-in</span>
         </div>
       </header>
-      <main>
-        <nav className="tabs" role="tablist">
-          {[["1 Compare", 1], ["2 Review", 2], ["3 Ask", 3]].map(([l, n]) => (
-            <button key={n} role="tab" aria-selected={tab === n} onClick={() => setTab(n as number)}>{l}</button>
+      <main className="sp-main">
+        <nav className="sp-tabs" role="tablist">
+          {([["Compare", 1], ["Review", 2], ["Ask", 3]] as const).map(([l, n]) => (
+            <button key={n} className="sp-tabs__tab" role="tab" aria-selected={tab === n} onClick={() => setTab(n)}>
+              <span className="sp-data">{n}</span>
+              <span className="sp-label">{l}</span>
+            </button>
           ))}
         </nav>
-        {error && <div className="banner fail" role="alert">{error}</div>}
+        {error && (
+          <div className="sp-banner sp-banner--fail" role="alert">
+            <span className="sp-banner__stripes" />
+            <span className="sp-banner__text">{error}</span>
+          </div>
+        )}
 
         {tab === 1 && (
-          <section>
-            <div className="grid2">
-              <div className="panel"><h2>Work instruction WI-114 Rev C</h2><p className="note">Fictional training fixture</p>
-                {app && <Highlighted text={app.fixtures.instruction} quotes={insQuotes} />}</div>
-              <div className="panel"><h2>Veteran notes</h2><p className="note">Fictional training fixture</p>
-                {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} />}</div>
+          <section className="sp-stack">
+            <div className="sp-grid2">
+              <div className="sp-panel">
+                <h2 className="sp-heading">Work instruction WI-114 Rev C</h2>
+                <p className="sp-note">Fictional training fixture</p>
+                {app && <Highlighted text={app.fixtures.instruction} quotes={insQuotes} />}
+              </div>
+              <div className="sp-panel">
+                <h2 className="sp-heading">Veteran notes</h2>
+                <p className="sp-note">Fictional training fixture</p>
+                {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} />}
+              </div>
             </div>
-            <div className="row" style={{ marginBottom: 16 }}>
-              <button className="primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>
+            <div className="sp-row">
+              <button className="sp-btn sp-btn--primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>
             </div>
             {cmp && <Banner meta={cmp} />}
             {findings.map((f) => {
               const ok = f.instruction_quote_verified && f.veteran_quote_verified;
-              const mark = (v: boolean) => <span className={`chip ${v ? "ok" : "bad"}`}>{v ? "verified in source" : "quote not found in source"}</span>;
+              const mark = (v: boolean) => (
+                <span className={`sp-stamp ${v ? "sp-stamp--ok" : "sp-stamp--bad"} sp-label`}>
+                  {v ? "✓ verified in source" : "× quote not found in source"}
+                </span>
+              );
               return (
-                <div key={f.id} className={`panel finding ${ok ? "" : "unverified"}`}>
-                  <h3><span className="badge">{f.type}</span>{f.topic}</h3>
-                  <p className="note">Instruction {f.instruction_step}</p>
-                  <blockquote>{f.instruction_quote}</blockquote>{f.instruction_step !== "none" && mark(f.instruction_quote_verified)}
-                  <p className="note" style={{ marginTop: 8 }}>Veteran</p>
-                  <blockquote>{f.veteran_quote}</blockquote>{mark(f.veteran_quote_verified)}
-                  <p style={{ marginTop: 8 }}><b>Why it matters:</b> {f.why_it_matters}</p>
-                  <p><b>Follow-up:</b> {f.follow_up_question}</p>
+                <article key={f.id} className={`sp-panel sp-finding ${ok ? "" : "sp-finding--unverified"}`}>
+                  <div className="sp-finding__head">
+                    <span className="sp-type sp-label">{f.type}</span>
+                    <span className="sp-data sp-muted">{f.instruction_step}</span>
+                  </div>
+                  <h3>{f.topic}</h3>
+                  <div className="sp-finding__quotes">
+                    <div className="sp-quote">
+                      <div className="sp-quote__src">
+                        <span className="sp-label">Instruction {f.instruction_step}</span>
+                        {f.instruction_step !== "none" && mark(f.instruction_quote_verified)}
+                      </div>
+                      <p className="sp-quote__text">{f.instruction_quote}</p>
+                    </div>
+                    <div className="sp-quote">
+                      <div className="sp-quote__src">
+                        <span className="sp-label">Veteran</span>
+                        {mark(f.veteran_quote_verified)}
+                      </div>
+                      <p className="sp-quote__text">{f.veteran_quote}</p>
+                    </div>
+                  </div>
+                  <p className="sp-field-line"><b>Why it matters:</b> {f.why_it_matters}</p>
+                  <p className="sp-field-line"><b>Follow-up:</b> {f.follow_up_question}</p>
                   {ok ? (
                     <>
-                      <label className="f" htmlFor={`a-${f.id}`}>Expert answer</label>
-                      <textarea id={`a-${f.id}`} rows={3} value={answers[f.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [f.id]: e.target.value })} />
-                      <div className="row"><button className="primary" onClick={() => draft(f.id)} disabled={!!busy}>{busy === "draft-" + f.id ? "Drafting..." : "Draft guide card"}</button></div>
+                      <div className="sp-field">
+                        <label className="sp-field__label" htmlFor={`a-${f.id}`}>Expert answer</label>
+                        <textarea className="sp-field__input" id={`a-${f.id}`} rows={3} value={answers[f.id] ?? ""} onChange={(e) => setAnswers({ ...answers, [f.id]: e.target.value })} />
+                      </div>
+                      <div className="sp-row"><button className="sp-btn sp-btn--primary" onClick={() => draft(f.id)} disabled={!!busy}>{busy === "draft-" + f.id ? "Drafting..." : "Draft guide card"}</button></div>
                     </>
-                  ) : <p className="err">Unverified. This finding cannot become a card.</p>}
-                </div>
+                  ) : <p className="sp-err">Unverified. This finding cannot become a card.</p>}
+                </article>
               );
             })}
             {cmp && cmp.confirmed_matches.length > 0 && (
-              <div className="panel"><h3>Confirmed matches</h3><ul>{cmp.confirmed_matches.map((m, i) => <li key={i}>{m}</li>)}</ul></div>
+              <div className="sp-panel"><h3>Confirmed matches</h3><ul className="sp-list">{cmp.confirmed_matches.map((m, i) => <li key={i}>{m}</li>)}</ul></div>
             )}
           </section>
         )}
 
         {tab === 2 && (
-          <section>
-            <h2>Review guide cards</h2>
-            {cards.length === 0 && <div className="panel"><p>No cards yet. Find gaps, then draft a guide card from a verified finding.</p><button onClick={() => setTab(1)}>Go to Compare</button></div>}
-            {cards.some((c) => c.source_quotes.length) && app && <p className="note">Card drafts: {app.offline ? "Sample output (offline), not a live model call." : `Granite on watsonx.ai · ${app.model}`}</p>}
+          <section className="sp-stack">
+            <h2 className="sp-title">Review guide cards</h2>
+            {cards.length === 0 && (
+              <div className="sp-panel">
+                <p className="sp-field-line">No cards yet. Find gaps, then draft a guide card from a verified finding.</p>
+                <div className="sp-row"><button className="sp-btn sp-btn--primary" onClick={() => setTab(1)}>Go to Compare</button></div>
+              </div>
+            )}
+            {cards.some((c) => c.source_quotes.length) && app && (
+              <Banner meta={{ source: app.offline ? "sample" : "live", model: app.model }} />
+            )}
             {cards.map((c) => <CardEditor key={c.id} card={c} role={role} onChange={load} onError={setError} />)}
           </section>
         )}
 
         {tab === 3 && (
-          <section>
-            <h2>Ask about WI-114</h2>
-            <div className="panel">
-              <p className="note">Answers come only from approved guide cards.</p>
-              <div className="quick">{QUICK.map((q) => <button key={q} onClick={() => { setQuestion(q); doAsk(q); }} disabled={busy === "ask"}>{q}</button>)}</div>
-              <label className="f" htmlFor="q">Your question</label>
-              <textarea id="q" rows={3} value={question} onChange={(e) => setQuestion(e.target.value)} />
-              <div className="row"><button className="primary" onClick={() => doAsk(question)} disabled={busy === "ask" || !question.trim()}>{busy === "ask" ? "Asking..." : "Ask question"}</button></div>
+          <section className="sp-stack">
+            <h2 className="sp-title">Ask about WI-114</h2>
+            <div className="sp-panel">
+              <p className="sp-note">Answers come only from approved guide cards.</p>
+              <div className="sp-quick">{QUICK.map((q) => <button key={q} className="sp-btn sp-quick__btn" onClick={() => { setQuestion(q); doAsk(q); }} disabled={busy === "ask"}>{q}</button>)}</div>
+              <div className="sp-field">
+                <label className="sp-field__label" htmlFor="q">Your question</label>
+                <textarea className="sp-field__input" id="q" rows={3} value={question} onChange={(e) => setQuestion(e.target.value)} />
+              </div>
+              <div className="sp-row"><button className="sp-btn sp-btn--primary" onClick={() => doAsk(question)} disabled={busy === "ask" || !question.trim()}>{busy === "ask" ? "Asking..." : "Ask question"}</button></div>
             </div>
             {ask && (
-              <div className={`panel ${ask.in_scope ? "answer-ok" : "answer-out"}`}>
+              <>
                 <Banner meta={ask} />
-                {ask.in_scope ? <h3>Answer from approved guidance</h3> : <h3>{ask.no_guidance ? "No approved guidance yet" : "Out of scope"}</h3>}
-                <p>{ask.answer}</p>
-                {ask.cited_cards.map((c) => <p key={c.id}><b>Card:</b> {c.title} <span className={`status ${c.status}`}>{c.status.replace("_", " ")}</span></p>)}
-                {ask.cited_quotes.length > 0 && <><p><b>Veteran's words</b></p>{ask.cited_quotes.map((q, i) => <blockquote key={i}>{q}</blockquote>)}</>}
-                {ask.missing_information.length > 0 && <><p><b>Missing information</b></p><ul>{ask.missing_information.map((m, i) => <li key={i}>{m}</li>)}</ul></>}
-              </div>
+                <section className={`sp-answer ${ask.in_scope ? "" : "sp-answer--out"}`}>
+                  <div className="sp-answer__head sp-label">
+                    {ask.in_scope ? "Answer from approved guidance" : ask.no_guidance ? "No approved guidance yet" : "Out of scope"}
+                  </div>
+                  <div className="sp-answer__body">
+                    <p>{ask.answer}</p>
+                    {ask.cited_cards.map((c) => (
+                      <p key={c.id} className="sp-answer__card">
+                        <b>Card:</b> {c.title} <span className={tagClass(c.status)}>{c.status.replace("_", " ")}</span>
+                      </p>
+                    ))}
+                    {ask.cited_quotes.length > 0 && (
+                      <>
+                        <p className="sp-field-line"><b>Veteran's words</b></p>
+                        {ask.cited_quotes.map((q, i) => (
+                          <div key={i} className="sp-quote">
+                            <div className="sp-quote__src"><span className="sp-label">Veteran</span></div>
+                            <p className="sp-quote__text">{q}</p>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                    {ask.missing_information.length > 0 && (
+                      <>
+                        <p className="sp-field-line"><b>Missing information</b></p>
+                        <ul className="sp-list">{ask.missing_information.map((m, i) => <li key={i}>{m}</li>)}</ul>
+                      </>
+                    )}
+                  </div>
+                </section>
+              </>
             )}
           </section>
         )}
