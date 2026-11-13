@@ -2,51 +2,46 @@
 
 ## The idea
 
-The mark is a signed-off inspection tag: the chamfered shop tag with a punched hole that hangs on a part, carrying the first-article check. One shift proves it, the next shift trusts it.
+The mark is a milled pass. One end-mill pass enters a square plate from its edge, cuts an S and stops in a round slot end. It is the veteran's path, left in the part for the next shift to follow.
+
+Concept by GPT-6 Astra ("Shift Relay"), refined by Claude Fable 5.2 into the milled pass.
 
 ## Files
 
 | File | Use |
 |---|---|
-| `mark.svg` | The mark alone, indigo tag with a white check |
+| `mark.svg` | The mark alone, in Dykem blue |
 | `lockup-light.svg` | Mark and wordmark for light backgrounds |
-| `lockup-dark.svg` | Mark and wordmark for the granite rail and other dark backgrounds (paper tag, indigo check) |
+| `lockup-dark.svg` | Mark and wordmark for the granite rail and other dark backgrounds |
 | `app/Brand.tsx`, `app/brand.css` | `BrandMark` and `BrandLockup` for the app, coloured by tokens |
 | `app/icon.svg`, `app/apple-icon.tsx`, `app/manifest.ts` | Favicon, home-screen icon and web manifest |
 
-The lockup SVGs use live text in IBM Plex Sans. Convert the text to outlines before sending them anywhere the font may be missing.
+The lockup SVGs use live text in IBM Plex Sans Condensed. Convert the text to outlines before sending them anywhere the font may be missing.
 
 ## Construction
 
-- 32-unit grid. The tag is 22 wide and 28 tall, with 6-unit chamfers on the top corners and 3-unit radii on the bottom corners.
-- The hole sits on the centre line. It is a real cut-out, so the background shows through.
-- The check is a 3.2-unit stroke with round caps and joins, centred under the hole.
-- The eyelet ring is dropped below 28px. The favicon uses a heavier, simplified drawing.
-- Wordmark: IBM Plex Sans, "Shift" at 500 and "Proof" at 700, tracking -0.02em, no space. The cap height matches the check's height.
+- 64-unit grid, one filled path, no strokes. The plate is 56 units square.
+- The slot is a constant 8 units wide. Walls between runs are 8 units. Every edge sits on a 4-unit grid, so at 16px the slot and walls are 2px each.
+- Outside corners of the slot are rounded (4-unit radius). Inside corners are sharp.
+- The slot is open where it enters on the right edge and ends in a full round end on the left, like a real slot cut.
+- Wordmark: IBM Plex Sans Condensed SemiBold (600), "ShiftProof" in one word, tracking -0.01em.
 
 ## Colour
 
-| Background | Tag | Check |
-|---|---|---|
-| Light (`--paper`, `--surface`) | `--dykem` #4f46e5 | `--on-dykem` #ffffff |
-| Dark (`--granite`) | `--on-granite` #f3f4f8 | `--glow-mid` #4f46e5 |
+| Background | Plate |
+|---|---|
+| Light (`--paper`, `--surface`) | `--dykem` |
+| Dark (`--granite`) | `--on-granite` |
 
-Ember is not part of the mark. It stays a rare accent in the interface.
+The favicon and home-screen icon are a granite tile with a paper plate. Ember is not part of the mark.
 
 ## Clear space and minimum size
 
-- Clear space: the width of the punched hole's eyelet (a quarter of the mark's width) on every side.
-- Minimum size: 16px for the mark, 20px mark height for the lockup.
-
-## Do
-
-- Use the supplied files and components.
-- Keep the tag upright.
-- Let the hole show the background.
+- Clear space: one slot width (an eighth of the mark) on every side.
+- Minimum size: 16px.
 
 ## Don't
 
-- Don't fill the hole, rotate the tag or add a string.
+- Don't close the slot's open entry or square off its round end.
+- Don't rotate or mirror the mark.
 - Don't put a gradient, glow or shadow on the mark.
-- Don't recolour the check separately from the pairs above.
-- Don't set the wordmark in one weight, in capitals, or with a space.
