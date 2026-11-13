@@ -1,0 +1,72 @@
+{
+  "project": "Shop Floor Knowledge Capture",
+  "personas": [
+    {
+      "id": "shop_owner",
+      "role": "Shop Owner / Plant Manager",
+      "archetype": "The Time-Poor Operations Leader",
+      "profile": {
+        "context": "Runs a 20-to-50 person machine or job shop with no dedicated training or documentation department.",
+        "mindset": "Pragmatic, focused on machine uptime, scrap reduction, safety, and margin protection.",
+        "tech_comfort": "Moderate; values low-friction tools with clear ROI that do not pull machinists off production for hours of data entry."
+      },
+      "pain_points": [
+        "Single point of failure: veteran machinists hold decades of undocumented fixes, machine quirks, and setup tweaks in their heads.",
+        "Blind spots: doesn't know which critical steps are missing from official manuals and work instructions until after the veteran leaves.",
+        "Costly onboarding: new hires take months to ramp up, produce scrap on finicky lines, or require expensive OEM service calls.",
+        "Dead documentation: existing SOPs and OEM manuals are outdated or omit the 2-to-5 'secret steps' required to actually run the part.",
+        "Data security concerns: bound by OEM confidentiality or ITAR restrictions, preventing use of generic consumer tools."
+      ],
+      "goals": [
+        "Capture institutional knowledge before a retiring employee's departure date without disrupting floor production.",
+        "Identify gaps between written work instructions/manuals and how jobs are actually run on the floor.",
+        "Understand where knowledge is covered and where critical gaps remain across machines, part numbers, and jobs.",
+        "Reduce time-to-productivity and scrap rates for incoming apprentices."
+      ]
+    },
+    {
+      "id": "outgoing_employee",
+      "role": "Outgoing Employee / Veteran Machinist",
+      "archetype": "The Retiring Master Craftsperson",
+      "profile": {
+        "context": "20+ years of experience as a machinist, tool and die maker, or industrial mechanic; preparing to retire.",
+        "mindset": "Proud of their craft and hard-won expertise; wants to leave a lasting legacy and keep the shop succeeding, but dislikes bureaucracy and desk work.",
+        "tech_comfort": "Prefers hands-on work over keyboards and paperwork."
+      },
+      "pain_points": [
+        "Doesn't want to spend their final months typing up binders of SOPs at a desk.",
+        "Unconscious competence: decades of intuition make critical checks (e.g., shimming a fixture, listening for spindle chatter) feel too 'obvious' to mention unprompted.",
+        "Skepticism of being misrepresented: worried someone else will document a complex setup inaccurately, causing scrap or safety hazards.",
+        "Emotional friction: wants their knowledge respected and credited as mentorship/legacy rather than feeling like a replacement exercise."
+      ],
+      "goals": [
+        "Pass down decades of practical know-how naturally without tedious writing or administrative overhead.",
+        "Surface the subtle 'secret steps' and sensory cues they perform by habit.",
+        "Ensure any documentation created from their expertise is accurate and safe.",
+        "Be recognized and remembered as the expert teaching the next generation."
+      ]
+    },
+    {
+      "id": "new_employee",
+      "role": "New Employee / Apprentice",
+      "archetype": "The Hands-On Floor Learner",
+      "profile": {
+        "context": "Newly hired machinist or apprentice learning to set up, operate, and troubleshoot specific machines and parts.",
+        "mindset": "Eager to perform well and avoid costly mistakes or scrap, but hesitant to constantly interrupt busy senior staff with repetitive questions.",
+        "tech_comfort": "High digital literacy; expects fast, clear, and accessible guidance right where the work happens."
+      },
+      "pain_points": [
+        "Written work instructions skip the real-world adjustments needed to make a part run in tolerance.",
+        "Intimidation and bottlenecks: senior operators are busy or already retired, leaving no one to ask when a setup goes wrong.",
+        "Hostile environment for traditional docs: wearing gloves, surrounded by shop noise, and working at the machine where binders and long manuals are impractical.",
+        "Fear of bad advice: an inaccurate offset or maintenance step can ruin a part, break a tool, or cause an injury."
+      ],
+      "goals": [
+        "Follow clear instructions that include both official specs and the veteran's real-world tips and warnings.",
+        "Get immediate, trustworthy answers to troubleshooting questions while at the machine.",
+        "Understand exactly how the veteran approaches a tricky step, including what to look, listen, or feel for.",
+        "Ramp up to independent operation faster with fewer mistakes."
+      ]
+    }
+  ]
+}

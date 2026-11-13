@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stakeholder Personas — Shop Floor Knowledge Capture</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #182028;
+      --surface-elevated: #202b36;
+      --border: #2c3a47;
+      --text: #e6edf3;
+      --text-muted: #94a3b8;
+      --accent-owner: #38bdf8;
+      --accent-veteran: #f59e0b;
+      --accent-new: #10b981;
+      --danger: #f87171;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 32px 24px 64px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 16px;
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent-veteran);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--surface);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      gap: 4px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      color: var(--text-muted);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 7px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text);
+    }
+
+    .tab-btn.active {
+      background: var(--surface-elevated);
+      color: var(--text);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .status-pill {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-new);
+    }
+
+    /* Grid & Single Profile Layouts */
+    .persona-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+    }
+
+    .persona-grid.single-view {
+      grid-template-columns: 1fr;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* Profile Card */
+    .persona-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .persona-card[data-id="shop_owner"] {
+      border-top: 4px solid var(--accent-owner);
+    }
+    .persona-card[data-id="outgoing_employee"] {
+      border-top: 4px solid var(--accent-veteran);
+    }
+    .persona-card[data-id="new_employee"] {
+      border-top: 4px solid var(--accent-new);
+    }
+
+    .card-header {
+      padding: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+    }
+
+    .persona-card[data-id="shop_owner"] .avatar {
+      color: var(--accent-owner);
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+    .persona-card[data-id="outgoing_employee"] .avatar {
+      color: var(--accent-veteran);
+      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.3);
+    }
+    .persona-card[data-id="new_employee"] .avatar {
+      color: var(--accent-new);
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .header-meta {
+      flex: 1;
+    }
+
+    .persona-id {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: var(--surface-elevated);
+      padding: 2px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .persona-role {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+    }
+
+    .persona-archetype {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 2px;
+    }
+
+    .card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      flex: 1;
+    }
+
+    /* Profile Attributes Box */
+    .profile-box {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .attr-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .attr-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .attr-value {
+      font-size: 0.92rem;
+      color: var(--text);
+    }
+
+    /* Lists (Pain Points & Goals) */
+    .section-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title.pains {
+      color: var(--danger);
+    }
+
+    .section-title.goals {
+      color: var(--accent-new);
+    }
+
+    .item-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-list li {
+      position: relative;
+      padding: 10px 12px 10px 34px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .item-list li::before {
+      position: absolute;
+      left: 12px;
+      top: 11px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .item-list.pains li {
+      border-left: 3px solid rgba(248, 113, 113, 0.5);
+    }
+    .item-list.pains li::before {
+      content: "!";
+      color: var(--danger);
+    }
+
+    .item-list.goals li {
+      border-left: 3px solid rgba(16, 185, 129, 0.5);
+    }
+    .item-list.goals li::before {
+      content: "✓";
+      color: var(--accent-new);
+    }
+
+    .highlight-lead {
+      font-weight: 600;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <div class="eyebrow">Stakeholder Breakdown</div>
+        <h1 id="project-title">Shop Floor Knowledge Capture</h1>
+      </div>
+      <div class="controls">
+        <div class="tabs" id="filter-tabs">
+          <button class="tab-btn active" data-filter="all">All Stakeholders (3)</button>
+        </div>
+        <div class="status-pill" id="data-status">
+          <span class="status-dot"></span>
+          <span id="status-text">Loaded from personas.json</span>
+        </div>
+      </div>
+    </header>
+
+    <main id="persona-container" class="persona-grid"></main>
+  </div>
+
+  <script>
+    // Fallback embedded copy in case file:// protocol blocks fetch('./personas.json')
+    const FALLBACK_DATA = {
+      "project": "Shop Floor Knowledge Capture",
+      "personas": [
+        {
+          "id": "shop_owner",
+          "role": "Shop Owner / Plant Manager",
+          "archetype": "The Time-Poor Operations Leader",
+          "profile": {
+            "context": "Runs a 20-to-50 person machine or job shop with no dedicated training or documentation department.",
+            "mindset": "Pragmatic, focused on machine uptime, scrap reduction, safety, and margin protection.",
+            "tech_comfort": "Moderate; values low-friction tools with clear ROI that do not pull machinists off production for hours of data entry."
+          },
+          "pain_points": [
+            "Single point of failure: veteran machinists hold decades of undocumented fixes, machine quirks, and setup tweaks in their heads.",
+            "Blind spots: doesn't know which critical steps are missing from official manuals and work instructions until after the veteran leaves.",
+            "Costly onboarding: new hires take months to ramp up, produce scrap on finicky lines, or require expensive OEM service calls.",
+            "Dead documentation: existing SOPs and OEM manuals are outdated or omit the 2-to-5 'secret steps' required to actually run the part.",
+            "Data security concerns: bound by OEM confidentiality or ITAR restrictions, preventing use of generic consumer tools."
+          ],
+          "goals": [
+            "Capture institutional knowledge before a retiring employee's departure date without disrupting floor production.",
+            "Identify gaps between written work instructions/manuals and how jobs are actually run on the floor.",
+            "Understand where knowledge is covered and where critical gaps remain across machines, part numbers, and jobs.",
+            "Reduce time-to-productivity and scrap rates for incoming apprentices."
+          ]
+        },
+        {
+          "id": "outgoing_employee",
+          "role": "Outgoing Employee / Veteran Machinist",
+          "archetype": "The Retiring Master Craftsperson",
+          "profile": {
+            "context": "20+ years of experience as a machinist, tool and die maker, or industrial mechanic; preparing to retire.",
+            "mindset": "Proud of their craft and hard-won expertise; wants to leave a lasting legacy and keep the shop succeeding, but dislikes bureaucracy and desk work.",
+            "tech_comfort": "Prefers hands-on work over keyboards and paperwork."
+          },
+          "pain_points": [
+            "Doesn't want to spend their final months typing up binders of SOPs at a desk.",
+            "Unconscious competence: decades of intuition make critical checks (e.g., shimming a fixture, listening for spindle chatter) feel too 'obvious' to mention unprompted.",
+            "Skepticism of being misrepresented: worried someone else will document a complex setup inaccurately, causing scrap or safety hazards.",
+            "Emotional friction: wants their knowledge respected and credited as mentorship/legacy rather than feeling like a replacement exercise."
+          ],
+          "goals": [
+            "Pass down decades of practical know-how naturally without tedious writing or administrative overhead.",
+            "Surface the subtle 'secret steps' and sensory cues they perform by habit.",
+            "Ensure any documentation created from their expertise is accurate and safe.",
+            "Be recognized and remembered as the expert teaching the next generation."
+          ]
+        },
+        {
+          "id": "new_employee",
+          "role": "New Employee / Apprentice",
+          "archetype": "The Hands-On Floor Learner",
+          "profile": {
+            "context": "Newly hired machinist or apprentice learning to set up, operate, and troubleshoot specific machines and parts.",
+            "mindset": "Eager to perform well and avoid costly mistakes or scrap, but hesitant to constantly interrupt busy senior staff with repetitive questions.",
+            "tech_comfort": "High digital literacy; expects fast, clear, and accessible guidance right where the work happens."
+          },
+          "pain_points": [
+            "Written work instructions skip the real-world adjustments needed to make a part run in tolerance.",
+            "Intimidation and bottlenecks: senior operators are busy or already retired, leaving no one to ask when a setup goes wrong.",
+            "Hostile environment for traditional docs: wearing gloves, surrounded by shop noise, and working at the machine where binders and long manuals are impractical.",
+            "Fear of bad advice: an inaccurate offset or maintenance step can ruin a part, break a tool, or cause an injury."
+          ],
+          "goals": [
+            "Follow clear instructions that include both official specs and the veteran's real-world tips and warnings.",
+            "Get immediate, trustworthy answers to troubleshooting questions while at the machine.",
+            "Understand exactly how the veteran approaches a tricky step, including what to look, listen, or feel for.",
+            "Ramp up to independent operation faster with fewer mistakes."
+          ]
+        }
+      ]
+    };
+
+    const ICONS = {
+      shop_owner: "🏭",
+      outgoing_employee: "🛠️",
+      new_employee: "👷"
+    };
+
+    let personaData = null;
+    let currentFilter = "all";
+
+    function formatBulletText(text) {
+      const colonIndex = text.indexOf(":");
+      if (colonIndex > 0 && colonIndex < 38) {
+        const lead = text.slice(0, colonIndex + 1);
+        const rest = text.slice(colonIndex + 1);
+        return `<span class="highlight-lead">${lead}</span>${rest}`;
+      }
+      return text;
+    }
+
+    function renderTabs(personas) {
+      const tabContainer = document.getElementById("filter-tabs");
+      tabContainer.innerHTML = `
+        <button class="tab-btn ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">
+          All Stakeholders (${personas.length})
+        </button>
+        ${personas.map(p => `
+          <button class="tab-btn ${currentFilter === p.id ? 'active' : ''}" data-filter="${p.id}">
+            ${p.role.split('/')[0].trim()}
+          </button>
+        `).join('')}
+      `;
+
+      tabContainer.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentFilter = btn.dataset.filter;
+          renderTabs(personaData.personas);
+          renderPersonas(personaData.personas);
+        });
+      });
+    }
+
+    function renderPersonas(personas) {
+      const container = document.getElementById("persona-container");
+      const filtered = currentFilter === "all"
+        ? personas
+        : personas.filter(p => p.id === currentFilter);
+
+      container.classList.toggle("single-view", currentFilter !== "all");
+
+      container.innerHTML = filtered.map(p => `
+        <article class="persona-card" data-id="${p.id}">
+          <div class="card-header">
+            <div class="avatar">${ICONS[p.id] || "👤"}</div>
+            <div class="header-meta">
+              <span class="persona-id">${p.id}</span>
+              <h2 class="persona-role">${p.role}</h2>
+              <div class="persona-archetype">${p.archetype}</div>
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="profile-box">
+              <div class="attr-row">
+                <span class="attr-label">Context</span>
+                <span class="attr-value">${p.profile.context}</span>
+              </div>
+              <div class="attr-row">
+                <span class="attr-label">Mindset</span>
+                <span class="attr-value">${p.profile.mindset}</span>
+              </div>
+              <div class="attr-row">
+                <span class="attr-label">Tech Comfort</span>
+                <span class="attr-value">${p.profile.tech_comfort}</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="section-title pains">Pain Points &amp; Frustrations</div>
+              <ul class="item-list pains">
+                ${p.pain_points.map(pt => `<li>${formatBulletText(pt)}</li>`).join("")}
+              </ul>
+            </div>
+
+            <div>
+              <div class="section-title goals">Core Goals &amp; Needs</div>
+              <ul class="item-list goals">
+                ${p.goals.map(g => `<li>${formatBulletText(g)}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    async function loadPersonas() {
+      const statusText = document.getElementById("status-text");
+      try {
+        const res = await fetch("./personas.json", { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        personaData = await res.json();
+        statusText.textContent = "Live from personas.json";
+      } catch (err) {
+        personaData = FALLBACK_DATA;
+        statusText.textContent = "Loaded personas.json (local mode)";
+      }
+
+      document.getElementById("project-title").textContent = personaData.project || "Stakeholder Personas";
+      renderTabs(personaData.personas);
+      renderPersonas(personaData.personas);
+    }
+
+    loadPersonas();
+  </script>
+</body>
+</html>
