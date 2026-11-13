@@ -203,9 +203,15 @@ export default function Home() {
             <path fill="url(#sp-spark)" d="M16 1c1.2 8.2 6.8 13.8 15 15-8.2 1.2-13.8 6.8-15 15-1.2-8.2-6.8-13.8-15-15C9.2 14.8 14.8 9.2 16 1Z" />
           </svg>
         </div>
-        <nav className="sp-tabs" role="tablist" aria-label="Steps">
+        <nav className="sp-tabs" role="tablist" aria-label="Steps" aria-orientation="vertical">
           {([["Compare", 1], ["Review", 2], ["Ask", 3]] as const).map(([l, n]) => (
-            <button key={n} className="sp-tabs__tab" role="tab" aria-selected={tab === n} onClick={() => setTab(n)}>
+            <button key={n} id={`sp-tab-${n}`} className="sp-tabs__tab" role="tab" aria-selected={tab === n} aria-controls={`sp-step-${n}`} tabIndex={tab === n ? 0 : -1}
+              onClick={() => setTab(n)}
+              onKeyDown={(e) => {
+                const next = e.key === "ArrowDown" || e.key === "ArrowRight" ? (n % 3) + 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? ((n + 1) % 3) + 1 : e.key === "Home" ? 1 : e.key === "End" ? 3 : 0;
+                if (!next) return;
+                e.preventDefault(); setTab(next); document.getElementById(`sp-tab-${next}`)?.focus();
+              }}>
               <span className="sp-data">{n}</span>
               <span className="sp-label">{l}</span>
             </button>
@@ -285,7 +291,11 @@ export default function Home() {
         )}
 
         {tab === 1 && (
-          <section className="sp-stack sp-step" key="s1">
+          <section className="sp-stack sp-step" key="s1" id="sp-step-1" role="tabpanel" aria-labelledby="sp-tab-1">
+            <div className="sp-section-head">
+              <p className="sp-note">Granite compares the work instruction with the veteran&apos;s notes. The app checks every quote against its source.</p>
+              <button className="sp-btn sp-btn--primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>
+            </div>
             <div className="sp-grid2">
               <div className="sp-panel">
                 <h2 className="sp-heading">Work instruction WI-114 Rev C</h2>
@@ -297,9 +307,6 @@ export default function Home() {
                 <p className="sp-note">Fictional training fixture</p>
                 {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} />}
               </div>
-            </div>
-            <div className="sp-row">
-              <button className="sp-btn sp-btn--primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>
             </div>
             {cmp && <Banner meta={cmp} />}
             {findings.map((f) => {
@@ -353,7 +360,7 @@ export default function Home() {
         )}
 
         {tab === 2 && (
-          <section className="sp-stack sp-step" key="s2">
+          <section className="sp-stack sp-step" key="s2" id="sp-step-2" role="tabpanel" aria-labelledby="sp-tab-2">
             {cards.length === 0 && (
               <div className="sp-panel">
                 <p className="sp-field-line">No cards yet. Find gaps, then draft a guide card from a verified finding.</p>
@@ -368,7 +375,7 @@ export default function Home() {
         )}
 
         {tab === 3 && (
-          <section className="sp-stack sp-step" key="s3">
+          <section className="sp-stack sp-step" key="s3" id="sp-step-3" role="tabpanel" aria-labelledby="sp-tab-3">
             <div className="sp-panel">
               <p className="sp-note">Answers come only from approved guide cards.</p>
               <div className="sp-quick">{QUICK.map((q) => <button key={q} className="sp-btn sp-quick__btn" onClick={() => { setQuestion(q); doAsk(q); }} disabled={busy === "ask"}>{q}</button>)}</div>

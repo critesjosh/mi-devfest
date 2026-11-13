@@ -107,6 +107,9 @@ body, p { margin: 0; }
 
 /* Step content */
 .sp-main { display: grid; gap: var(--space-4); min-width: 0; }
+/* Phones: the task comes first, the overview follows it */
+@media (max-width: 719px) { .sp-overview { order: 2; } .sp-main { order: 1; } .sp-top { order: 0; } }
+.sp-section-head .sp-note { max-width: var(--measure); flex: 1 1 280px; }
 .sp-step { animation: sp-enter var(--dur-base) var(--ease-out); }
 @keyframes sp-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 .sp-stack { display: grid; gap: var(--space-4); min-width: 0; }

@@ -8,11 +8,11 @@
 - **See it:** serve the folder (`python3 -m http.server 4100 -d design`) and open http://localhost:4100/preview.html.
 - **Copy:** every word a person sees follows [`COPY.md`](COPY.md).
 
-- **Status (Nov 13):** `app/globals.css` and `app/page.tsx` still use the older Carbon-style styles. New UI work should move them onto these tokens and classes, not add more one-off styles.
+- **Status (Nov 13):** the app uses the "Synchro" direction below (a soft industrial dashboard, adapted from a Dribbble reference and chosen over a second concept by an independent model judge). `app/page.tsx` and `app/globals.css` use these tokens and classes.
 
 To change the system, edit `design/tokens.json` or `design/components.css` and this file in the same commit, then ask Daniel to update the Claude Design copy.
 
-ShiftProof looks like the paperwork a machine shop already trusts: a work instruction, an inspection tag, a first-article sheet. It is square, high-contrast and plain. The only bright colours are status colours, and each one means one thing. Build every screen from the tokens and classes below. If you need something they don't cover, add a token here first instead of writing a one-off value in a component.
+ShiftProof looks like a calm industrial dashboard: a dark side rail, a soft lavender page, rounded white panels that float a little, and one gradient source card. Inside that frame, the trust signals stay shop-floor plain: inspection tags, verify stamps, mono source quotes and the hazard-striped sample banner. Status colours each mean one thing. Build every screen from the tokens and classes below. If you need something they don't cover, add a token here first instead of writing a one-off value in a component.
 
 ## Who it is for
 
@@ -26,13 +26,17 @@ ShiftProof looks like the paperwork a machine shop already trusts: a work instru
 2. **Status is a tag, not a tint.** Card status, quote checks and answer scope each use an inspection-tag colour together with a word: CANDIDATE, EXPERT CONFIRMED, APPROVED, VERIFIED IN SOURCE, QUOTE NOT FOUND, NO APPROVED GUIDANCE. Never show colour without the word.
 3. **One accent, for the next action.** `dykem` goes on the primary button of a step and on links. Nothing decorative is blue.
 4. **Never dress up sample output.** Sample (offline) output always carries the hazard-striped banner. Live output carries the source line with the model ID.
-5. **Square and ruled.** `radius-0` everywhere. Panels are outlined with a `border-hairline` in `rule`, and controls with `border-control` in `ink`. No shadows, gradients or glass.
+5. **Soft frame, hard evidence.** Panels use `radius-panel` and the one `shadow-panel`. Buttons, tags and stamps are pills. The only gradient is the source card (`glow-a` to `glow-b`) and the findings meter. Evidence (quotes, stamps, banners) keeps hard edges, strong borders and mono type.
+6. **Real numbers only.** Every count, meter and chart segment comes from app state. No decorative charts, no invented machines or metrics.
 
 ## Colour
 
-- Page: `paper`. Panels and fields: `surface`. Source document panes and quote bodies: `surface-sunken`.
+- Page: `paper`, with `paper-glow` washed over the top. Panels and fields: `surface`. Source document panes and quote bodies: `surface-sunken`.
+- Hairlines: `rule` (decorative). Field and secondary-button outlines: `rule-strong` (3:1).
 - Text: `ink` on paper, surface and surface-sunken. Secondary text: `ink-muted` on the same grounds.
-- Header band: `granite`, with `on-granite` text and `on-granite-muted` for the demo-roles note. Controls in the header use `sp-btn--on-granite` and the `focus-on-granite` ring.
+- Side rail (bottom bar under 900px): `granite`, with `on-granite` for the current step text and `on-granite-muted` for the others. The current step fills with `dykem`. `sp-btn--on-granite` is the dark Reset pill in the top bar.
+- Source card: a `glow-a` to `dykem` to `glow-b` gradient with `on-glow` text. It shows the configured model line or the sample banner, never anything else.
+- `ember` only as the warm end of gradients and the candidate segment of the card chart.
 - Accent: `dykem` fill with `on-dykem` text for primary buttons. `dykem-tint` for hover on secondary buttons and quick-question rows.
 - Status, always with a word:
   - `accept` on `accept-bg`: approved cards, verified quotes, answers from approved guidance.
@@ -46,7 +50,7 @@ ShiftProof looks like the paperwork a machine shop already trusts: a work instru
 
 Three IBM Plex families, loaded from Google Fonts by `components.css`:
 
-- `display` (Plex Sans Condensed) for `title`, `heading` and `label`. `label` is always uppercase with 0.06em tracking (`sp-label`), like the lettering on a stamp or a drawing title block.
+- `display` (Plex Sans, weight 500, tight tracking) for the page title, `title` and `heading`. `label` is 12px uppercase with 0.06em tracking (`sp-label`), like the lettering on a stamp.
 - `sans` (Plex Sans) for `body`, `body-strong` and `note`. Inputs are 16px so phones don't zoom.
 - `mono` (Plex Mono) for `quote` (text copied from a source) and `data` (dimensions, tolerances, step numbers, model and card IDs, with tabular figures).
 
@@ -55,16 +59,20 @@ Keep answers and card steps under `measure` (68ch). Headings use `text-wrap: bal
 ## Space, shape and layout
 
 - Spacing steps: `space-1` 4, `space-2` 8, `space-3` 12, `space-4` 16, `space-6` 24, `space-8` 32. Lay out siblings with flex or grid and `gap`. Avoid per-element margins.
-- Page: max width 1100px, side gutter `space-4`. Panels stack with `space-4` between them.
+- Shell: the rail is `rail-width` wide at 900px and up; below that it becomes a fixed bottom bar and the page reserves room for it. Content max width `page-max`, side gutter `space-4` (phone) or `space-8`.
+- Top bar: eyebrow (ShiftProof · WI-114 Rev C), the step as the page title, then the role pill, Reset pill and demo-roles note.
+- Overview: three tiles (findings, guide cards donut, source card). At 720px and up they sit above the step; on phones they become a swipeable row below the step, so the task comes first.
+- Panels stack with `space-4` between them.
 - Compare shows the two sources side by side and stacks them below 720px. Findings stack the same way.
-- Corners: `radius-0`. Only inspection tags and verify stamps use `radius-tag` (2px), and only the tag's punch hole uses `radius-hole`.
+- Corners: `radius-panel` (20px) for panels and answers, `radius-inner` (12px) for quotes, fields, banners and tiles, `radius-pill` for buttons, tags, stamps and the role picker.
+- Motion: `dur-fast` with `ease-out` for hover and press (buttons scale to 0.97 on press), `dur-base` for the step change and the chart. All motion is off under `prefers-reduced-motion`.
 
 ## Components
 
 | Component | Class | Use it for |
 |---|---|---|
 | Button | `sp-btn`, `sp-btn--primary`, `sp-btn--on-granite` | Every action. One primary per step. |
-| StepTabs | `sp-tabs`, `sp-tabs__tab` | The three operations: 1 Compare, 2 Review, 3 Ask. Numbered because the order matters. |
+| StepTabs | `sp-tabs`, `sp-tabs__tab` | The three operations: 1 Compare, 2 Review, 3 Ask, in the rail. Numbered because the order matters. Arrow keys, Home and End move between steps. |
 | SourceQuote | `sp-quote` | Any words copied from the work instruction or the veteran's notes. |
 | VerifyStamp | `sp-stamp--ok`, `sp-stamp--bad` | The app's check that a quote appears in its source. |
 | InspectionTag | `sp-tag`, `sp-tag--hold`, `sp-tag--accept` | Guide card status. |
@@ -83,7 +91,7 @@ Keep answers and card steps under `measure` (68ch). Headings use `text-wrap: bal
 
 ## Iconography
 
-ShiftProof uses no icon set. Meaning is carried by words in `label` style and by the tag shapes. The only glyphs are ✓ in a verified stamp and × in an unverified one, always next to their words. Don't add emoji or decorative icons.
+ShiftProof uses no icon set. Meaning is carried by words in `label` style and by the tag shapes. The only glyphs are the four-point spark brand mark in the rail, ✓ in a verified stamp and × in an unverified one, always next to their words. Don't add emoji or decorative icons.
 
 ## Writing
 
@@ -92,7 +100,8 @@ All user-facing text follows the copy contract (the Copy section, `COPY.md` in t
 ## Don't
 
 - Don't use the accent for anything but the next action.
-- Don't add rounded cards, shadows, gradients, coloured left-border accents or emoji.
+- Don't add more shadows or gradients than the ones above, coloured left-border accents, glass or emoji.
+- Don't show a number, chart or list that isn't computed from app state.
 - Don't show a status by colour alone.
 - Don't restyle source quotes so they look like the app's own words, or the reverse.
 - Don't write a hex value, a font name or a pixel size in a component. Use a token.
