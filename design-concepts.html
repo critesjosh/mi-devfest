@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Synchro-Inspired Concept 3 — ShiftProof Industrial Knowledge Platform</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #dbe6f3;
+      color: #11131a;
+    }
+
+    .concept-tab.active {
+      background-color: #1e1f29;
+      color: #ffffff;
+      box-shadow: 0 2px 8px rgba(30, 31, 41, 0.25);
+    }
+
+    /* Synchro Atmospheric Backdrop & Shell */
+    .synchro-backdrop {
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.45) 0%, transparent 45%),
+        radial-gradient(circle at 82% 75%, rgba(138, 168, 214, 0.5) 0%, transparent 50%),
+        linear-gradient(135deg, #9fb7d4 0%, #bdcfe6 48%, #9ab2d0 100%);
+    }
+
+    .synchro-shell {
+      background-color: #eff3f8;
+      border-radius: 28px;
+      box-shadow:
+        0 30px 70px -15px rgba(17, 24, 39, 0.28),
+        0 0 0 1px rgba(255, 255, 255, 0.65) inset;
+      overflow: hidden;
+    }
+
+    .synchro-sidebar {
+      background-color: #1e1f29;
+    }
+
+    .synchro-card {
+      background-color: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px -2px rgba(17, 19, 26, 0.04);
+      border: 1px solid #e6ebf2;
+    }
+
+    .synchro-callout {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -4px rgba(17, 19, 26, 0.07);
+      border: 1px solid #e6ebf2;
+    }
+
+    .bar-purple {
+      background: linear-gradient(180deg, #4f46e5 0%, #818cf8 65%, rgba(199, 210, 254, 0.25) 100%);
+    }
+    .bar-purple-soft {
+      background: linear-gradient(180deg, #818cf8 0%, #c7d2fe 70%, rgba(224, 231, 255, 0.2) 100%);
+    }
+    .bar-orange {
+      background: linear-gradient(0deg, #ff662a 0%, #ffa07a 65%, rgba(255, 218, 199, 0.25) 100%);
+    }
+    .bar-orange-soft {
+      background: linear-gradient(0deg, #fdba94 0%, #ffedd5 75%, rgba(255, 237, 213, 0.2) 100%);
+    }
+
+    .production-core-card {
+      background:
+        radial-gradient(circle at 88% 22%, #ff8547 0%, rgba(255, 118, 59, 0.65) 28%, transparent 62%),
+        radial-gradient(circle at 80% 85%, #ff9a62 0%, rgba(255, 154, 98, 0.45) 32%, transparent 65%),
+        radial-gradient(circle at 25% 80%, #7d89ff 0%, rgba(125, 137, 255, 0.45) 40%, transparent 70%),
+        linear-gradient(145deg, #1b1f42 0%, #2a3166 48%, #5b589c 100%);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .browser-frame {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      box-shadow: 0 20px 35px -10px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="min-h-screen p-3 md:p-6">
+
+  <!-- Concept Switcher Header -->
+  <div class="max-w-[1380px] mx-auto mb-5">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white/90 backdrop-blur border border-slate-200/80 rounded-2xl px-5 py-3.5 shadow-sm">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-200">
+            Synchro Dribbble Style
+          </span>
+          <span class="text-xs text-slate-500">ShiftProof • 3-Stakeholder Unified Entry</span>
+        </div>
+        <h1 class="text-lg font-bold text-slate-900 mt-0.5">Main Page Design Concepts (Concept 3 Updated to Synchro UI)</h1>
+      </div>
+
+      <!-- Switcher Buttons -->
+      <div class="flex flex-wrap gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+        <button onclick="switchConcept(3)" id="tab-3" class="concept-tab active px-4 py-2 rounded-lg text-xs font-semibold text-slate-700 transition cursor-pointer">
+          ★ Concept 3: Synchro Industrial Hub
+        </button>
+        <button onclick="switchConcept(1)" id="tab-1" class="concept-tab px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-700 transition cursor-pointer">
+          Concept 1: 3-Door Action Hub
+        </button>
+        <button onclick="switchConcept(2)" id="tab-2" class="concept-tab px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-700 transition cursor-pointer">
+          Concept 2: Machine Bay Directory
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- CONCEPT 3: SYNCHRO-INSPIRED INDUSTRIAL AUTOMATION & KNOWLEDGE PLATFORM    -->
+  <!-- ========================================================================= -->
+  <section id="concept-3" class="max-w-[1380px] mx-auto synchro-backdrop p-4 sm:p-7 md:p-10 rounded-3xl">
+    <div class="synchro-shell flex flex-col lg:flex-row min-h-[780px]">
+
+      <!-- LEFT OBSIDIAN ICON RAIL (Synchro Sidebar) -->
+      <aside class="synchro-sidebar w-full lg:w-[74px] px-4 py-6 flex lg:flex-col items-center justify-between shrink-0">
+        <!-- Brand 4-Point Star Logo -->
+        <div class="flex lg:flex-col items-center gap-6">
+          <button onclick="openActionModal('review', 'WI-114 Bracket Op 20')" title="ShiftProof Synchro Hub" class="w-10 h-10 rounded-xl flex items-center justify-center cursor-pointer">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <defs>
+                <linearGradient id="synchroStar" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FF662A" />
+                  <stop offset="55%" stop-color="#FF8E53" />
+                  <stop offset="100%" stop-color="#5865F2" />
+                </linearGradient>
+              </defs>
+              <path d="M14 2C14.9 8.8 19.2 13.1 26 14C19.2 14.9 14.9 19.2 14 26C13.1 19.2 8.8 14.9 2 14C8.8 13.1 13.1 8.8 14 2Z" stroke="url(#synchroStar)" stroke-width="2.5" fill="none" />
+            </svg>
+          </button>
+
+          <!-- Navigation Icons Mapped to the 3 Personas -->
+          <nav class="flex lg:flex-col items-center gap-3.5">
+            <!-- Active Dashboard / Overview -->
+            <button onclick="setPersonaHighlight('all')" title="Shop Floor Hub (All Roles)" class="w-10 h-10 rounded-xl bg-white/12 text-white flex items-center justify-center transition cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+              </svg>
+            </button>
+
+            <!-- Door 1: Shop Owner — Add Machine -->
+            <button onclick="openActionModal('add')" title="Shop Owner: Add New Machine & SOP" class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 flex items-center justify-center transition cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+              </svg>
+            </button>
+
+            <!-- Door 2: Outgoing Veteran — Give Data -->
+            <button onclick="openActionModal('give', 'Haas VF-2SS • WI-114')" title="Veteran Machinist: Give Data / Voice Capture" class="w-10 h-10 rounded-xl text-slate-400 hover:text-[#FF662A] hover:bg-white/10 flex items-center justify-center transition cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+              </svg>
+            </button>
+
+            <!-- Door 3: New Employee — Review Data & Q&A -->
+            <button onclick="openActionModal('review', 'Haas VF-2SS • WI-114')" title="Apprentice: Review Approved Guides & Ask Q&A" class="w-10 h-10 rounded-xl text-slate-400 hover:text-[#5865F2] hover:bg-white/10 flex items-center justify-center transition cursor-pointer">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+              </svg>
+            </button>
+
+            <div class="hidden lg:block w-6 h-[1px] bg-slate-700/70 my-1"></div>
+
+            <!-- Alerts / Gap Check -->
+            <button onclick="openActionModal('give', 'Haas VF-2SS • WI-114')" title="3 Unwritten Steps Flagged" class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/10 flex items-center justify-center relative transition cursor-pointer">
+              <span class="w-2 h-2 rounded-full bg-[#FF662A] absolute top-2 right-2"></span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+            </button>
+          </nav>
+        </div>
+
+        <!-- Bottom Collapse & User Controls -->
+        <div class="hidden lg:flex flex-col items-center gap-4 text-slate-400">
+          <a href="./personas.html" title="View Stakeholder Personas" class="w-9 h-9 rounded-xl hover:bg-white/10 hover:text-white flex items-center justify-center transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </a>
+        </div>
+      </aside>
+
+      <!-- MAIN SYNCHRO CANVAS -->
+      <div class="flex-1 p-5 sm:p-7 flex flex-col justify-between">
+
+        <!-- TOP HEADER BAR (Matches "Factory Dashboard" + Search Pill + Obsidian Action Pill) -->
+        <header class="flex flex-wrap items-center justify-between gap-4 mb-5">
+          <div class="flex items-center gap-3">
+            <h2 class="text-2xl sm:text-[26px] font-semibold tracking-tight text-[#11131a]">
+              Shop Floor Knowledge Hub
+            </h2>
+            <span class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-white text-slate-700 border border-slate-200/80 shadow-2xs">
+              <span class="w-2 h-2 rounded-full bg-[#FF662A]"></span>
+              Active Machine: <strong id="active-machine-label">Haas VF-2SS (WI-114)</strong>
+            </span>
+          </div>
+
+          <!-- Right Utility Cluster: Search + 3 Stakeholder Quick Pills -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Pill Search -->
+            <div class="relative w-52 sm:w-60">
+              <input
+                type="text"
+                placeholder="Search machine, WI-114, or tip..."
+                class="w-full pl-9 pr-4 py-2 text-xs bg-white rounded-full border border-slate-200/90 text-slate-800 placeholder-slate-400 shadow-2xs focus:outline-none focus:border-[#5865F2]"
+              />
+              <svg class="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-2.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+
+            <!-- STAKEHOLDER ACTION 1: ADD MACHINE (Obsidian Pill w/ Crown/Plus Accent like "Upgrade") -->
+            <button
+              onclick="openActionModal('add')"
+              class="px-4 py-2 rounded-full bg-[#20222c] hover:bg-[#2c2f3d] text-white text-xs font-semibold flex items-center gap-2 shadow-sm transition cursor-pointer"
+            >
+              <span class="text-[#FF8A50] text-sm leading-none">✦</span>
+              <span>+ Add Machine</span>
+            </button>
+
+            <!-- STAKEHOLDER ACTION 2: GIVE DATA (Safety Orange Pill) -->
+            <button
+              onclick="openActionModal('give', 'Haas VF-2SS • WI-114')"
+              class="px-4 py-2 rounded-full bg-[#FF662A] hover:bg-[#e8551b] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition cursor-pointer"
+            >
+              <span>🎙️ Give Data</span>
+            </button>
+
+            <!-- STAKEHOLDER ACTION 3: REVIEW DATA (Royal Periwinkle Pill) -->
+            <button
+              onclick="openActionModal('review', 'Haas VF-2SS • WI-114')"
+              class="px-4 py-2 rounded-full bg-[#5865F2] hover:bg-[#4752c4] text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm transition cursor-pointer"
+            >
+              <span>📖 Review Data</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- =============================================================== -->
+        <!-- UPPER ROW: 60% DIGITAL TWIN CALLOUT STAGE + 40% GAP BAR CHART   -->
+        <!-- =============================================================== -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 mb-5">
+
+          <!-- TOP-LEFT (7 cols): 3D/Visual Machine Stage with Leader-Line Callout Cards -->
+          <div class="lg:col-span-7 relative min-h-[340px] flex items-center justify-center p-2">
+
+            <!-- Floating Callout Card 1: Top-Left (Fixture Shim — Unwritten Step) -->
+            <div
+              onclick="openActionModal('give', 'Haas VF-2SS • Fixture Seating')"
+              class="synchro-callout p-4 w-48 sm:w-52 absolute top-2 left-1 sm:left-2 z-20 cursor-pointer hover:border-[#FF662A] transition group"
+            >
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-800">Fixture Jaw Shim</span>
+                <span class="w-5 h-5 rounded-full bg-[#FF662A] text-white text-xs flex items-center justify-center font-bold">!</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-3">Status: <span class="text-[#FF662A] font-medium">Gap Flagged</span></p>
+              <div class="text-2xl font-bold text-[#11131a] tracking-tight mt-0.5">0.002" Shim</div>
+              <span class="text-xs text-[#FF662A] font-semibold mt-1 inline-block group-hover:underline">Tap to add veteran note →</span>
+            </div>
+
+            <!-- Floating Callout Card 2: Middle-Right (Thermal Cool-Down — Expert Confirmed) -->
+            <div
+              onclick="openActionModal('review', 'Haas VF-2SS • Thermal Cool-Down')"
+              class="synchro-callout p-4 w-52 sm:w-56 absolute top-14 right-1 sm:right-2 z-20 cursor-pointer hover:border-[#5865F2] transition group"
+            >
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-800">First-Article Cooling</span>
+                <span class="w-5 h-5 rounded-md bg-indigo-50 text-[#5865F2] text-xs flex items-center justify-center font-bold">✦</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-3">Status: <span class="text-[#5865F2] font-medium">Approved Card</span></p>
+              <div class="text-2xl font-bold text-[#11131a] tracking-tight mt-0.5">10m @ 20°C</div>
+              <span class="text-xs text-[#5865F2] font-semibold mt-1 inline-block group-hover:underline">Warm part reads +0.002" →</span>
+            </div>
+
+            <!-- Floating Callout Card 3: Bottom-Right (Pocket Bore Check) -->
+            <div
+              onclick="openActionModal('review', 'Haas VF-2SS • Two-Point Bore Check')"
+              class="synchro-callout p-4 w-52 sm:w-56 absolute bottom-3 right-1 sm:right-2 z-20 cursor-pointer hover:border-[#FF662A] transition"
+            >
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-800">Pocket Taper Check</span>
+                <span class="text-[#FF662A] text-xs font-bold">🌡️</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2.5">Status: <span class="text-slate-600 font-medium">Expert Confirmed</span></p>
+              <div class="text-2xl font-bold text-[#11131a] tracking-tight mt-0.5">2-Depth Mic</div>
+            </div>
+
+            <!-- Center CNC / Robotic Spindle Assembly Visual + Leader Lines SVG -->
+            <svg viewBox="0 0 560 330" class="w-full h-full max-h-[330px] select-none" fill="none">
+              <defs>
+                <linearGradient id="armBody" x1="150" y1="40" x2="360" y2="290" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFFFFF" />
+                  <stop offset="55%" stop-color="#E4EAF2" />
+                  <stop offset="100%" stop-color="#C6D1E0" />
+                </linearGradient>
+                <linearGradient id="darkJoint" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2E3244" />
+                  <stop offset="100%" stop-color="#151722" />
+                </linearGradient>
+                <filter id="softShadow" x="-10%" y="-10%" width="120%" height="125%">
+                  <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#1e293b" flood-opacity="0.14" />
+                </filter>
+              </defs>
+
+              <!-- Pedestal & Base Arm -->
+              <g filter="url(#softShadow)">
+                <!-- Lower Base Column -->
+                <path d="M168 320 L205 195 L268 212 L236 320 Z" fill="url(#armBody)" stroke="#dce3ec" />
+                <!-- Main Shoulder Cylinder -->
+                <rect x="135" y="102" width="175" height="92" rx="46" transform="rotate(-18 135 102)" fill="url(#armBody)" stroke="#ffffff" stroke-width="2" />
+                <!-- Synchro Orange Ring Joint -->
+                <circle cx="178" cy="176" r="38" fill="url(#darkJoint)" stroke="#FF662A" stroke-width="4" />
+                <circle cx="178" cy="176" r="24" fill="#252836" stroke="#64748b" stroke-width="1" />
+                <!-- Upper Forearm / Spindle Housing -->
+                <rect x="220" y="72" width="135" height="66" rx="33" transform="rotate(-8 220 72)" fill="url(#armBody)" stroke="#ffffff" stroke-width="2" />
+                <!-- Precision Wrist Collar -->
+                <rect x="322" y="64" width="38" height="56" rx="10" transform="rotate(-8 322 64)" fill="url(#darkJoint)" />
+                <!-- Dual CNC Gripper / Spindle Jaws -->
+                <path d="M356 72 L408 42 L422 54 L378 84 Z" fill="url(#darkJoint)" />
+                <path d="M358 98 L416 108 L412 124 L354 112 Z" fill="url(#darkJoint)" />
+                <!-- Orange Highlight Accent on End Effector -->
+                <rect x="372" y="69" width="16" height="22" rx="4" transform="rotate(-8 372 69)" fill="#FF662A" />
+              </g>
+
+              <!-- Geometric Leader Lines (Matching Synchro Dribbble Shot) -->
+              <!-- Leader Line 1: Top-Left Card to Wrist Collar -->
+              <polyline points="175,68 282,68 282,102" stroke="#cbd5e1" stroke-width="1.5" fill="none" />
+              <circle cx="282" cy="102" r="4" fill="#ffffff" stroke="#94a3b8" stroke-width="2" />
+
+              <!-- Leader Line 2: Middle-Right Card to End-Effector Jaws -->
+              <polyline points="402,52 435,52 435,110" stroke="#cbd5e1" stroke-width="1.5" fill="none" />
+              <circle cx="402" cy="52" r="4" fill="#ffffff" stroke="#5865F2" stroke-width="2" />
+
+              <!-- Leader Line 3: Bottom-Right Card to Lower Base Column -->
+              <polyline points="238,262 365,262" stroke="#cbd5e1" stroke-width="1.5" fill="none" />
+              <circle cx="238" cy="262" r="4" fill="#ffffff" stroke="#FF662A" stroke-width="2" />
+            </svg>
+
+            <!-- Bottom-Left Machine Selector Pill Strip -->
+            <div class="absolute bottom-2 left-2 flex flex-wrap items-center gap-1.5 bg-white/85 backdrop-blur px-2.5 py-1.5 rounded-full border border-slate-200/90 shadow-2xs">
+              <button onclick="selectMachine('Haas VF-2SS (WI-114)')" class="px-2.5 py-1 rounded-full bg-[#1e1f29] text-white text-xs font-semibold cursor-pointer">Haas VF-2SS</button>
+              <button onclick="selectMachine('Mazak QT-250 (WI-208)')" class="px-2.5 py-1 rounded-full hover:bg-slate-100 text-slate-600 text-xs font-medium cursor-pointer">Mazak QT-250</button>
+              <button onclick="selectMachine('Bridgeport Series I')" class="px-2.5 py-1 rounded-full hover:bg-slate-100 text-slate-600 text-xs font-medium cursor-pointer">Bridgeport</button>
+              <button onclick="openActionModal('add')" class="px-2.5 py-1 rounded-full bg-orange-50 text-[#FF662A] hover:bg-orange-100 text-xs font-bold cursor-pointer">+ New</button>
+            </div>
+          </div>
+
+          <!-- TOP-RIGHT (5 cols): Bi-Directional Knowledge Coverage & Gap Capture Chart -->
+          <div class="lg:col-span-5 synchro-card p-6 relative flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <h3 class="text-base font-semibold text-[#11131a]">Written SOP vs. Veteran Know-How</h3>
+                <p class="text-xs text-slate-400">Upper: Written WI-114 Steps • Lower: Unwritten Veteran Rules</p>
+              </div>
+              <button onclick="openActionModal('give', 'Haas VF-2SS • WI-114')" class="px-3 py-1 rounded-full bg-orange-50 hover:bg-orange-100 text-[#FF662A] text-xs font-semibold cursor-pointer">
+                + Give Data
+              </button>
+            </div>
+
+            <!-- Diverging Capsule Bar Chart (Matches Synchro Purple/Orange Chart) -->
+            <div class="relative my-2 py-2">
+              <!-- Y-Axis Labels & Bars Grid -->
+              <div class="grid grid-cols-7 items-center gap-2.5 h-56">
+                <!-- Y-Axis Labels Column -->
+                <div class="flex flex-col justify-between h-full text-xs text-slate-400 font-medium pr-1">
+                  <span>90%</span>
+                  <span>60%</span>
+                  <span>30%</span>
+                  <span class="text-[#FF662A] font-bold">0</span>
+                  <span>30%</span>
+                  <span>60%</span>
+                  <span>90%</span>
+                </div>
+
+                <!-- Col 1: Op 10 -->
+                <div class="flex flex-col items-center justify-center h-full gap-1.5">
+                  <div class="w-full h-1/2 flex items-end">
+                    <div class="w-full h-[52%] rounded-t-xl bar-purple-soft"></div>
+                  </div>
+                  <div class="w-full h-1/2 flex items-start">
+                    <div class="w-full h-[38%] rounded-b-xl bar-orange-soft"></div>
+                  </div>
+                </div>
+
+                <!-- Col 2: Setup -->
+                <div class="flex flex-col items-center justify-center h-full gap-1.5">
+                  <div class="w-full h-1/2 flex items-end">
+                    <div class="w-full h-[68%] rounded-t-xl bar-purple-soft"></div>
+                  </div>
+                  <div class="w-full h-1/2 flex items-start">
+                    <div class="w-full h-[62%] rounded-b-xl bar-orange-soft"></div>
+                  </div>
+                </div>
+
+                <!-- Col 3: Op 20 (ACTIVE HIGHLIGHTED COLUMN — Like "May" in Dribbble Shot) -->
+                <div onclick="openActionModal('give', 'Haas VF-2SS • Op 20 Bracket')" class="flex flex-col items-center justify-center h-full gap-1.5 cursor-pointer group">
+                  <div class="w-full h-1/2 flex items-end">
+                    <div class="w-full h-[88%] rounded-xl bar-purple shadow-md group-hover:scale-[1.03] transition"></div>
+                  </div>
+                  <div class="w-full h-1/2 flex items-start">
+                    <div class="w-full h-[86%] rounded-xl bar-orange shadow-md group-hover:scale-[1.03] transition"></div>
+                  </div>
+                </div>
+
+                <!-- Col 4: Cooling -->
+                <div class="flex flex-col items-center justify-center h-full gap-1.5">
+                  <div class="w-full h-1/2 flex items-end">
+                    <div class="w-full h-[60%] rounded-t-xl bar-purple-soft"></div>
+                  </div>
+                  <div class="w-full h-1/2 flex items-start">
+                    <div class="w-full h-[78%] rounded-b-xl bar-orange-soft"></div>
+                  </div>
+                </div>
+
+                <!-- Col 5: Bore QC -->
+                <div class="flex flex-col items-center justify-center h-full gap-1.5">
+                  <div class="w-full h-1/2 flex items-end">
+                    <div class="w-full h-[42%] rounded-t-xl bar-purple-soft"></div>
+                  </div>
+                  <div class="w-full h-1/2 flex items-start">
+                    <div class="w-full h-[32%] rounded-b-xl bar-orange-soft"></div>
+                  </div>
+                </div>
+
+                <!-- Col 6: Offsets -->
+                <div class="flex flex-col items-center justify-center h-full gap-1.5">
+                  <div class="w-full h-1/2 flex items-end">
+                    <div class="w-full h-[58%] rounded-t-xl bar-purple-soft"></div>
+                  </div>
+                  <div class="w-full h-1/2 flex items-start">
+                    <div class="w-full h-[52%] rounded-b-xl bar-orange-soft"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating Frosted Tooltip Card (Matches "May 2026" Glass Card) -->
+              <div
+                onclick="openActionModal('give', 'WI-114 Op 20')"
+                class="synchro-callout p-3.5 w-52 absolute right-2 top-1/2 -translate-y-1/2 z-10 cursor-pointer hover:border-[#5865F2]"
+              >
+                <div class="text-xs font-bold text-[#11131a]">WI-114 • Op 20</div>
+                <div class="mt-2 space-y-1 text-xs">
+                  <div class="flex items-center justify-between">
+                    <span class="flex items-center gap-1.5 text-slate-600">
+                      <span class="w-2 h-2 rounded-full bg-[#5865F2]"></span>Written SOP
+                    </span>
+                    <span class="font-semibold text-slate-800">5 steps</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="flex items-center gap-1.5 text-slate-600">
+                      <span class="w-2 h-2 rounded-full bg-[#FF662A]"></span>Veteran Gaps
+                    </span>
+                    <span class="font-semibold text-[#FF662A]">3 rules found</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- X-Axis Labels -->
+            <div class="grid grid-cols-7 gap-2.5 text-center text-xs text-slate-400 font-medium pt-1">
+              <span></span>
+              <span>Op 10</span>
+              <span>Setup</span>
+              <span class="text-[#FF662A] font-bold">Op 20</span>
+              <span>Cool</span>
+              <span>Bore</span>
+              <span>Offset</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- =============================================================== -->
+        <!-- LOWER ROW: 33% DONUT METRICS + 37% SYSTEM LOGS + 30% CORE HERO  -->
+        <!-- =============================================================== -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+          <!-- BOTTOM-LEFT (4 cols): "Industrial Metrics" Donut Card -> Shop Owner Coverage -->
+          <div class="lg:col-span-4 synchro-card p-6 flex flex-col justify-between">
+            <div class="flex items-center justify-between">
+              <h3 class="text-base font-semibold text-[#11131a]">Knowledge Coverage</h3>
+              <button onclick="openActionModal('add')" class="px-3 py-1 rounded-full bg-[#f3f6fa] hover:bg-slate-200/70 text-slate-700 text-xs font-medium flex items-center gap-1 cursor-pointer">
+                <span>Bay A</span>
+                <span>∨</span>
+              </button>
+            </div>
+
+            <div class="flex items-center justify-between gap-4 my-4">
+              <!-- Multi-Segment SVG Donut Chart (Matches Synchro 100% Donut) -->
+              <div class="relative w-36 h-36 shrink-0 flex items-center justify-center">
+                <svg viewBox="0 0 120 120" class="w-full h-full -rotate-90">
+                  <!-- Segment 1: Periwinkle (#5865F2) 38% -->
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#5865F2" stroke-width="18" stroke-dasharray="108 289" stroke-dashoffset="0" />
+                  <!-- Segment 2: Safety Orange (#FF662A) 28% -->
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#FF7A45" stroke-width="18" stroke-dasharray="80 289" stroke-dashoffset="-111" />
+                  <!-- Segment 3: Obsidian (#22232E) 20% -->
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#22232E" stroke-width="18" stroke-dasharray="56 289" stroke-dashoffset="-194" />
+                  <!-- Segment 4: Cool Slate (#DCE3EE) 14% -->
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="#DCE3EE" stroke-width="18" stroke-dasharray="36 289" stroke-dashoffset="-253" />
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                  <span class="text-2xl font-bold text-[#11131a] leading-none">100%</span>
+                  <span class="text-xs text-slate-400 mt-1">WI-114 Mapped</span>
+                </div>
+              </div>
+
+              <!-- Legend List -->
+              <div class="flex-1 space-y-2.5 text-xs">
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-slate-700 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-[#5865F2]"></span>Approved Guides
+                  </span>
+                  <span class="text-slate-400 font-semibold">38%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-slate-700 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-[#FF662A]"></span>Veteran Notes
+                  </span>
+                  <span class="text-slate-400 font-semibold">28%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-slate-700 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-[#22232E]"></span>SOP Verified
+                  </span>
+                  <span class="text-slate-400 font-semibold">20%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="flex items-center gap-2 text-slate-700 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-[#94a3b8]"></span>AI Gap Check
+                  </span>
+                  <span class="text-slate-400 font-semibold">14%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM-CENTER (5 cols): "System Logs" -> Veteran & Quality Sign-Off Stream -->
+          <div class="lg:col-span-5 synchro-card p-6 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-base font-semibold text-[#11131a]">Knowledge Capture &amp; Sign-Off Logs</h3>
+              <button onclick="openActionModal('give', 'Haas VF-2SS • WI-114')" class="text-xs font-semibold text-slate-700 underline hover:text-[#5865F2] cursor-pointer">
+                Review All
+              </button>
+            </div>
+
+            <div class="space-y-2">
+              <!-- Row 1 -->
+              <div onclick="openActionModal('review', 'First-Article Thermal Cool-Down')" class="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#f3f6fa] transition cursor-pointer">
+                <div class="flex items-center gap-3">
+                  <span class="w-7 h-7 rounded-full bg-[#eef2f8] text-[#5865F2] flex items-center justify-center text-xs font-bold">❄️</span>
+                  <span class="text-xs font-semibold text-[#11131a]">10-Min Granite Plate Cool</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-[#5865F2] text-white text-xs font-semibold">Approved</span>
+                  <span class="text-xs text-slate-400 hidden sm:inline">Nov 13, 2026</span>
+                  <span class="text-slate-400 text-xs">›</span>
+                </div>
+              </div>
+
+              <!-- Row 2 (Highlighted Row like "Joint Calibration" in Synchro) -->
+              <div onclick="openActionModal('give', 'Hard Stop Seating & 0.001 Shim Check')" class="flex items-center justify-between px-3 py-2.5 rounded-xl bg-[#f3f6fa] hover:bg-slate-200/60 transition cursor-pointer">
+                <div class="flex items-center gap-3">
+                  <span class="w-7 h-7 rounded-full bg-white text-slate-700 flex items-center justify-center text-xs font-bold shadow-2xs">⚙️</span>
+                  <span class="text-xs font-semibold text-[#11131a]">Hard Stop &amp; 0.001" Shim</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-[#2b2e3c] text-white text-xs font-semibold">Hardware</span>
+                  <span class="text-xs text-slate-400 hidden sm:inline">Nov 13, 2026</span>
+                  <span class="text-slate-400 text-xs">›</span>
+                </div>
+              </div>
+
+              <!-- Row 3 -->
+              <div onclick="openActionModal('give', 'Two-Depth Pocket Bore Mic Check')" class="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#f3f6fa] transition cursor-pointer">
+                <div class="flex items-center gap-3">
+                  <span class="w-7 h-7 rounded-full bg-orange-50 text-[#FF662A] flex items-center justify-center text-xs font-bold">🎙️</span>
+                  <span class="text-xs font-semibold text-[#11131a]">Two-Depth Pocket Bore Check</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-[#FF662A] text-white text-xs font-semibold">Veteran Tip</span>
+                  <span class="text-xs text-slate-400 hidden sm:inline">Nov 13, 2026</span>
+                  <span class="text-slate-400 text-xs">›</span>
+                </div>
+              </div>
+
+              <!-- Row 4 -->
+              <div onclick="openActionModal('add')" class="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-[#f3f6fa] transition cursor-pointer">
+                <div class="flex items-center gap-3">
+                  <span class="w-7 h-7 rounded-full bg-indigo-50 text-[#2542b8] flex items-center justify-center text-xs font-bold">🛡️</span>
+                  <span class="text-xs font-semibold text-[#11131a]">WI-114 Rev C Quote Verification</span>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="px-2.5 py-0.5 rounded-full bg-[#2542b8] text-white text-xs font-semibold">Verified</span>
+                  <span class="text-xs text-slate-400 hidden sm:inline">Nov 13, 2026</span>
+                  <span class="text-slate-400 text-xs">›</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM-RIGHT (3 cols): "Production Core" -> Apprentice Q&A Hero Card -->
+          <div onclick="openActionModal('review', 'Haas VF-2SS • Apprentice Q&A')" class="lg:col-span-3 production-core-card p-6 text-white flex flex-col justify-between cursor-pointer group">
+            <div class="relative z-10">
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-semibold tracking-tight">Apprentice Q&amp;A Core</h3>
+                <span class="text-xs px-2 py-0.5 rounded-full bg-white/20 backdrop-blur font-semibold">Ask</span>
+              </div>
+              <p class="text-xs text-white/80 mt-1.5 leading-relaxed">
+                Ask questions on the floor—answers cite approved veteran cards only.
+              </p>
+            </div>
+
+            <!-- Oscilloscope / Spline Wave Curve Graphic (Matches Synchro Bottom-Right Card) -->
+            <div class="relative h-28 my-2 flex items-end">
+              <svg viewBox="0 0 260 110" class="w-full h-full overflow-visible" fill="none">
+                <!-- Dashed Horizontal Grid Lines -->
+                <line x1="0" y1="25" x2="215" y2="25" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 3" />
+                <line x1="0" y1="55" x2="215" y2="55" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 3" />
+                <line x1="0" y1="85" x2="215" y2="85" stroke="rgba(255,255,255,0.22)" stroke-dasharray="3 3" />
+
+                <!-- Right Scale Numbers -->
+                <text x="225" y="28" fill="rgba(255,255,255,0.75)" font-size="10" font-family="sans-serif">1200</text>
+                <text x="225" y="58" fill="rgba(255,255,255,0.75)" font-size="10" font-family="sans-serif">800</text>
+                <text x="225" y="88" fill="rgba(255,255,255,0.75)" font-size="10" font-family="sans-serif">400</text>
+
+                <!-- Smooth Spline Curve -->
+                <path d="M 0 70 Q 75 5, 165 65 T 220 95" stroke="rgba(255,255,255,0.85)" stroke-width="2" fill="none" />
+                <!-- Glowing Node + Vertical Drop Line -->
+                <line x1="165" y1="65" x2="165" y2="110" stroke="#ffffff" stroke-width="1.5" />
+                <circle cx="165" cy="65" r="5" fill="#ffffff" />
+              </svg>
+            </div>
+
+            <div class="relative z-10 flex items-center justify-between text-xs font-semibold bg-white/15 hover:bg-white/25 backdrop-blur px-3.5 py-2 rounded-xl border border-white/20 transition">
+              <span>💬 "First part is 4.0018 in..."</span>
+              <span>→</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- CONCEPT 1: THE 3-DOOR ACTION HUB (TASK-FIRST TRIAGE)      -->
+  <!-- ========================================================= -->
+  <section id="concept-1" class="max-w-[1380px] mx-auto browser-frame hidden">
+    <div class="bg-slate-900 text-white px-6 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-amber-500 text-slate-950 font-black flex items-center justify-center text-sm">SF</div>
+        <div>
+          <span class="font-bold tracking-tight text-base">ShiftProof</span>
+          <span class="hidden sm:inline-block ml-2 text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Concept 1 • 3-Door Action Hub</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="p-6 md:p-10 bg-gradient-to-b from-slate-50 to-white">
+      <div class="max-w-3xl mx-auto text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">What do you need to do on the floor today?</h2>
+        <p class="text-slate-600 mt-2 text-sm md:text-base">Select an action below—mapped to Shop Owner, Outgoing Veteran, and New Apprentice.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl border-2 border-slate-200 p-6 flex flex-col justify-between">
+          <div>
+            <span class="inline-flex text-xs font-bold uppercase px-2.5 py-1 rounded-md bg-sky-50 text-sky-700 border border-sky-200">🏭 Shop Owner</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-4">Add a New Machine</h3>
+            <p class="text-sm text-slate-600 mt-2">Register equipment, upload written work instructions (like WI-114), and flag jobs needing capture.</p>
+          </div>
+          <button onclick="openActionModal('add')" class="mt-6 w-full py-3 px-4 rounded-xl bg-sky-600 text-white font-semibold text-sm cursor-pointer">+ Register Machine &amp; Docs →</button>
+        </div>
+
+        <div class="bg-white rounded-2xl border-2 border-amber-300 p-6 flex flex-col justify-between">
+          <div>
+            <span class="inline-flex text-xs font-bold uppercase px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200">🛠️ Outgoing Veteran</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-4">Give Data About a Machine</h3>
+            <p class="text-sm text-slate-600 mt-2">Compare veteran notes against the SOP, answer follow-ups, and confirm guide cards.</p>
+          </div>
+          <button onclick="openActionModal('give', 'Haas VF-2SS • WI-114')" class="mt-6 w-full py-3 px-4 rounded-xl bg-amber-500 text-slate-950 font-bold text-sm cursor-pointer">🎙️ Share Machine Know-How →</button>
+        </div>
+
+        <div class="bg-white rounded-2xl border-2 border-slate-200 p-6 flex flex-col justify-between">
+          <div>
+            <span class="inline-flex text-xs font-bold uppercase px-2.5 py-1 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">👷 New Employee</span>
+            <h3 class="text-xl font-bold text-slate-900 mt-4">Review Machine Data &amp; Ask</h3>
+            <p class="text-sm text-slate-600 mt-2">Browse approved cards for WI-114 Rev C and ask troubleshooting questions with verified citations.</p>
+          </div>
+          <button onclick="openActionModal('review', 'Haas VF-2SS • WI-114')" class="mt-6 w-full py-3 px-4 rounded-xl bg-emerald-600 text-white font-semibold text-sm cursor-pointer">🔍 Browse Guides &amp; Ask →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- CONCEPT 2: THE MACHINE BAY DIRECTORY (EQUIPMENT-FIRST)    -->
+  <!-- ========================================================= -->
+  <section id="concept-2" class="max-w-[1380px] mx-auto browser-frame hidden">
+    <div class="bg-white border-b border-slate-200 px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <h2 class="text-lg font-bold text-slate-900">Equipment Knowledge Board</h2>
+        <p class="text-xs text-slate-500">Select any machine card to Give Data or Review Approved Guides</p>
+      </div>
+      <button onclick="openActionModal('add')" class="px-4 py-2 rounded-xl bg-sky-600 text-white font-semibold text-sm cursor-pointer">+ Add New Machine</button>
+    </div>
+    <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50">
+      <div class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col justify-between">
+        <div>
+          <span class="text-xs font-mono uppercase px-2 py-0.5 rounded bg-slate-100 text-slate-600">WI-114 • Bracket Op 20</span>
+          <h3 class="text-lg font-bold text-slate-900 mt-2">Haas VF-2SS Mill</h3>
+          <p class="text-xs text-slate-600 mt-2">3 unwritten veteran rules flagged (Jaw shim, 10-min cool-down, 2-depth bore check).</p>
+        </div>
+        <div class="grid grid-cols-2 gap-2 mt-5 pt-4 border-t border-slate-100">
+          <button onclick="openActionModal('give', 'Haas VF-2SS')" class="py-2 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 font-semibold text-xs cursor-pointer">🎙️ Give Data</button>
+          <button onclick="openActionModal('review', 'Haas VF-2SS')" class="py-2 rounded-xl bg-emerald-600 text-white font-semibold text-xs cursor-pointer">📖 Review Data</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- INTERACTIVE ACTION PREVIEW MODAL (SYNCHRO STYLED)         -->
+  <!-- ========================================================= -->
+  <div id="action-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs hidden items-center justify-center p-4 z-50">
+    <div class="bg-white border border-slate-200 rounded-3xl max-w-lg w-full p-6 shadow-2xl">
+      <div class="flex items-start justify-between gap-4 pb-4 border-b border-slate-100">
+        <div>
+          <span id="modal-badge" class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">Role</span>
+          <h3 id="modal-title" class="text-xl font-bold text-[#11131a] mt-2">Action Title</h3>
+        </div>
+        <button onclick="closeActionModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center text-sm font-bold cursor-pointer">✕</button>
+      </div>
+      <div id="modal-body" class="py-4 text-sm text-slate-600 space-y-3"></div>
+      <div class="pt-4 border-t border-slate-100 flex justify-between items-center">
+        <a href="http://localhost:3000" target="_blank" class="text-xs font-semibold text-[#5865F2] hover:underline">Open Running ShiftProof App (localhost:3000) ↗</a>
+        <button onclick="closeActionModal()" class="px-4 py-2 rounded-full bg-[#1e1f29] hover:bg-slate-800 text-white text-xs font-semibold cursor-pointer">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function switchConcept(num) {
+      [1, 2, 3].forEach(n => {
+        document.getElementById(`concept-${n}`).classList.toggle('hidden', n !== num);
+        document.getElementById(`tab-${n}`).classList.toggle('active', n === num);
+      });
+    }
+
+    function selectMachine(name) {
+      document.getElementById('active-machine-label').textContent = name;
+    }
+
+    function openActionModal(type, machine = 'Haas VF-2SS • WI-114') {
+      const modal = document.getElementById('action-modal');
+      const badge = document.getElementById('modal-badge');
+      const title = document.getElementById('modal-title');
+      const body = document.getElementById('modal-body');
+
+      if (type === 'add') {
+        badge.className = 'text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#20222c] text-white';
+        badge.textContent = '✦ Shop Owner — Add Machine & SOP';
+        title.textContent = 'Register Machine & Baseline Procedure';
+        body.innerHTML = `
+          <div class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-500">Machine &amp; Bay</label>
+              <input type="text" value="Haas VF-2SS Vertical Mill • Bay A-1" class="mt-1 w-full px-3.5 py-2 border border-slate-200 rounded-xl text-sm bg-[#f3f6fa]" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-500">Baseline Work Instruction (For Granite Gap Compare)</label>
+              <div class="mt-1 border-2 border-dashed border-indigo-200 bg-indigo-50/50 rounded-2xl p-4 text-center text-xs text-[#5865F2] font-medium">
+                📄 Attached: <strong>WI-114 Rev C — Bracket Op 20 Finish Mill &amp; Bore</strong>
+              </div>
+            </div>
+          </div>
+        `;
+      } else if (type === 'give') {
+        badge.className = 'text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#FF662A] text-white';
+        badge.textContent = '🎙️ Outgoing Veteran — Give Machine Data';
+        title.textContent = `Capture & Confirm: ${machine}`;
+        body.innerHTML = `
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-2xl bg-[#f3f6fa] border border-slate-200 text-xs text-slate-800">
+              <div class="font-bold text-[#FF662A] mb-1">Granite Follow-Up Question (Cooling Gap):</div>
+              "How long do you let the first part cool on the granite plate before checking the 4.000 in length, and what tells you it's ready?"
+            </div>
+            <div class="p-3.5 rounded-2xl bg-orange-50/70 border border-orange-200 text-xs text-slate-800">
+              <strong>Veteran Answer:</strong> "About ten minutes on the granite plate, until it feels the same temperature as the plate. I never touch the offset off a warm part."
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <span class="text-xs text-slate-400">Status: <strong>candidate → expert_confirmed</strong></span>
+              <span class="px-3.5 py-1.5 rounded-full bg-[#5865F2] text-white text-xs font-semibold">✓ Confirm Guide Card</span>
+            </div>
+          </div>
+        `;
+      } else {
+        badge.className = 'text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#5865F2] text-white';
+        badge.textContent = '👷 Apprentice — Review Data & Ask Q&A';
+        title.textContent = `Approved Floor Guidance: ${machine}`;
+        body.innerHTML = `
+          <div class="space-y-3">
+            <div class="p-3.5 rounded-2xl bg-[#f3f6fa] border border-slate-200 text-xs text-slate-800">
+              <div class="font-bold text-[#11131a]">Apprentice Question:</div>
+              <p class="mt-0.5 text-slate-600">"My first part came off the mill at 4.0018 in on the 4.000 in length. Should I dial in a -0.0018 in cutter comp offset before running the next piece?"</p>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 text-xs text-slate-800">
+              <div class="font-bold text-[#5865F2]">ShiftProof Cited Answer:</div>
+              <p class="mt-1"><strong>Do not adjust the offset yet.</strong> Let the part cool on the granite plate for ~10 minutes first. A warm 4 in aluminum part reads ~0.002 in long right off the cycle.</p>
+              <div class="mt-2 text-xs text-slate-500 font-mono">Cited: Card #cooling-gap (Approved • WI-114 Rev C)</div>
+            </div>
+          </div>
+        `;
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeActionModal() {
+      const modal = document.getElementById('action-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  </script>
+</body>
+</html>
