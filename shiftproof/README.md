@@ -56,6 +56,7 @@ The hackathon asks teams to disclose AI tools. Update this list as you go.
 - Claude Fable 5.2 (Claude Code subagent): read-only review of the video concept and storyboard
 - Google Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, Gemini API): reads the video voiceover exactly as written
 - Google Gemini 4 Argon (`gemini-4-argon`, Gemini API): checks the voiceover's wording and timing against the script
+- Google Gemini 4 Argon (Antigravity IDE, Medium): Synchro Industrial Hub UI layout (`app/page.tsx`, `app/globals.css`) and concept mockup (`design-concepts.html`)
 
 ## Not in the MVP
 
