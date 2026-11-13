@@ -27,7 +27,7 @@ ShiftProof looks like a calm industrial dashboard: a dark side rail, a soft lave
 3. **One accent, for the next action.** `dykem` goes on the primary button of a step and on links. Nothing decorative is blue.
 4. **Never dress up sample output.** Sample (offline) output always carries the hazard-striped banner. Live output carries the source line with the model ID.
 5. **Soft frame, hard evidence.** Panels use `radius-panel` and the one `shadow-panel`. Buttons, tags and stamps are pills. The only gradient is the source card (`glow-a` to `glow-b`) and the findings meter. Evidence (quotes, stamps, banners) keeps hard edges, strong borders and mono type.
-6. **Real numbers only.** Every count, meter and chart segment comes from app state. No decorative charts, no invented machines or metrics.
+6. **Real numbers only.** Every count, meter and chart segment comes from app state. No decorative charts, no invented machines or metrics. The one illustration (the spindle arm in the top bar) carries no numbers or labels.
 
 ## Colour
 
@@ -60,12 +60,14 @@ Keep answers and card steps under `measure` (68ch). Headings use `text-wrap: bal
 
 - Spacing steps: `space-1` 4, `space-2` 8, `space-3` 12, `space-4` 16, `space-6` 24, `space-8` 32. Lay out siblings with flex or grid and `gap`. Avoid per-element margins.
 - Shell: the rail is `rail-width` wide at 900px and up; below that it becomes a fixed bottom bar and the page reserves room for it. Content max width `page-max`, side gutter `space-4` (phone) or `space-8`.
-- Top bar: eyebrow (ShiftProof · WI-114 Rev C), the step as the page title, then the role pill, Reset pill and demo-roles note.
+- Top bar: eyebrow (ShiftProof · WI-114 Rev C), the step as the page title, then the role pill, Reset pill and demo-roles note. At 1100px and up a decorative spindle arm (`sp-top__art`, `aria-hidden`, token colours only, dimmed in dark mode) sits between the title and the controls and tucks behind the overview. It is hidden on smaller screens.
 - Overview: three tiles (findings, guide cards donut, source card). At 720px and up they sit above the step; on phones they become a swipeable row below the step, so the task comes first.
 - Panels stack with `space-4` between them.
+- Review card editor (`sp-card`): at 900px and up, title and scope share a row, as do the two applies-when fields, and the action row sticks to the bottom of the window while the card scrolls. Text areas grow with their content. "Edits not saved" shows in the action row while the form differs from the saved card.
+- Ask: when an answer arrives the page scrolls it into view under its source banner. The answer's first paragraph is set one step larger (`sp-answer__lead`), and each cited card sits in a `surface-sunken` row.
 - Compare shows the two sources side by side and stacks them below 720px. Findings stack the same way.
 - Corners: `radius-panel` (20px) for panels and answers, `radius-inner` (12px) for quotes, fields, banners and tiles, `radius-pill` for buttons, tags, stamps and the role picker.
-- Motion: `dur-fast` with `ease-out` for hover and press (buttons scale to 0.97 on press), `dur-base` for the step change and the chart. All motion is off under `prefers-reduced-motion`.
+- Motion: `dur-fast` with `ease-out` for hover and press (buttons scale to 0.97 on press, step tabs to 0.96), `dur-base` for the step change and the chart. All motion is off under `prefers-reduced-motion`.
 
 ## Components
 

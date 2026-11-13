@@ -34,13 +34,14 @@ body {
 .sp-tabs__tab {
   flex: 1; min-height: var(--tab-height); border: 0; border-radius: var(--radius-inner); background: transparent;
   color: var(--on-granite-muted); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+  transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
   touch-action: manipulation;
 }
 .sp-tabs__tab .sp-data { font-size: 15px; line-height: 20px; }
 .sp-tabs__tab .sp-label { font-size: 11px; letter-spacing: 0.04em; }
 @media (hover: hover) { .sp-tabs__tab:hover { color: var(--on-granite); } }
 .sp-tabs__tab[aria-selected="true"] { background: var(--dykem); color: var(--on-dykem); }
+.sp-tabs__tab:active { transform: scale(0.96); }
 .sp-tabs__tab:focus-visible { outline-color: var(--focus-on-granite); }
 
 /* Source quote: words copied from a document */
@@ -103,7 +104,7 @@ mark, .sp-mark { background: var(--highlight); color: var(--ink); border-radius:
   transition: border-color var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
 }
 .sp-field__input:focus { border-color: var(--dykem); box-shadow: 0 0 0 4px var(--dykem-tint); }
-textarea.sp-field__input { resize: vertical; }
+textarea.sp-field__input { resize: vertical; field-sizing: content; min-height: calc(var(--space-6) * 4); max-height: 60vh; }
 .sp-field__hint { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
 
 @media (prefers-reduced-motion: reduce) {

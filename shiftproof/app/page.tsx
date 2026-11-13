@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Card, CheckedFinding } from "@/lib/schemas";
 
 type Role = "Veteran" | "Quality lead" | "Apprentice";
@@ -70,6 +70,36 @@ function Highlighted({ text, quotes }: { text: string; quotes: string[] }) {
   return <pre className="sp-quote sp-quote__text sp-src">{out}</pre>;
 }
 
+/* Decorative only: a CNC spindle arm, after the competing concept. No numbers, no data. */
+function SpindleArt() {
+  return (
+    <div className="sp-top__art" aria-hidden="true">
+      <svg viewBox="96 4 330 214" fill="none" focusable="false">
+        <defs>
+          <linearGradient id="sp-arm" x1="150" y1="20" x2="360" y2="210" gradientUnits="userSpaceOnUse">
+            <stop offset="0" style={{ stopColor: "var(--surface)" }} />
+            <stop offset="0.6" style={{ stopColor: "var(--rule)" }} />
+            <stop offset="1" style={{ stopColor: "var(--rule-strong)" }} />
+          </linearGradient>
+        </defs>
+        <ellipse className="sp-art__floor" cx="214" cy="212" rx="96" ry="6" />
+        <path className="sp-art__body sp-art__edge" d="M180 214 L212 122 L270 136 L242 214 Z" />
+        <rect className="sp-art__body sp-art__seam" x="150" y="62" width="155" height="74" rx="37" transform="rotate(-16 150 62)" />
+        <circle className="sp-art__joint sp-art__ring" cx="190" cy="118" r="30" />
+        <circle className="sp-art__joint sp-art__hub" cx="190" cy="118" r="17" />
+        <rect className="sp-art__body sp-art__seam" x="228" y="42" width="120" height="52" rx="26" transform="rotate(-8 228 42)" />
+        <rect className="sp-art__joint" x="318" y="36" width="32" height="44" rx="8" transform="rotate(-8 318 36)" />
+        <path className="sp-art__joint" d="M346 42 L392 18 L404 28 L364 52 Z" />
+        <path className="sp-art__joint" d="M348 64 L398 72 L394 86 L344 76 Z" />
+        <rect className="sp-art__warm" x="360" y="40" width="14" height="18" rx="4" transform="rotate(-8 360 40)" />
+        <polyline className="sp-art__lead" points="112,42 276,42 276,68" />
+        <circle className="sp-art__pin sp-art__pin--warm" cx="276" cy="68" r="4" />
+        <circle className="sp-art__pin" cx="398" cy="23" r="4" />
+      </svg>
+    </div>
+  );
+}
+
 const lines = (a: string[]) => a.join("\n");
 const unlines = (s: string) => s.split("\n").map((x) => x.trim()).filter(Boolean);
 
@@ -90,12 +120,15 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
   };
   const save = () => run("save", () => api(`/api/cards/${card.id}`, "PUT", { edits: { title: f.title, scope: f.scope, steps: unlines(f.steps), applies_when: unlines(f.applies_when), do_not_apply_when: unlines(f.do_not_apply_when), escalate_if: unlines(f.escalate_if) } }));
   const move = (to: string) => run(to, () => api(`/api/cards/${card.id}/status`, "POST", { to }));
+  const dirty = f.title !== card.title || f.scope !== card.scope || f.steps !== lines(card.steps) || f.applies_when !== lines(card.applies_when)
+    || f.do_not_apply_when !== lines(card.do_not_apply_when) || f.escalate_if !== lines(card.escalate_if);
   return (
-    <article className="sp-panel">
+    <article className="sp-panel sp-card" aria-busy={!!busy}>
       <div className="sp-finding__head">
         <span className={tagClass(card.status)}>{card.status.replace("_", " ")}</span>
         <span className="sp-data sp-muted">{card.procedure} {card.procedure_revision}</span>
       </div>
+      <div className="sp-card__form">
       <div className="sp-field">
         <label className="sp-field__label" htmlFor={`t-${card.id}`}>Title</label>
         <input className="sp-field__input" id={`t-${card.id}`} type="text" value={f.title} onChange={set("title")} />
@@ -105,11 +138,12 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
         <input className="sp-field__input" id={`sc-${card.id}`} type="text" value={f.scope} onChange={set("scope")} />
       </div>
       {([["steps", "Steps (one per line)"], ["applies_when", "Applies when"], ["do_not_apply_when", "Does not apply when"], ["escalate_if", "Escalate if"]] as const).map(([k, label]) => (
-        <div className="sp-field" key={k}>
+        <div className={`sp-field${k === "steps" || k === "escalate_if" ? " sp-card__wide" : ""}`} key={k}>
           <label className="sp-field__label" htmlFor={`${k}-${card.id}`}>{label}</label>
           <textarea className="sp-field__input" id={`${k}-${card.id}`} rows={3} value={f[k]} onChange={set(k)} />
         </div>
       ))}
+      </div>
       <div className="sp-field">
         <span className="sp-field__label">Source quotes</span>
         {card.source_quotes.map((q, i) => (
@@ -119,9 +153,13 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
           </div>
         ))}
       </div>
-      {card.confirmed_by && <p className="sp-note">Confirmed by {card.confirmed_by}</p>}
-      {card.approved_by && <p className="sp-note">Approved by {card.approved_by}</p>}
-      <div className="sp-row">
+      {(card.confirmed_by || card.approved_by) && (
+        <div className="sp-row sp-card__sign">
+          {card.confirmed_by && <p className="sp-note">Confirmed by {card.confirmed_by}</p>}
+          {card.approved_by && <p className="sp-note">Approved by {card.approved_by}</p>}
+        </div>
+      )}
+      <div className="sp-row sp-card__actions">
         <button className="sp-btn" onClick={save} disabled={!!busy}>{busy === "save" ? "Saving..." : "Save edits"}</button>
         <button className={`sp-btn${card.status === "candidate" ? " sp-btn--primary" : ""}`} onClick={() => move("expert_confirmed")} disabled={!!busy || card.status !== "candidate" || role !== "Veteran"}>
           {busy === "expert_confirmed" ? "Confirming..." : "Confirm my account is accurate"}
@@ -129,6 +167,7 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
         <button className={`sp-btn${card.status === "expert_confirmed" ? " sp-btn--primary" : ""}`} onClick={() => move("approved")} disabled={!!busy || card.status !== "expert_confirmed" || role !== "Quality lead"}>
           {busy === "approved" ? "Approving..." : "Approve for training"}
         </button>
+        {dirty && <span className="sp-note sp-card__dirty" role="status">Edits not saved</span>}
       </div>
       <p className="sp-note">Saving edits sends the card back to candidate. Confirm needs the Veteran role; approve needs the Quality lead role.</p>
     </article>
@@ -145,6 +184,12 @@ export default function Home() {
   const [ask, setAsk] = useState<AskRes | null>(null);
   const [busy, setBusy] = useState("");
   const [error, setError] = useState("");
+  const answerRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!ask || !answerRef.current) return;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    answerRef.current.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });
+  }, [ask]);
 
   const load = useCallback(async () => {
     try {
@@ -225,6 +270,7 @@ export default function Home() {
             <span className="sp-top__eyebrow"><span className="sp-label">ShiftProof</span><span aria-hidden="true">·</span><span className="sp-data">WI-114 Rev C</span></span>
             <h1 className="sp-header__title">{titles[tab - 1]}</h1>
           </div>
+          <SpindleArt />
           <div className="sp-header__controls">
             <label className="sp-role" htmlFor="role">
               <span className="sp-label">Role</span>
@@ -388,12 +434,12 @@ export default function Home() {
             {ask && (
               <>
                 <Banner meta={ask} />
-                <section className={`sp-answer ${ask.in_scope ? "" : "sp-answer--out"}`}>
+                <section ref={answerRef} key={`${ask.in_scope}-${ask.answer}`} className={`sp-answer ${ask.in_scope ? "" : "sp-answer--out"}`} aria-live="polite" aria-busy={busy === "ask"}>
                   <div className="sp-answer__head sp-label">
                     {ask.in_scope ? "Answer from approved guidance" : ask.no_guidance ? "No approved guidance yet" : "Out of scope"}
                   </div>
                   <div className="sp-answer__body">
-                    <p>{ask.answer}</p>
+                    <p className="sp-answer__lead">{ask.answer}</p>
                     {ask.cited_cards.map((c) => (
                       <p key={c.id} className="sp-answer__card">
                         <b>Card:</b> {c.title} <span className={tagClass(c.status)}>{c.status.replace("_", " ")}</span>
