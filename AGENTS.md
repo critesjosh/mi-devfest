@@ -31,10 +31,11 @@ The product is ShiftProof, in `shiftproof/`. Start with `shiftproof/README.md`. 
    - **How you checked it**, for example `npm run build`, or the screens you looked at in 375px and 1280px.
    - **Models used**: which AI model wrote which part.
    - **Copy changes**: every changed user-facing string, with old text, new text and where it appears. If there are none, write "None".
-4. Open it against `main`. A review loop picks up every new PR and every new push:
-   - The code is reviewed by a model from a different family than the one that wrote it (Codex reviews Claude's code, and Claude reviews Codex's or Gemini's).
-   - The reviewer checks it against this file, `DESIGN.md`, `COPY.md` and the trust rules, and runs the build.
-   - Findings are fixed on the PR branch. Then the loop reviews again, until the review finds nothing.
+4. Open it against `main`, and mark it **ready for review** when it is done. You don't need to request a review.
+   - **Who runs the loop:** Daniel's orchestrator session (Claude Code) checks for open PRs every minute. It skips drafts, and it picks up each new PR and each new push.
+   - **Review:** a model from a different family than the one that wrote the code reviews it (Codex reviews Claude's code, and Claude reviews Codex's or Gemini's). The reviewer is read-only, as `shiftproof/docs/MODEL_ROUTING.md` requires. It checks the diff against this file, `DESIGN.md`, `COPY.md` and the trust rules.
+   - **Build and fixes:** the orchestrator runs `npm run build` itself, checks each finding, and fixes the real ones on the PR branch. The next push starts a new review, until the review is clean.
+   - **No review after 15 minutes?** Comment on issue #5 and mention Daniel.
 5. A clean PR is squash-merged and its branch deleted. A PR with copy changes waits for Daniel's approval, even when the review finds nothing.
 6. After 5:00 PM (feature freeze), only bug-fix PRs are merged.
 
