@@ -145,6 +145,23 @@ body, p { margin: 0; }
 .sp-grid2 > * { min-width: 0; }
 @media (max-width: 720px) { .sp-grid2 { grid-template-columns: 1fr; } }
 .sp-src { white-space: pre-wrap; max-height: 22.5rem; overflow: auto; }
+/* Scroll cue: the source panes scroll, so the edge that has more text fades and says so. */
+.sp-scroll { position: relative; }
+.sp-scroll .sp-src:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sp-scroll[data-more-below] .sp-src { mask-image: linear-gradient(to bottom, black calc(100% - calc(var(--space-8) + var(--space-4))), transparent); }
+.sp-scroll[data-more-above] .sp-src { mask-image: linear-gradient(to top, black calc(100% - calc(var(--space-8) + var(--space-4))), transparent); }
+.sp-scroll[data-more-above][data-more-below] .sp-src {
+  mask-image: linear-gradient(to bottom, transparent, black calc(var(--space-8) + var(--space-4)), black calc(100% - calc(var(--space-8) + var(--space-4))), transparent);
+}
+.sp-scroll__cue {
+  position: absolute; left: 50%; transform: translateX(-50%); z-index: 1;
+  min-height: var(--space-8); padding: 0 var(--space-3); border: var(--border-hairline) solid var(--rule-strong);
+  border-radius: var(--radius-pill); background: var(--surface); color: var(--ink); box-shadow: var(--shadow-panel);
+  cursor: pointer; white-space: nowrap;
+}
+.sp-scroll__cue--down { bottom: var(--space-2); }
+.sp-scroll__cue--up { top: var(--space-2); }
+@media (hover: hover) { .sp-scroll__cue:hover { border-color: var(--dykem); color: var(--dykem); } }
 .sp-row { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
 .sp-quick { display: grid; gap: var(--space-2); }
 .sp-quick__btn { text-align: left; font-weight: 400; padding: var(--space-3) var(--space-4); }
