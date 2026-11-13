@@ -52,6 +52,7 @@ paths:
                   - in_scope
                   - no_guidance
                   - answer
+                  - reply
                   - missing_information
                   - cited_cards
                   - cited_quotes
@@ -87,6 +88,12 @@ paths:
                     description: >-
                       The text to show the apprentice, unchanged. When in_scope
                       is false, this is the fixed refusal written by the server.
+                  reply:
+                    type: string
+                    description: >-
+                      The complete text to show the apprentice: the answer,
+                      cited card titles, cited quotes and the source line,
+                      assembled by the server. Show it exactly as returned.
                   missing_information:
                     type: array
                     description: >-
