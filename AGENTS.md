@@ -19,7 +19,24 @@ The product is ShiftProof, in `shiftproof/`. Start with `shiftproof/README.md`. 
 2. **Copy.** Only Anthropic models (Claude) and people on the team may write user-facing text. Other models must not add, reword or remove it: keep the existing string and list what you need under "Copy needed" in your summary or PR description. Every copy change lists old and new text under "Copy changes" and needs the owner's approval.
 3. **Trust rules live in app code**, not prompts: quote verification (`lib/verify.ts`), review order (`lib/store.ts`), approved-cards-only Ask, and server-side citation filtering. Don't weaken them. Never present sample (offline) output as live.
 4. **Secrets.** Never commit `.env.local`, API keys, project IDs or tokens, and never print their values. Only `.env.example` with empty values is tracked.
-5. **Commits.** Delegated agents don't commit. The supervising session reviews, tests and commits, and notes which model wrote what. Keep the AI-tool list in `shiftproof/README.md` current.
+5. **Commits.** Delegated agents don't commit. The supervising session reviews, tests and commits, and notes which model wrote what in the commit message. Keep the AI-tool list in `shiftproof/README.md` current.
+6. **Pull requests only. Never push to `main`.** Every change, however small, goes on a branch and through a PR (see below).
+
+## Pull requests
+
+1. `git pull` on `main`, then create a branch named `<your-name>/<what>`, for example `alex/ask-phone-view`.
+2. Keep each PR to one workstream and the files you own (see issue #5). Push early. A draft PR is fine while you work.
+3. In the PR description, include:
+   - **What changed and why**, in a few lines.
+   - **How you checked it**, for example `npm run build`, or the screens you looked at in 375px and 1280px.
+   - **Models used**: which AI model wrote which part.
+   - **Copy changes**: every changed user-facing string, with old text, new text and where it appears. If there are none, write "None".
+4. Open it against `main`. A review loop picks up every new PR and every new push:
+   - The code is reviewed by a model from a different family than the one that wrote it (Codex reviews Claude's code, and Claude reviews Codex's or Gemini's).
+   - The reviewer checks it against this file, `DESIGN.md`, `COPY.md` and the trust rules, and runs the build.
+   - Findings are fixed on the PR branch. Then the loop reviews again, until the review finds nothing.
+5. A clean PR is squash-merged and its branch deleted. A PR with copy changes waits for Daniel's approval, even when the review finds nothing.
+6. After 5:00 PM (feature freeze), only bug-fix PRs are merged.
 
 ## Check your work
 
