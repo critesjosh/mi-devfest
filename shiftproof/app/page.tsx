@@ -284,7 +284,7 @@ export default function Home() {
               </div>
             )}
             {cards.some((c) => c.source_quotes.length) && app && (
-              <Banner meta={{ source: app.offline ? "sample" : "live", model: app.model }} />
+              <p className="sp-note">Card drafts: {app.offline ? "Sample output (offline), not a live model call." : `Granite on watsonx.ai · ${app.model}`}</p>
             )}
             {cards.map((c) => <CardEditor key={c.id} card={c} role={role} onChange={load} onError={setError} />)}
           </section>
