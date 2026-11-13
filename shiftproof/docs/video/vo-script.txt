@@ -1,0 +1,26 @@
+# ShiftProof demo video: voiceover script (final, v1)
+# Written by Claude Opus 5.5. Only Anthropic models or teammates change these words (COPY.md).
+# Gemini TTS reads the spoken lines exactly. Lines starting with '#' are never sent.
+# Format: [beat @ m:ss] then the spoken text. The cue is when the line starts in the video.
+# Spoken forms: "one-fourteen" is WI-114; "two thousandths" is 0.002 in. Captions use the written forms (captions.srt).
+
+[user @ 0:00.3]
+An apprentice's first bracket reads two thousandths over. Work instruction one-fourteen, Rev C, says to adjust the wear offset.
+
+[problem @ 0:09.7]
+The veteran's notes say: wait. A warm part reads long, and chasing the offset makes every part after it short. The instruction doesn't say that.
+
+[compare @ 0:20]
+ShiftProof puts the two side by side. IBM Granite flags what the instruction leaves out, and quotes both sources. The app checks every quote.
+
+[review @ 0:30]
+Granite asks the veteran a follow-up, then drafts a guide card from the answer. The veteran confirms it. The quality lead approves it.
+
+[ask @ 0:40.8]
+Back at the machine, the apprentice asks. The answer uses only approved cards, and cites the veteran's words.
+
+[refuse @ 0:49.5]
+No card covers it? Ask your lead or quality.
+
+[impact @ 0:53.5]
+What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite.
