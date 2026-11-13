@@ -4,7 +4,7 @@ Last updated: 2026-11-13, about 12:30 PM ET. Written by Claude Opus 5.5 so a fre
 
 ## Where things stand
 
-- **Project:** ShiftProof, Michigan DevFest Hackathon 2026, Manufacturing focus. Proposal and constraints: GitHub issue #1 in `critesjosh/mi-devfest`. Alternatives #2–4 were considered and not chosen.
+- **Project:** ShiftProof, Michigan DevFest Hackathon 2026, Manufacturing focus. Proposal and constraints: GitHub issue #1 in `critesjosh/mi-devfest`. Alternatives #2–4 were considered and not chosen (all closed). **Live workstreams, owners and checkpoints: issue #5.**
 - **Deadlines:** MVP demo today. Submit by 5:45 PM ET (hard close 6:00 PM), presentations 6:30 PM. The IBM portal says final submissions close Sun Nov 15, 2:00 PM ET. Treat today as the real deadline until an organizer says otherwise.
 - **Checkpoints:** MVP working 4:30 PM, feature freeze 5:00 PM, 1-minute video uploaded 5:30 PM.
 - **Code:** `shiftproof/` (Next.js 15 + TypeScript). Builds and type-checks. The full golden path passes in a browser in offline mode at 1280px and 375px wide.
