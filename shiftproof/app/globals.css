@@ -215,7 +215,7 @@ body, p { margin: 0; }
 /* Below 900px the card actions stick above the bottom tab bar, so Confirm and Approve stay in reach. */
 @media (max-width: 899px) {
   .sp-card__actions {
-    position: sticky; bottom: var(--tab-height); z-index: 2; background: var(--surface);
+    position: sticky; bottom: calc(var(--tab-height) + var(--space-4) + env(safe-area-inset-bottom)); z-index: 2; background: var(--surface);
     margin: 0 calc(-1 * var(--space-6)); padding: var(--space-3) var(--space-6);
     border-top: var(--border-hairline) solid var(--rule);
   }
