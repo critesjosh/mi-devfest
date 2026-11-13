@@ -1,5 +1,5 @@
-// Drives the ShiftProof golden path in offline mode and captures placeholder screenshots for the deck.
-// Every capture shows the app's own "Sample output (offline)" banner; nothing is cropped off.
+// Drives the ShiftProof golden path and captures screenshots for the deck.
+// Run it against live Granite. In offline mode every capture shows the app's "Sample output (offline)" banner.
 const { chromium } = require("playwright");
 const path = require("path");
 const fs = require("fs");
@@ -36,39 +36,48 @@ async function main() {
   await page.screenshot({ path: path.join(OUT, "01-compare-sources-1280.png"), fullPage: false });
 
   await page.getByRole("button", { name: "Find gaps" }).click();
-  await page.getByText("verified in source").first().waitFor({ timeout: 30000 });
-  await page.waitForTimeout(300);
+  await page.getByText("verified in source").first().waitFor({ timeout: 60000 });
+  await page.waitForTimeout(800);
   await page.screenshot({ path: path.join(OUT, "02-compare-findings-1280-full.png"), fullPage: true });
 
-  // The cooling finding (Step 6) on its own, with the veteran's answer typed in.
-  const cooling = page.locator(".finding", { hasText: "cool" }).first();
+  // The cooling finding on its own, with the veteran's answer typed in.
+  const cooling = page.locator("article.sp-finding", { hasText: /cool|warm|therm/i }).first();
   await cooling.scrollIntoViewIfNeeded();
-  const ta = cooling.locator("textarea");
-  await ta.fill(EXPERT_ANSWER);
-  await page.waitForTimeout(200);
+  await cooling.locator("textarea").fill(EXPERT_ANSWER);
+  await page.mouse.click(5, 5);
+  await page.waitForTimeout(300);
   await cooling.screenshot({ path: path.join(OUT, "02b-finding-cooling-1280.png") });
 
-  // Draft a card from that finding.
+  // Draft a card from that finding. The app moves to Review.
   await cooling.getByRole("button", { name: "Draft guide card" }).click();
-  await page.getByRole("heading", { name: "Review guide cards" }).waitFor({ timeout: 30000 });
-  await page.locator(".status").first().waitFor();
-  await page.waitForTimeout(300);
+  const card = page.locator("article.sp-card").first();
+  await card.waitFor({ timeout: 60000 });
+  await page.waitForTimeout(500);
   await page.screenshot({ path: path.join(OUT, "03-review-candidate-1280-full.png"), fullPage: true });
 
   // Veteran confirms.
-  await page.getByRole("button", { name: "Confirm my account is accurate" }).click();
-  await page.locator(".status.expert_confirmed").waitFor({ timeout: 15000 });
+  await card.getByRole("button", { name: "Confirm my account is accurate" }).click();
+  await card.getByText("expert confirmed").first().waitFor({ timeout: 15000 });
   await page.waitForTimeout(300);
   await page.screenshot({ path: path.join(OUT, "04-review-expert-confirmed-1280-full.png"), fullPage: true });
 
   // Quality lead approves.
   await page.selectOption("#role", "Quality lead");
-  await page.getByRole("button", { name: "Approve for training" }).click();
-  await page.locator(".status.approved").waitFor({ timeout: 15000 });
+  await card.getByRole("button", { name: "Approve for training" }).click();
+  await card.getByText("Approved by").waitFor({ timeout: 15000 });
   await page.waitForTimeout(300);
   await page.screenshot({ path: path.join(OUT, "05-review-approved-1280-full.png"), fullPage: true });
-  const cardPanel = page.locator("main .panel").filter({ has: page.locator(".status.approved") }).first();
-  await cardPanel.screenshot({ path: path.join(OUT, "05b-card-approved-1280.png") });
+  await card.screenshot({ path: path.join(OUT, "05b-card-approved-1280.png") });
+  // The card's head (status, title, scope, steps) and its tail (source quotes, sign-off), for the slide.
+  const box = await card.boundingBox();
+  const form = await card.locator(".sp-card__form").boundingBox();
+  const quotes = await card.getByText("Source quotes").boundingBox();
+  const sign = await card.locator(".sp-card__sign").boundingBox();
+  // boundingBox() is relative to the viewport; a full-page clip needs page coordinates.
+  const sy = await page.evaluate(() => window.scrollY);
+  for (const b of [box, form, quotes, sign]) b.y += sy;
+  await page.screenshot({ path: path.join(OUT, "05c-card-top-1280.png"), fullPage: true, clip: { x: box.x, y: box.y, width: box.width, height: form.y + form.height - box.y + 8 } });
+  await page.screenshot({ path: path.join(OUT, "05d-card-bottom-1280.png"), fullPage: true, clip: { x: box.x, y: quotes.y - 16, width: box.width, height: sign.y + sign.height - quotes.y + 32 } });
 
   await desk.close();
 
@@ -77,22 +86,20 @@ async function main() {
   const p = await phone.newPage();
   await p.goto(BASE, { waitUntil: "networkidle" });
   await p.selectOption("#role", "Apprentice");
-  await p.getByRole("heading", { name: "Ask about WI-114" }).waitFor();
+  await p.locator(".sp-quick__btn").first().waitFor();
   await p.screenshot({ path: path.join(OUT, "06-ask-empty-375.png"), fullPage: false });
 
-  await p.locator(".quick button").first().click();
-  await p.getByRole("heading", { name: "Answer from approved guidance" }).waitFor({ timeout: 30000 });
-  await p.waitForTimeout(300);
+  await p.locator(".sp-quick__btn").first().click();
+  await p.getByText("Answer from approved guidance").waitFor({ timeout: 60000 });
+  await p.waitForTimeout(800);
   await p.screenshot({ path: path.join(OUT, "07-ask-answer-375-full.png"), fullPage: true });
-  const answerPanel = p.locator(".answer-ok");
-  await answerPanel.screenshot({ path: path.join(OUT, "07b-ask-answer-panel-375.png") });
+  await p.locator("section.sp-answer").screenshot({ path: path.join(OUT, "07b-ask-answer-panel-375.png") });
 
-  await p.locator(".quick button").nth(1).click();
-  await p.getByRole("heading", { name: "Out of scope" }).waitFor({ timeout: 30000 });
-  await p.waitForTimeout(300);
+  await p.locator(".sp-quick__btn").nth(1).click();
+  await p.locator("section.sp-answer--out").waitFor({ timeout: 60000 });
+  await p.waitForTimeout(800);
   await p.screenshot({ path: path.join(OUT, "08-ask-refusal-375-full.png"), fullPage: true });
-  const outPanel = p.locator(".answer-out");
-  await outPanel.screenshot({ path: path.join(OUT, "08b-ask-refusal-panel-375.png") });
+  await p.locator("section.sp-answer--out").screenshot({ path: path.join(OUT, "08b-ask-refusal-panel-375.png") });
 
   await phone.close();
   await browser.close();

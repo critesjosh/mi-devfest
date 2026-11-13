@@ -239,7 +239,7 @@ const steps = [
   {
     head: "1 Compare",
     who: "Veteran",
-    text: "Granite reads the work instruction beside the veteran's notes. It flags what the instruction leaves out, quotes both sources, and asks a follow-up question. The app checks every quote.",
+    text: "Granite reads the work instruction beside the veteran's notes. It flags what the instruction leaves out, quotes both sources, and asks a follow-up question. The app checks the quotes against the sources.",
   },
   {
     head: "2 Review",
@@ -272,7 +272,7 @@ s.addNotes(
 // 5. Compare
 // ==================================================================
 s = pres.addSlide({ masterName: "PAPER", sectionTitle: "Demo" });
-s.addText("Compare: Granite flags what the instruction leaves out, and the app checks every quote", { placeholder: "title" });
+s.addText("Compare: Granite flags what the instruction leaves out, and the app checks its quotes", { placeholder: "title" });
 const finding = fit("finding.png", { x: 3.35, y: 1.45, w: 6.15, h: 3.2 });
 s.addImage(finding);
 bullets(
@@ -280,12 +280,12 @@ bullets(
   [
     "WI-114 Rev C beside the veteran's notes, both labelled fictional",
     "One finding per gap: omission, ambiguity or conflict",
-    "Both quotes copied word for word, and each one verified against its source by the app",
+    "Quotes copied word for word, and the app checks them against the sources",
     "A follow-up the veteran can answer from experience",
   ],
   { x: 0.5, y: 1.45, w: 2.65, h: 3.3 },
 );
-caption(s, "Placeholder capture from the app in offline mode. Replace with the live run from the freeze check.", { x: 3.35, y: finding.y + finding.h + 0.08, w: 6.15, h: 0.3 });
+caption(s, "Live capture: Granite on watsonx.ai · ibm/granite-4-h-small. Fictional training fixture.", { x: 3.35, y: finding.y + finding.h + 0.08, w: 6.15, h: 0.3 });
 s.addNotes(
   "0:55 to 1:25, Compare. The work instruction sits beside the veteran's notes. Click Find gaps. Granite flags the cooling gap at Step 6, quotes both sources, and the app stamps each quote verified in source. If a quote is not found in the source, the finding is marked and cannot become a card. Then Granite asks the veteran a follow-up, and the veteran types a plain answer.",
 );
@@ -299,7 +299,7 @@ const top = fit("card-top.png", { x: 3.6, y: 1.45, w: 5.9, h: 2.0 });
 s.addImage(top);
 const bottom = fit("card-bottom.png", { x: 3.6, y: top.y + top.h + 0.12, w: 5.9, h: 1.05 });
 s.addImage(bottom);
-caption(s, "Placeholder capture from the app in offline mode. Replace with the live run from the freeze check.", { x: 3.6, y: bottom.y + bottom.h + 0.08, w: 5.9, h: 0.3 });
+caption(s, "Live capture: Granite on watsonx.ai · ibm/granite-4-h-small. Fictional training fixture.", { x: 3.6, y: bottom.y + bottom.h + 0.08, w: 5.9, h: 0.3 });
 
 tag(s, "Candidate", { x: 0.5, y: 1.45, w: 2.3, h: 0.36 });
 arrowDown(s, 1.65, 1.84, 0.22);
@@ -326,19 +326,19 @@ s.addImage(ans);
 label(s, "Out of scope", { x: 3.15, y: 1.45, w: 2.6, h: 0.28, size: 9 });
 const ref = fit("ask-refusal.png", { x: 3.15, y: 1.78, w: 2.45, h: 1.6 });
 s.addImage(ref);
-caption(s, "Placeholder captures, offline mode, 375 px wide. Replace with the live run.", { x: 3.15, y: ref.y + ref.h + 0.1, w: 2.5, h: 0.5 });
+caption(s, "Live captures at 375 px wide. Granite on watsonx.ai.", { x: 3.15, y: ref.y + ref.h + 0.1, w: 2.5, h: 0.5 });
 bullets(
   s,
   [
     "The apprentice asks in their own words, on a phone at the machine",
     "The answer uses only approved cards for WI-114 Rev C and cites the veteran's words",
-    "Nothing approved covers it? The app says so and sends them to a lead. No guesses, no invented numbers.",
+    "Nothing approved covers it? The app says so and sends them to a lead.",
     "No approved card, no model call",
   ],
   { x: 5.9, y: 1.45, w: 3.6, h: 3.4 },
 );
 s.addNotes(
-  "1:50 to 2:15, Ask. Back at the machine, the apprentice asks: my first bracket measured 0.002 over, should I bump the wear offset? The answer comes only from the approved card: let it cool, measure again, then follow the work instruction. It cites the veteran's own words. Then the spindle-speed question: no approved card covers it, so the app says so and sends them to a lead. It never invents a number, and it never says a part is good. That is quality's call.",
+  "1:50 to 2:15, Ask. Back at the machine, the apprentice asks: my first bracket measured 0.002 over, should I bump the wear offset? The answer comes only from the approved card: let it cool, measure again, then follow the work instruction. It cites the veteran's own words. Then the spindle-speed question: no approved card covers it, so the app says so and sends them to a lead. The answer always shows the cited card and the veteran's words, so the apprentice can check it. It never says a part is good. That is quality's call.",
 );
 
 // ==================================================================
@@ -364,7 +364,7 @@ flow.forEach((f, i) => {
 caption(s, "IBM Granite ibm/granite-4-h-small on watsonx.ai · Next.js and TypeScript · model JSON validated with zod", { x: 0.5, y: 2.8, w: 9, h: 0.25 });
 label(s, "Trust rules, enforced in app code, not in the prompt", { x: 0.5, y: 3.06, w: 9, h: 0.26 });
 const rules = [
-  "Every quote is checked against its source. A finding with an unverified quote can't become a card.",
+  "Quotes are checked against the veteran's notes and the work instruction step. A finding with a quote the app can't find is marked and can't become a card.",
   "Cards move one way: candidate, expert confirmed, approved. The server rejects a skipped step.",
   "Ask uses only approved cards for WI-114 Rev C. When none exist, the model isn't called at all.",
   "Citations are filtered on the server, and the app writes the refusal itself, never the model.",
@@ -377,7 +377,7 @@ rules.forEach((r, i) => {
   body(s, r, { x: x + 0.65, y: y + 0.06, w: 3.68, h: 0.72, size: 14, valign: "middle" });
 });
 s.addNotes(
-  "2:15 to 2:45, how it works. Next.js and TypeScript, with IBM Granite on watsonx.ai, ibm/granite-4-h-small. Granite reads and drafts. The app decides what counts: it checks every quote against the source, it only lets a card move forward, it only answers from approved cards for the right revision, and it filters citations on the server. If nothing is approved, Granite isn't even called. On a shop floor a confident wrong answer is worse than no answer, so those rules live in code, not in the prompt.",
+  "2:15 to 2:45, how it works. Next.js and TypeScript, with IBM Granite on watsonx.ai, ibm/granite-4-h-small. Granite reads and drafts. The app decides what counts: it checks the quotes against the sources, it only lets a card move forward, it only answers from approved cards for the right revision, and it filters citations on the server. If nothing is approved, Granite isn't even called. On a shop floor a confident wrong answer is worse than no answer, so those rules live in code, not in the prompt.",
 );
 
 // ==================================================================
@@ -405,13 +405,13 @@ bullets(
     "Voice capture, so a veteran can talk through a job at the machine",
     "Ingest real manuals and work instructions with Docling",
     "Block reuse when a procedure revision changes",
-    "Move the Ask step and the veteran-to-quality hand-off onto watsonx Orchestrate",
+    "Ask already runs through watsonx Orchestrate. Next, the veteran-to-quality hand-off",
     "watsonx.governance for audit trails",
   ],
   { x: 5.3, y: 1.95, w: 4.0, h: 2.85, size: 14, gap: 10 },
 );
 s.addNotes(
-  "2:45 to 3:00, limits and next. Be straight about what it doesn't do yet: demo roles, one revision, text only, scripted tests still in progress. Next is voice capture so the veteran talks instead of types, real manuals through Docling, blocking reuse when a revision changes, and moving Ask and the hand-offs onto watsonx Orchestrate. Don't say Orchestrate is wired up: as of this deck it isn't.",
+  "2:45 to 3:00, limits and next. Be straight about what it doesn't do yet: demo roles, one revision, text only, scripted tests still in progress. Next is voice capture so the veteran talks instead of types, real manuals through Docling, blocking reuse when a revision changes, and moving the veteran-to-quality hand-off onto watsonx Orchestrate. Ask already runs through Orchestrate: the shiftproof_apprentice agent calls the app's Ask route, so the same trust rules apply.",
 );
 
 // ==================================================================

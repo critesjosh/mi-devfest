@@ -18,11 +18,9 @@ def save(name, im):
 save("finding.png", Image.open(os.path.join(S, "02b-finding-cooling-1280.png")))
 
 # Review: the approved card, split into its head (status, title, scope, steps) and its tail
-# (source quotes, confirmed by, approved by). Fractions calibrated on the 1280-wide capture.
-card = Image.open(os.path.join(S, "05b-card-approved-1280.png"))
-W, H = card.size
-save("card-top.png", card.crop((0, 0, W, int(H * 0.350))))
-save("card-bottom.png", card.crop((0, int(H * 0.748), W, int(H * 0.916))))
+# (source quotes, confirmed by, approved by). capture.js clips both from the card.
+save("card-top.png", Image.open(os.path.join(S, "05c-card-top-1280.png")))
+save("card-bottom.png", Image.open(os.path.join(S, "05d-card-bottom-1280.png")))
 
 # Ask: the two phone panels, whole.
 save("ask-answer.png", Image.open(os.path.join(S, "07b-ask-answer-panel-375.png")))
