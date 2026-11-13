@@ -22,11 +22,11 @@ The veteran confirms it. The quality lead approves it.
 
 [ask]
 Back at the machine, the apprentice asks.
-The answer uses only approved cards, and cites the veteran's words.
+The answer can cite only approved cards, and quotes the veteran's words.
 
 [refuse]
 No card covers it? Ask your lead or quality.
 
 [impact]
 What the veteran knows, reviewed, at the machine.
-ShiftProof, on IBM Granite.
+ShiftProof, on IBM Granite and watsonx Orchestrate.

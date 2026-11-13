@@ -29,4 +29,4 @@ No card covers it? Ask your lead or quality.
 
 [impact]
 What the veteran knows, reviewed, at the machine.
-ShiftProof, on IBM Granite.
+ShiftProof, on IBM Granite and watsonx Orchestrate.

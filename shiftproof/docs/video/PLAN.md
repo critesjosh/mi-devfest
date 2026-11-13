@@ -39,11 +39,11 @@ Sources, read directly from `~/Downloads/Michigan_DevFest_Hackathon_Workbook.ppt
 
 | Guideline | Where it comes from | How the video meets it |
 |---|---|---|
-| One minute long | Workbook p. 21, p. 23; keynote p. 22 | 59.5 s target (section 1). The checked voiceover take ends at 59.3 s |
+| One minute long | Workbook p. 21, p. 23; keynote p. 22 | 59.5 s target (section 1). The checked voiceover take ends at 59.1 s |
 | Beat 0:00, "The user" | Workbook p. 21 | 0:00–0:09.7: the apprentice whose first part reads over, and the work instruction they follow |
 | Beat 0:10, "The problem" | Workbook p. 21 | 0:09.7–0:19.8: the veteran's notes say wait. The instruction doesn't |
-| Beats 0:20, 0:30, 0:40, "Click 1/2/3" | Workbook p. 21; keynote p. 22 ("three clicks through the solution") | 0:19.8 **1 Compare**, 0:30 **2 Review**, 0:40.8 **3 Ask**, labelled with the app's own tab names |
-| Beat 0:50, "The impact" | Workbook p. 21 | 0:49.5–0:60: the refusal shows the limit, then the answered question and the end card. About 3 s later than the template, because Ask needs the time (Fable note 3) |
+| Beats 0:20, 0:30, 0:40, "Click 1/2/3" | Workbook p. 21; keynote p. 22 ("three clicks through the solution") | 0:19.8 **1 Compare**, 0:30 **2 Review**, 0:40.5 **3 Ask**, labelled with the app's own tab names |
+| Beat 0:50, "The impact" | Workbook p. 21 | 0:49.1–0:60: the refusal shows the limit, then the answered question and the end card. About 3 s later than the template, because Ask needs the time (Fable note 3) |
 | "Show it working for the one person you built it for. Three clicks, one clear outcome" | Keynote p. 22 | One thread from start to end: the apprentice's 0.002 in reading. The outcome is a cited answer from approved guidance |
 | Name the IBM and Google tools and what each does | Keynote p. 22 ("How it works"); workbook p. 23 | Voiceover names IBM Granite at Compare and on the end card. The source line "Granite on watsonx.ai · ibm/granite-4-h-small" stays on screen in every live shot. Google's Gemini voices the video; it is listed in the submission tool list and the README (production step 14) |
 | Video uploaded, URL in the submission and on workbook p. 21 | Workbook p. 21, p. 23 | Production step 13. The URL goes in the portal and on p. 21 (Open question 1) |
@@ -81,7 +81,7 @@ The video opens and closes on the same question, first unanswered, then answered
 
 ## 4. Storyboard
 
-1920 × 1080, 30 fps. Times are video time. The voiceover cue times match `vo-script.txt`. "Bug" is a small persistent label, top right, `sp-label` style on `surface`, from 0:19.8 to 0:53.3.
+1920 × 1080, 30 fps. Times are video time. The voiceover cue times match `vo-script.txt`. "Bug" is a small persistent label, top right, `sp-label` style on `surface`, from 0:19.8 to 0:52.8.
 
 | Time | Shot | On screen | Voiceover | Source | Owner model |
 |---|---|---|---|---|---|
@@ -92,11 +92,11 @@ The video opens and closes on the same question, first unanswered, then answered
 | 0:19.8–0:23.0 | **S3a** 1 Compare | Live app at 1280 wide (scaled to fill 1080p). Compare tab: the WI-114 Rev C and Veteran notes panes, each with "Fictional training fixture". Pointer clicks "Find gaps", the button reads "Finding gaps...". Lower third `1 COMPARE`. Bug appears | "ShiftProof puts the two side by side." | Live capture | Codex GPT-6.1 Terra (capture) |
 | 0:23.0–0:30.0 | **S3b** 1 Compare | Jump cut to findings, with the chip `GRANITE CALL · {n} S, TRIMMED`. Slow push in on the finding about cooling before measuring (Step 6): instruction quote, veteran quote, both "verified in source" marks, the source line "Granite on watsonx.ai · ibm/granite-4-h-small". Ruled callout boxes (ink, 2px, square) around both verify marks, then the source line | "IBM Granite flags what the instruction leaves out, and quotes both sources. The app checks every quote." | Live capture + motion graphic overlays | Codex Terra (capture), Opus (overlays) |
 | 0:30.0–0:35.0 | **S4a** 2 Review | Same finding. Callout on "Follow-up:". The expert answer types in, sped up 4×, with chip `TYPING SPED UP`: "About ten minutes on the granite plate, until it feels the same temperature as the plate. I never touch the offset off a warm part." Click "Draft guide card", "Drafting...", chip `GRANITE CALL · {n} S, TRIMMED`. Lower third `2 REVIEW` | "Granite asks the veteran a follow-up, then drafts a guide card from the answer." | Live capture | Codex Terra |
-| 0:35.0–0:40.8 | **S4b** 2 Review | Review tab, cropped close on the card. Status tag `CANDIDATE` → click "Confirm my account is accurate" → `EXPERT CONFIRMED` → the header role picker visibly changes to "Quality lead" → click "Approve for training" → `APPROVED`. Lower third `ROLE: VETERAN`, then `ROLE: QUALITY LEAD · DEMO ROLES, NOT REAL SIGN-IN` | "The veteran confirms it. The quality lead approves it." | Live capture | Codex Terra |
-| 0:40.8–0:49.5 | **S5a** 3 Ask | Phone view: the app at 375 wide, centred in a plain ruled frame (`border-control`, `ink`) on paper. No device mock-up. Role "Apprentice". Tap the quick question (same text as S1a), "Asking...", chip `GRANITE CALL · {n} S, TRIMMED`. Answer panel "Answer from approved guidance", scrolling to the cited card with its approved status and "Veteran's words". Lower third `3 ASK` | "Back at the machine, the apprentice asks. The answer uses only approved cards, and cites the veteran's words." | Live capture | Codex Terra |
-| 0:49.5–0:53.3 | **S5b** 3 Ask | Tap "What spindle speed should I run for the roughing pass?". The panel reads "Out of scope" and "No approved guidance covers this. Ask your lead or quality." Callout around the refusal | "No card covers it? Ask your lead or quality." | Live capture | Codex Terra |
-| 0:53.3–0:56.0 | **S6a** Impact | Back to the S1 layout. The question card from S1a, and beside it the answer panel from S5a (still frame, its source line visible). Bug off | "What the veteran knows, reviewed, at the machine." | Motion graphic + still from capture | Opus |
-| 0:56.0–0:59.5 | **S6b** Impact | End card on `granite`: "ShiftProof" (display, `on-granite`). Under it: "What the work instruction leaves out, reviewed for the next shift." Then `IBM GRANITE ON WATSONX.AI · ibm/granite-4-h-small`, and `github.com/critesjosh/mi-devfest`. Footer note (`on-granite-muted`): "Fictional training fixtures. Live Granite calls; waits trimmed." Offline cut: the end card in section 10 replaces this one | "ShiftProof, on IBM Granite." | Motion graphic | Opus |
+| 0:35.0–0:40.5 | **S4b** 2 Review | Review tab, cropped close on the card. Status tag `CANDIDATE` → click "Confirm my account is accurate" → `EXPERT CONFIRMED` → the header role picker visibly changes to "Quality lead" → click "Approve for training" → `APPROVED`. Lower third `ROLE: VETERAN`, then `ROLE: QUALITY LEAD · DEMO ROLES, NOT REAL SIGN-IN` | "The veteran confirms it. The quality lead approves it." | Live capture | Codex Terra |
+| 0:40.5–0:49.1 | **S5a** 3 Ask | Phone view: the app at 375 wide, centred in a plain ruled frame (`border-control`, `ink`) on paper. No device mock-up. Role "Apprentice". Tap the quick question (same text as S1a), "Asking...", chip `GRANITE CALL · {n} S, TRIMMED`. Answer panel "Answer from approved guidance", scrolling to the cited card with its approved status and "Veteran's words". Lower third `3 ASK` | "Back at the machine, the apprentice asks. The answer can cite only approved cards, and quotes the veteran's words." | Live capture | Codex Terra |
+| 0:49.1–0:52.8 | **S5b** 3 Ask | Tap "What spindle speed should I run for the roughing pass?". The panel reads "Out of scope" and "No approved guidance covers this. Ask your lead or quality." Callout around the refusal | "No card covers it? Ask your lead or quality." | Live capture | Codex Terra |
+| 0:52.8–0:56.0 | **S6a** Impact | Back to the S1 layout. The question card from S1a, and beside it the answer panel from S5a (still frame, its source line visible). Bug off | "What the veteran knows, reviewed, at the machine." | Motion graphic + still from capture | Opus |
+| 0:56.0–0:59.5 | **S6b** Impact | End card on `granite`: "ShiftProof" (display, `on-granite`). Under it: "What the work instruction leaves out, reviewed for the next shift." Then `IBM GRANITE ON WATSONX.AI · ibm/granite-4-h-small`, and `github.com/critesjosh/mi-devfest`. Footer note (`on-granite-muted`): "Fictional training fixtures. Live Granite calls; waits trimmed." Offline cut: the end card in section 10 replaces this one | "ShiftProof, on IBM Granite and watsonx Orchestrate." | Motion graphic | Opus |
 | 0:59.5–1:00.0 | — | Hold the end card, then cut | — | — | — |
 
 Captions are burned in, bottom centre, through the whole video. Their text comes from `captions.txt` and their timing from `audio_check.py --srt`.
@@ -113,7 +113,7 @@ Everything else on screen is the app's own text or an exact fixture quote.
 
 ## 5. Voiceover script (final)
 
-Source of truth: `vo-script.txt` (spoken forms) and `captions.txt` (written forms). It is 137 words. In the Charon take checked at 2:45 PM the last word ends at 59.3 s.
+Source of truth: `vo-script.txt` (spoken forms) and `captions.txt` (written forms). It is 134 words (`wc -w` on the spoken lines). In the Charon take checked at 3:50 PM, after Daniel's approved edits to Ask and Impact, the last word ends at 59.1 s.
 
 > **[0:00.3]** An apprentice's first bracket reads two thousandths over. Work instruction one-fourteen, Rev C, says to adjust the wear offset.
 >
@@ -123,11 +123,11 @@ Source of truth: `vo-script.txt` (spoken forms) and `captions.txt` (written form
 >
 > **[0:30.0]** Granite asks the veteran a follow-up, then drafts a guide card from the answer. The veteran confirms it. The quality lead approves it.
 >
-> **[0:40.8]** Back at the machine, the apprentice asks. The answer uses only approved cards, and cites the veteran's words.
+> **[0:40.5]** Back at the machine, the apprentice asks. The answer can cite only approved cards, and quotes the veteran's words.
 >
-> **[0:49.5]** No card covers it? Ask your lead or quality.
+> **[0:49.1]** No card covers it? Ask your lead or quality.
 >
-> **[0:53.5]** What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite.
+> **[0:53.0]** What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite and watsonx Orchestrate.
 
 Claims check, line by line:
 - "reads two thousandths over" matches the app's quick question.
@@ -136,7 +136,8 @@ Claims check, line by line:
 - "flags... quotes both sources" is what Compare does.
 - "checks every quote" is `lib/verify.ts`.
 - The confirm-then-approve order is enforced in `lib/store.ts`.
-- "uses only approved cards, and cites" is the Ask route's server-side filter.
+- "can cite only approved cards, and quotes the veteran's words" is the Ask route's server-side citation filter; the quotes shown are the veteran's exact words.
+- "on IBM Granite and watsonx Orchestrate" is true only once PR #10 (Orchestrate agent for Ask) merges. **If #10 is dropped, revert the impact line to "ShiftProof, on IBM Granite."** in `vo-script.txt`, `captions.txt` and both offline files, and re-render that beat.
 - The refusal is the fixed string.
 
 Nothing claims a part is good, or claims any measured gain.
@@ -175,9 +176,9 @@ All media lives **outside git**, in `~/ShiftProof-video/` on Daniel's machine. T
 
 | Asset | Path | Made by | Status |
 |---|---|---|---|
-| Voiceover, beat files and joined | `~/ShiftProof-video/audio/vo-charon.wav`, `vo-charon-<beat>.wav` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, voice Charon), via `scripts/tts.py` | Rendered with the final cues and checked, 2:45 PM. Josh or Daniel still has to approve the voice (Open questions) |
-| Voiceover, normalised | `~/ShiftProof-video/audio/vo-final.wav` | ffmpeg `loudnorm` | Done: -16.8 LUFS, true peak -1.5 dBTP |
-| Captions | `~/ShiftProof-video/audio/vo-final.srt` | `scripts/audio_check.py --srt` (Claude's words, Argon's timings) | Written from the 2:45 PM take (`vo-final.srt`) |
+| Voiceover, beat files and joined | `~/ShiftProof-video/audio/vo-charon.wav`, `vo-charon-<beat>.wav` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, voice Charon), via `scripts/tts.py` | Rendered with the final cues and checked, 3:50 PM. Josh or Daniel still has to approve the voice (Open questions) |
+| Voiceover, normalised | `~/ShiftProof-video/audio/vo-final.wav` | ffmpeg `loudnorm` | Done: -16.9 LUFS, true peak -1.5 dBTP (3:50 PM take) |
+| Captions | `~/ShiftProof-video/audio/vo-final.srt` | `scripts/audio_check.py --srt` (Claude's words, Argon's timings) | Written from the 3:50 PM take (`vo-final.srt`) |
 | Motion graphics | `~/ShiftProof-video/motion/` (`S1.mov`, `S2.mov`, `S6.mov`, overlays as PNG with alpha) | Claude Opus 5.5, HTML and CSS on `design/tokens.css`, rendered with headless Chrome and ffmpeg (`prompts/motion-graphics.md`) | To do, before 4:15 PM |
 | Live capture, rehearsal | `~/ShiftProof-video/capture/rehearsal-*.mov` | Codex GPT-6.1 Terra (computer use), screen-recorded by a person | At the 4:30 PM freeze check |
 | Live capture, final | `~/ShiftProof-video/capture/final-*.mov` | Same | 5:00 PM |
@@ -192,9 +193,9 @@ All media lives **outside git**, in `~/ShiftProof-video/` on Daniel's machine. T
 | # | When (ET) | Step | Model or person | Done when |
 |---|---|---|---|---|
 | 1 | Done, 2:30 PM | Concept, storyboard, voiceover, on-screen text | Claude Opus 5.5 | This plan |
-| 2 | Done, 2:45 PM. Redo only if the script or voice changes | Render the voiceover: `python3 -I shiftproof/docs/video/scripts/tts.py Charon ~/ShiftProof-video/audio/vo-charon.wav`. Gemini reads `vo-script.txt` and may not change a word. Listen once. If the voice is wrong, try `Orus`. If one beat reads slowly, redo only that beat with `--only <beat>` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`) | Joined file ends before 59.5 s, no beat overruns its cue. 2:45 PM take: 59.4 s |
-| 3 | Done, 2:45 PM | Normalise: `ffmpeg -i vo-charon.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 48000 vo-final.wav` | ffmpeg (no model) | — |
-| 4 | Done, 2:45 PM | Check wording, timing and levels, and write captions: `python3 -I shiftproof/docs/video/scripts/audio_check.py ~/ShiftProof-video/audio/vo-final.wav gemini-4-argon --srt ~/ShiftProof-video/audio/vo-final.srt` | Gemini 4 Argon (`gemini-4-argon`); `gemini-4-hydrogen` as the alternative | "All beats OK", levels OK |
+| 2 | Done, 3:50 PM (Ask and Impact re-rendered with `--only ask,impact`). Redo only if the script or voice changes | Render the voiceover: `python3 -I shiftproof/docs/video/scripts/tts.py Charon ~/ShiftProof-video/audio/vo-charon.wav`. Gemini reads `vo-script.txt` and may not change a word. Listen once. If the voice is wrong, try `Orus`. If one beat reads slowly, redo only that beat with `--only <beat>` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`) | Joined file ends before 59.5 s, no beat overruns its cue. 3:50 PM take: 59.1 s after normalising |
+| 3 | Done, 3:50 PM | Normalise: `ffmpeg -i vo-charon.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 48000 vo-final.wav` | ffmpeg (no model) | — |
+| 4 | Done, 3:50 PM | Check wording, timing and levels, and write captions: `python3 -I shiftproof/docs/video/scripts/audio_check.py ~/ShiftProof-video/audio/vo-final.wav gemini-4-argon --srt ~/ShiftProof-video/audio/vo-final.srt` | Gemini 4 Argon (`gemini-4-argon`); `gemini-4-hydrogen` as the alternative | "All beats OK", levels OK |
 | 5 | By 4:15 PM | Build and render the motion graphics: S1, S2, S6, bug, lower thirds, chips, callouts, phone frame (`prompts/motion-graphics.md`) | Claude Opus 5.5 (Fable 5.2 if Opus is unavailable) | Renders reviewed against `DESIGN.md` at full size |
 | 6 | By 4:15 PM | Write `assemble.sh`: cuts, speed-ups, overlays, captions, audio, export (`prompts/assemble.md`) | Claude Sonnet 5.5 | A dry-run cut with placeholder clips plays end to end. The file is named `DRYRUN`, and it is never uploaded |
 | 7 | 4:30 PM | Rehearsal capture during the MVP freeze check (`prompts/codex-capture.md`) | Codex GPT-6.1 Terra, reasoning medium, computer use. Daniel runs Codex and the screen recording | Capture checklist passes |
@@ -217,10 +218,10 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 | The first 3 s were mono text and a step number; the stakes arrived at 0:14, and the "one person" was never named. Open on the apprentice's moment, close on the same frame answered | Top 1 | S1 now opens on the apprentice's 0.002 in question and WI-114 **Step 7** ("adjust the tool wear offset"). S6a returns to that question, answered. New hook: "The instruction says adjust the offset. The veteran says wait." |
 | Never show a line added to WI-114; `expected.md` says the instruction isn't changed | Guard | Dropped the "blank line slides in under Step 6" shot. The instruction is only ever quoted as written |
 | The shot list described styles the app doesn't render yet (`DESIGN.md`: the app still uses the older styles) | Top 2 | "On screen" now names the app's text and elements by what they say ("verified in source", the status words, the source line), not by component class. The capture checklist verifies them on the real screen. Motion graphics use the design tokens, which is where the app is heading, and stay plain |
-| The fixture label appears only on the Compare panes, so later live shots show veteran quotes without it | Top 2 | Persistent bug "Live Granite · fictional training fixtures" from 0:19.8 to 0:53.3. Quote cards carry the label |
-| Click 2 and Click 3 too dense (S5a at 200 wpm) | Top 3 | Retimed: Review 0:30–0:40.8, Ask 0:40.8–0:53.3, impact from 0:53.3. Voiceover cut from 144 to 137 words and measured in a real TTS take (59.3 s) |
+| The fixture label appears only on the Compare panes, so later live shots show veteran quotes without it | Top 2 | Persistent bug "Live Granite · fictional training fixtures" from 0:19.8 to 0:52.8. Quote cards carry the label |
+| Click 2 and Click 3 too dense (S5a at 200 wpm) | Top 3 | Retimed: Review 0:30–0:40.5, Ask 0:40.5–0:52.8, impact from 0:52.8 (cues moved 0.3–0.5 s earlier at 3:45 PM to fit the approved edits). Voiceover cut from 144 words and measured in real TTS takes; the 3:50 PM take is 134 words and ends at 59.1 s |
 | "Finds three gaps" is scripted before a nondeterministic call | High | No number in the voiceover: "flags what the instruction leaves out" |
-| "In the veteran's words" overclaims; Granite writes the answer | High | Now "cites the veteran's words" |
+| "In the veteran's words" overclaims; Granite writes the answer | High | Now "quotes the veteran's words", with "can cite only approved cards" (Daniel's approved wording, 3:45 PM) |
 | Only one call carried the "trimmed" chip | Medium | A chip on every shortened call (Compare, Draft, Ask), with real seconds from Codex's log |
 | "Veteran machinist" lower third could read as a real person | Medium | Removed. Quote cards say "Marv K. (fictional)" and "Fictional training fixture" |
 | Ten seconds on one static card | Medium | S2 builds two quotes in sequence, with a highlight on "every part after that comes out short" |
@@ -280,7 +281,7 @@ The user, problem, refusal and impact lines are unchanged. The refusal is writte
 
 Decided, no longer open:
 - **Length:** section 1.
-- **watsonx Orchestrate (about 3:15 PM):** it isn't wired up, so the video doesn't mention it.
+- **watsonx Orchestrate (Daniel, about 3:40 PM):** the impact line names it, conditional on PR #10 merging (section 5).
 
 1. **Upload and submit if Josh has left.** The workbook (p. 23) says the team lead submits. If Josh leaves before 5:25 PM, Daniel uploads the video and sends Josh the URL. Josh then either submits from wherever he is by 5:45 PM, or tells the team in writing who submits for him. Confirm before Josh leaves.
 2. **Where to host the video.** YouTube unlisted or Google Drive: it must play without sign-in. Josh or Daniel decides, whoever uploads.

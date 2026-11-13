@@ -17,11 +17,11 @@ ShiftProof puts the two side by side. Model output here is a saved sample, label
 [review @ 0:30]
 The veteran answers a follow-up, and a sample guide card is drafted. The veteran confirms it. The quality lead approves it.
 
-[ask @ 0:40.8]
+[ask @ 0:40.5]
 Back at the machine, the apprentice asks. This answer is a saved sample too, labelled on screen.
 
-[refuse @ 0:49.5]
+[refuse @ 0:49.1]
 No card covers it? Ask your lead or quality.
 
-[impact @ 0:53.5]
-What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite.
+[impact @ 0:53.0]
+What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite and watsonx Orchestrate.

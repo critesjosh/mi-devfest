@@ -16,11 +16,11 @@ ShiftProof puts the two side by side. IBM Granite flags what the instruction lea
 [review @ 0:30]
 Granite asks the veteran a follow-up, then drafts a guide card from the answer. The veteran confirms it. The quality lead approves it.
 
-[ask @ 0:40.8]
-Back at the machine, the apprentice asks. The answer uses only approved cards, and cites the veteran's words.
+[ask @ 0:40.5]
+Back at the machine, the apprentice asks. The answer can cite only approved cards, and quotes the veteran's words.
 
-[refuse @ 0:49.5]
+[refuse @ 0:49.1]
 No card covers it? Ask your lead or quality.
 
-[impact @ 0:53.5]
-What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite.
+[impact @ 0:53.0]
+What the veteran knows, reviewed, at the machine. ShiftProof, on IBM Granite and watsonx Orchestrate.
