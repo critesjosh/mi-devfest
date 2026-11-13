@@ -32,7 +32,7 @@ Use every section of the template. Write "None" or "Not applicable" rather than 
 
 ## 4. Visual proof for UI and UX changes
 
-If a person could see the difference, show it. Reviewers can't approve a UI change from the diff alone. Visual proof means screenshots, a short video, or both.
+If a person could see the difference, show it. Reviewers can't approve a UI change from the diff alone. Visual proof means screenshots, a short video, or both. Use the table below: each row applies when your change matches it, and a PR can match several rows. The template's checklist is the same list.
 
 **What to capture**
 
@@ -46,7 +46,7 @@ If a person could see the difference, show it. Reviewers can't approve a UI chan
 
 **How to capture**
 
-- Use the dev server (`npm run dev`) or the component previews (`python3 -m http.server 4100 -d shiftproof/design`, then http://localhost:4100/preview.html).
+- Capture the changed screen **in the running app** (`npm run dev`). Use the component previews (`python3 -m http.server 4100 -d shiftproof/design`, then http://localhost:4100/preview.html) only for changes inside `shiftproof/design/`, and caption those captures "component preview, static". The previews use fixed demo content, including a live-source line, so they don't show live model output and can't prove a flow works.
 - In the browser's device toolbar, set the width to 375px and 1280px. Crop to the part that changed, but keep enough around it to show where it sits.
 - On macOS: `Cmd+Shift+4` for a screenshot, `Cmd+Shift+5` for a screen recording. Coding agents can use their browser or Playwright tools.
 - Drag the images or video into the PR description on GitHub. **Don't commit screenshots to the repository.**

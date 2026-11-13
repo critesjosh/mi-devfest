@@ -14,12 +14,13 @@
 
 ## Visual proof
 
-<!-- Required for any visible change: before/after screenshots at 375px and 1280px, each state you touched, a short video for flows, and light and dark for theme changes. Drag the files into this description; don't commit them. Write "Not applicable" if nothing a person sees changed, or "Visual proof needed" if you couldn't capture it. -->
+<!-- Any change a person can see needs visual proof (CONTRIBUTING.md, section 4). Tick each row that applies to your change and attach the proof by dragging it into this description. Don't commit images. Capture the running app; caption component-preview captures "component preview, static". Write "Not applicable" if nothing visible changed, or "Visual proof needed" if you couldn't capture it. -->
 
-| | Before | After |
-|---|---|---|
-| 375px | | |
-| 1280px | | |
+- [ ] Static look changed: before and after screenshots at 375px and 1280px
+- [ ] States touched (busy, empty, error, disabled, unverified, out of scope, sample banner): one screenshot of each
+- [ ] Flow or interaction changed: a short video or GIF, 30 seconds at most
+- [ ] Theme-related styles: light and dark
+- [ ] Keyboard or focus changed: a video, or screenshots showing the focus ring
 
 ## Trust rules
 
