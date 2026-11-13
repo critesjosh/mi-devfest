@@ -1,29 +1,16 @@
 /* ShiftProof brand mark and lockup. Token vars only; see design/brand/README.md. */
 
 .sp-brand-mark {
-  --brand-tag: var(--dykem);
-  --brand-check: var(--on-dykem);
+  --brand-plate: var(--dykem);
   display: block;
   flex: none;
 }
-/* On the dark rail the tag is a paper tag: light body, indigo check. */
+/* On the dark rail the plate is paper stock. */
 .sp-brand-mark--on-granite {
-  --brand-tag: var(--on-granite);
-  --brand-check: var(--glow-mid);
+  --brand-plate: var(--on-granite);
 }
-.sp-brand-mark__tag {
-  fill: var(--brand-tag);
-}
-.sp-brand-mark__eyelet {
-  stroke: var(--brand-check);
-  stroke-width: 1.2;
-  opacity: 0.45;
-}
-.sp-brand-mark__check {
-  stroke: var(--brand-check);
-  stroke-width: 3.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.sp-brand-mark__plate {
+  fill: var(--brand-plate);
 }
 
 .sp-brand {
