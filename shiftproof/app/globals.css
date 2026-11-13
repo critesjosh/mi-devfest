@@ -94,11 +94,11 @@ body, p { margin: 0; }
 
 .sp-tile--source {
   border: 0; color: var(--on-glow); position: relative; overflow: hidden; isolation: isolate;
-  background: linear-gradient(135deg, var(--glow-a) 0%, var(--dykem) 45%, var(--glow-b) 115%);
+  background: linear-gradient(135deg, var(--glow-a) 0%, var(--glow-mid) 45%, var(--glow-b) 115%);
 }
 .sp-tile--source::after {
   content: ""; position: absolute; inset: auto -20% -60% 30%; height: 120%; z-index: -1;
-  background: radial-gradient(closest-side, rgb(255 255 255 / 0.18), transparent); pointer-events: none;
+  background: radial-gradient(closest-side, var(--glow-sheen), transparent); pointer-events: none;
 }
 .sp-tile--source .sp-tile__name { color: var(--on-glow); }
 .sp-tile--source .sp-note, .sp-tile--source .sp-label { color: var(--on-glow); opacity: 0.85; }

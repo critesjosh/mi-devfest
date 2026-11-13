@@ -177,6 +177,13 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
 export default function Home() {
   const [app, setApp] = useState<AppState | null>(null);
   const [tab, setTab] = useState(1);
+  const [railVertical, setRailVertical] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 900px)");
+    const sync = () => setRailVertical(mq.matches);
+    sync(); mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
   const [role, setRole] = useState<Role>("Veteran");
   const [cmp, setCmp] = useState<Compare | null>(null);
   const [answers, setAnswers] = useState<Record<string, string>>({});
@@ -248,7 +255,7 @@ export default function Home() {
             <path fill="url(#sp-spark)" d="M16 1c1.2 8.2 6.8 13.8 15 15-8.2 1.2-13.8 6.8-15 15-1.2-8.2-6.8-13.8-15-15C9.2 14.8 14.8 9.2 16 1Z" />
           </svg>
         </div>
-        <nav className="sp-tabs" role="tablist" aria-label="Steps" aria-orientation="vertical">
+        <nav className="sp-tabs" role="tablist" aria-label="Steps" aria-orientation={railVertical ? "vertical" : "horizontal"}>
           {([["Compare", 1], ["Review", 2], ["Ask", 3]] as const).map(([l, n]) => (
             <button key={n} id={`sp-tab-${n}`} className="sp-tabs__tab" role="tab" aria-selected={tab === n} aria-controls={`sp-step-${n}`} tabIndex={tab === n ? 0 : -1}
               onClick={() => setTab(n)}

@@ -28,6 +28,8 @@
   --ember: #c2410c;
   --on-glow: #ffffff;
   --glow-a: #4338ca;
+  --glow-mid: #4f46e5;
+  --glow-sheen: rgb(255 255 255 / 0.18);
   --glow-b: #c2410c;
   --font-display: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -85,6 +87,8 @@
     --ember: #f08a5d;
     --on-glow: #ffffff;
     --glow-a: #3b33b8;
+    --glow-mid: #4338ca;
+    --glow-sheen: rgb(255 255 255 / 0.10);
     --glow-b: #a8390b;
     color-scheme: dark;
   }
@@ -118,6 +122,8 @@
   --ember: #f08a5d;
   --on-glow: #ffffff;
   --glow-a: #3b33b8;
+  --glow-mid: #4338ca;
+  --glow-sheen: rgb(255 255 255 / 0.10);
   --glow-b: #a8390b;
   color-scheme: dark;
 }

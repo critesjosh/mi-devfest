@@ -35,7 +35,7 @@ ShiftProof looks like a calm industrial dashboard: a dark side rail, a soft lave
 - Hairlines: `rule` (decorative). Field and secondary-button outlines: `rule-strong` (3:1).
 - Text: `ink` on paper, surface and surface-sunken. Secondary text: `ink-muted` on the same grounds.
 - Side rail (bottom bar under 900px): `granite`, with `on-granite` for the current step text and `on-granite-muted` for the others. The current step fills with `dykem`. `sp-btn--on-granite` is the dark Reset pill in the top bar.
-- Source card: a `glow-a` to `dykem` to `glow-b` gradient with `on-glow` text. It shows the configured model line or the sample banner, never anything else.
+- Source card: a `glow-a` to `glow-mid` to `glow-b` gradient (all dark enough for `on-glow` text in both themes), with a `glow-sheen` light spot with `on-glow` text. It shows the configured model line or the sample banner, never anything else.
 - `ember` only as the warm end of gradients and the candidate segment of the card chart.
 - Accent: `dykem` fill with `on-dykem` text for primary buttons. `dykem-tint` for hover on secondary buttons and quick-question rows.
 - Status, always with a word:
