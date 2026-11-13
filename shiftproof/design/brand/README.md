@@ -15,6 +15,7 @@ Concept by GPT-6 Astra ("Shift Relay"), refined by Claude Fable 5.2 into the mil
 | `lockup-dark.svg` | Mark and wordmark for the granite rail and other dark backgrounds |
 | `app/Brand.tsx`, `app/brand.css` | `BrandMark` and `BrandLockup` for the app, coloured by tokens |
 | `app/icon.svg`, `app/apple-icon.tsx`, `app/manifest.ts` | Favicon, home-screen icon and web manifest |
+| `app-icon-1024.png`, `public/icon-192.png`, `public/icon-512.png` | Raster app icon made with image generation by GPT-6.1 Sol from the vector. Its geometry is close but not exact, so use the SVG wherever a vector works |
 
 The lockup SVGs use live text in IBM Plex Sans Condensed. Convert the text to outlines before sending them anywhere the font may be missing.
 
