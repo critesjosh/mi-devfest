@@ -1,0 +1,132 @@
+openapi: 3.0.3
+info:
+  title: ShiftProof approved guidance
+  version: 1.0.0
+  description: >-
+    Answers an apprentice's question about work instruction WI-114 Rev C from
+    approved guide cards only. The ShiftProof server decides what may be
+    shown. The caller relays the response and adds nothing to it.
+servers:
+  - url: https://SHIFTPROOF_URL_PLACEHOLDER
+    description: Replace the host with the deployed ShiftProof app before import.
+paths:
+  /api/ask:
+    post:
+      operationId: ask_approved_guidance
+      summary: Ask a question about WI-114 Rev C
+      description: >-
+        Use this tool for every question an apprentice asks about work
+        instruction WI-114 Rev C, including measuring, offsets, steps, tolerances
+        and what to do when a reading looks wrong. Pass the apprentice's question
+        as written. The ShiftProof server answers only from guide cards that
+        quality has approved, and it writes the refusal itself when no approved
+        card covers the question. Show the returned answer, cited cards and
+        cited quotes exactly as returned. Do not answer from your own knowledge,
+        and do not use this tool for anything other than asking this question.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - question
+              properties:
+                question:
+                  type: string
+                  minLength: 1
+                  maxLength: 1000
+                  description: The apprentice's question, as they asked it. 1 to 1000 characters.
+      responses:
+        "200":
+          description: >-
+            The server's answer. This is either approved guidance with citations
+            or the server's own refusal.
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - source
+                  - model
+                  - in_scope
+                  - no_guidance
+                  - answer
+                  - missing_information
+                  - cited_cards
+                  - cited_quotes
+                properties:
+                  source:
+                    type: string
+                    enum: [live, sample, none]
+                    description: >-
+                      Where the answer came from. "live" is a live Granite call
+                      on watsonx.ai. "sample" is offline sample output, not a
+                      live model call (also used when a live call failed). "none"
+                      means no approved cards exist, so no model was called.
+                  model:
+                    type: string
+                    description: The model ID the server is configured to use.
+                  error:
+                    type: string
+                    description: >-
+                      Present only when a live call failed and the server fell
+                      back to sample output. Diagnostic text. Do not show it
+                      to the apprentice.
+                  in_scope:
+                    type: boolean
+                    description: >-
+                      True only when the answer is grounded in at least one
+                      approved card. False means the answer text is the server's
+                      refusal.
+                  no_guidance:
+                    type: boolean
+                    description: True when there are no approved guide cards for this work instruction yet.
+                  answer:
+                    type: string
+                    description: >-
+                      The text to show the apprentice, unchanged. When in_scope
+                      is false, this is the fixed refusal written by the server.
+                  missing_information:
+                    type: array
+                    description: >-
+                      Details the approved cards depend on that the question did
+                      not give. Usually empty. Always empty when in_scope is false.
+                    items:
+                      type: string
+                  cited_cards:
+                    type: array
+                    description: The approved guide cards the answer rests on. Empty when in_scope is false.
+                    items:
+                      type: object
+                      required: [id, title, status]
+                      properties:
+                        id:
+                          type: string
+                          description: Guide card ID.
+                        title:
+                          type: string
+                          description: Guide card title. Show it as returned.
+                        status:
+                          type: string
+                          description: Card status. Always "approved" for cards returned here.
+                  cited_quotes:
+                    type: array
+                    description: >-
+                      The veteran's words, copied exactly from the source of the
+                      cited cards. The server has checked each one. Show them
+                      word for word. Empty when in_scope is false.
+                    items:
+                      type: string
+        "400":
+          description: >-
+            The request was invalid, for example an empty question or a question
+            over 1000 characters.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: What was wrong with the request.
