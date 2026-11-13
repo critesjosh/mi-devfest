@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
 import type { Card, CheckedFinding } from "@/lib/schemas";
 import { BrandMark } from "./Brand";
 import { RobotArm } from "./RobotArm";
@@ -53,7 +53,7 @@ function Banner({ meta }: { meta: Meta }) {
   return null;
 }
 
-function Highlighted({ text, quotes, pad }: { text: string; quotes: string[]; pad?: boolean }) {
+function Highlighted({ text, quotes, pad, label }: { text: string; quotes: string[]; pad?: boolean; label: string }) {
   const lower = text.toLowerCase();
   const ranges: [number, number][] = [];
   for (const q of quotes) {
@@ -69,7 +69,43 @@ function Highlighted({ text, quotes, pad }: { text: string; quotes: string[]; pa
     pos = e;
   });
   out.push(text.slice(pos));
-  return <pre className={`sp-quote sp-quote__text sp-src${pad ? " sp-quote--pad" : ""}`}>{out}</pre>;
+  return (
+    <ScrollCue label={label}>
+      <pre className={`sp-quote sp-quote__text sp-src${pad ? " sp-quote--pad" : ""}`}>{out}</pre>
+    </ScrollCue>
+  );
+}
+
+/* A scrolling pane says when it holds more text: a fade and a cue on the edge that has more. */
+function ScrollCue({ label, children }: { label: string; children: React.ReactElement }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [more, setMore] = useState({ above: false, below: false });
+  useEffect(() => {
+    const el = ref.current?.firstElementChild as HTMLElement | null;
+    if (!el) return;
+    const update = () => {
+      const above = el.scrollTop > 2;
+      const below = el.scrollTop + el.clientHeight < el.scrollHeight - 2;
+      setMore((m) => (m.above === above && m.below === below ? m : { above, below }));
+    };
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => { el.removeEventListener("scroll", update); ro.disconnect(); };
+  }, [children]);
+  const scrollBy = (dir: 1 | -1) => {
+    const el = ref.current?.firstElementChild as HTMLElement | null;
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el?.scrollBy({ top: dir * el.clientHeight * 0.8, behavior: calm ? "auto" : "smooth" });
+  };
+  return (
+    <div ref={ref} className="sp-scroll" data-more-above={more.above || undefined} data-more-below={more.below || undefined}>
+      {cloneElement(children as React.ReactElement<{ tabIndex?: number; "aria-label"?: string }>, { tabIndex: 0, "aria-label": label })}
+      {more.above && <button type="button" className="sp-scroll__cue sp-scroll__cue--up sp-label" tabIndex={-1} onClick={() => scrollBy(-1)}>More above ↑</button>}
+      {more.below && <button type="button" className="sp-scroll__cue sp-scroll__cue--down sp-label" tabIndex={-1} onClick={() => scrollBy(1)}>More below ↓</button>}
+    </div>
+  );
 }
 
 /* Decorative only: a CNC spindle arm. No numbers, no data. Rendered inside .sp-hero__art. */
@@ -322,11 +358,11 @@ export default function Home() {
             <div className="sp-grid2">
               <div className="sp-panel">
                 <div className="sp-doc__head"><h2 className="sp-heading">Work instruction WI-114 Rev C</h2><p className="sp-note">Fictional training fixture</p></div>
-                {app && <Highlighted text={app.fixtures.instruction} quotes={insQuotes} />}
+                {app && <Highlighted text={app.fixtures.instruction} quotes={insQuotes} label="Work instruction WI-114 Rev C, full text" />}
               </div>
               <div className="sp-panel">
                 <div className="sp-doc__head"><h2 className="sp-heading">Veteran notes</h2><p className="sp-note">Fictional training fixture</p></div>
-                {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} pad />}
+                {app && <Highlighted text={app.fixtures.veteran} quotes={vetQuotes} pad label="Veteran notes, full text" />}
               </div>
             </div>
             {cmp && <Banner meta={cmp} />}
