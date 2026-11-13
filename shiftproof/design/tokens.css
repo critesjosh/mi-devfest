@@ -1,0 +1,99 @@
+/* ShiftProof — generated from tokens.json */
+:root {
+  --paper: #f2f4f6;
+  --surface: #ffffff;
+  --surface-sunken: #e7ebef;
+  --ink: #13171c;
+  --ink-muted: #48525d;
+  --rule: #8b96a1;
+  --granite: #1d2228;
+  --on-granite: #eef1f4;
+  --on-granite-muted: #b4bec8;
+  --dykem: #2a44b0;
+  --on-dykem: #ffffff;
+  --dykem-tint: #e3e8fb;
+  --focus: #2a44b0;
+  --focus-on-granite: #9aadff;
+  --highlight: #ffe073;
+  --accept: #17663a;
+  --accept-bg: #dcf3e4;
+  --hold: #6a4c00;
+  --hold-bg: #fff0b3;
+  --reject: #a51d17;
+  --reject-bg: #fde5e2;
+  --hazard: #f2c200;
+  --hazard-ink: #13171c;
+  --font-display: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --radius-0: 0px;
+  --radius-tag: 2px;
+  --radius-hole: 9999px;
+  --border-hairline: 1px;
+  --border-control: 2px;
+  --border-stamp: 3px;
+  --control-min: 44px;
+  --tab-height: 48px;
+  --measure: 68ch;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #101317;
+    --surface: #191e23;
+    --surface-sunken: #0c0f12;
+    --ink: #e6eaee;
+    --ink-muted: #a3aeb9;
+    --rule: #66717d;
+    --granite: #05070a;
+    --on-granite: #e6eaee;
+    --on-granite-muted: #9aa5b0;
+    --dykem: #9aadff;
+    --on-dykem: #0a1030;
+    --dykem-tint: #1c2550;
+    --focus: #9aadff;
+    --focus-on-granite: #9aadff;
+    --highlight: #6a5500;
+    --accept: #7dd69c;
+    --accept-bg: #10301c;
+    --hold: #ffd166;
+    --hold-bg: #33290a;
+    --reject: #ff9b91;
+    --reject-bg: #3b1411;
+    --hazard: #f2c200;
+    --hazard-ink: #13171c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #101317;
+  --surface: #191e23;
+  --surface-sunken: #0c0f12;
+  --ink: #e6eaee;
+  --ink-muted: #a3aeb9;
+  --rule: #66717d;
+  --granite: #05070a;
+  --on-granite: #e6eaee;
+  --on-granite-muted: #9aa5b0;
+  --dykem: #9aadff;
+  --on-dykem: #0a1030;
+  --dykem-tint: #1c2550;
+  --focus: #9aadff;
+  --focus-on-granite: #9aadff;
+  --highlight: #6a5500;
+  --accept: #7dd69c;
+  --accept-bg: #10301c;
+  --hold: #ffd166;
+  --hold-bg: #33290a;
+  --reject: #ff9b91;
+  --reject-bg: #3b1411;
+  --hazard: #f2c200;
+  --hazard-ink: #13171c;
+  color-scheme: dark;
+}

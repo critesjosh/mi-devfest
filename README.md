@@ -34,6 +34,9 @@ No keys? Set `SHIFTPROOF_OFFLINE=1` to run on recorded sample output. Every scre
 |---|---|
 | [`shiftproof/`](shiftproof/) | The app (Next.js + TypeScript) |
 | [`shiftproof/HANDOFF.md`](shiftproof/HANDOFF.md) | Current status, decisions and next steps for the team |
+| [`shiftproof/DESIGN.md`](shiftproof/DESIGN.md), [`shiftproof/design/`](shiftproof/design/) | Design system: tokens, components, previews |
+| [`shiftproof/COPY.md`](shiftproof/COPY.md) | Copy contract for every word a person sees |
+| [`AGENTS.md`](AGENTS.md) | Rules for every coding agent (Claude, Codex, Gemini and others) |
 | [`shiftproof/docs/MODEL_ROUTING.md`](shiftproof/docs/MODEL_ROUTING.md) | Which AI models we use for which work |
 | [`ideas/`](ideas/) | The project proposal |
 | [`personas.html`](personas.html), [`personas.json`](personas.json) | Stakeholder personas |
