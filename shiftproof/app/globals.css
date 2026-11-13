@@ -147,7 +147,10 @@ body, p { margin: 0; }
 .sp-src { white-space: pre-wrap; max-height: 22.5rem; overflow: auto; }
 /* Scroll cue: the source panes scroll, so the edge that has more text fades and says so. */
 .sp-scroll { position: relative; }
-.sp-scroll .sp-src:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+.sp-scroll { border-radius: var(--radius-inner); }
+.sp-scroll .sp-src:focus-visible { outline: none; }
+/* The pane is masked, so its focus ring goes on the unmasked wrapper. Same ring as .sp-btn. */
+.sp-scroll:has(.sp-src:focus-visible) { outline: 3px solid var(--focus); outline-offset: 2px; }
 .sp-scroll[data-more-below] .sp-src { mask-image: linear-gradient(to bottom, black calc(100% - calc(var(--space-8) + var(--space-4))), transparent); }
 .sp-scroll[data-more-above] .sp-src { mask-image: linear-gradient(to top, black calc(100% - calc(var(--space-8) + var(--space-4))), transparent); }
 .sp-scroll[data-more-above][data-more-below] .sp-src {

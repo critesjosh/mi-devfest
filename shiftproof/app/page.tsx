@@ -96,7 +96,8 @@ function ScrollCue({ label, children }: { label: string; children: React.ReactEl
   }, [children]);
   const scrollBy = (dir: 1 | -1) => {
     const el = ref.current?.firstElementChild as HTMLElement | null;
-    el?.scrollBy({ top: dir * el.clientHeight * 0.8, behavior: "smooth" });
+    const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el?.scrollBy({ top: dir * el.clientHeight * 0.8, behavior: calm ? "auto" : "smooth" });
   };
   return (
     <div ref={ref} className="sp-scroll" data-more-above={more.above || undefined} data-more-below={more.below || undefined}>
