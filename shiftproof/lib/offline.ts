@@ -1,6 +1,6 @@
 // Recorded sample output for offline development and as a clearly labeled fallback if watsonx.ai is down.
 // The UI must show "Sample output (offline)" whenever these are used. Never present them as live.
-import type { AskResult, CardDraft, CompareResult } from "./schemas";
+import type { AskResult, Card, CardDraft, CompareResult, Finding } from "./schemas";
 
 export const SAMPLE_COMPARE: CompareResult = {
   findings: [
@@ -38,37 +38,101 @@ export const SAMPLE_COMPARE: CompareResult = {
   confirmed_matches: ["Indicating the fixed jaw (Step 3): the veteran says the sheet has it right."],
 };
 
-export const SAMPLE_DRAFT: CardDraft = {
-  title: "Let the first bracket cool before you measure the pocket",
-  scope: "WI-114 Rev C, Op 20, BRK-2207 bracket, Step 6 (first-article measurement)",
-  applies_when: ["The first part has just come off the machine", "The part feels warm to the touch"],
-  do_not_apply_when: ["A different part or procedure revision", "The part has already sat at shop temperature"],
-  steps: [
-    "Set the part on the granite plate, or flood it with coolant and wait about ten minutes.",
-    "Measure the pocket only after the part is at shop temperature.",
-    "If it is still out of tolerance once cool, follow Step 7 of the work instruction.",
-  ],
-  escalate_if: ["The pocket is still out of tolerance after the part has cooled", "You are not sure the part is at shop temperature"],
+type SampleKind = "seat" | "two_places" | "cooling";
+
+// Which recorded card fits a finding. Live finding IDs can differ, so match on the words, not the ID.
+function kindOf(text: string): SampleKind {
+  const t = text.toLowerCase();
+  if (/two places|taper|more than one place/.test(t)) return "two_places";
+  if (/chip|tip|seat|clamp/.test(t)) return "seat";
+  return "cooling";
+}
+
+const SAMPLE_DRAFTS: Record<SampleKind, CardDraft> = {
+  seat: {
+    title: "Seat the bracket before you clamp it",
+    scope: "WI-114 Rev C, Op 20, BRK-2207 bracket, Step 2 (clamping in the vise)",
+    applies_when: ["Every time you clamp a part in the vise for this operation"],
+    do_not_apply_when: ["A different part or procedure revision"],
+    steps: [
+      "Run your hand along both vise jaws and the parallels and wipe off any chips.",
+      "Tap the part down with a dead-blow, then try to slide the parallels.",
+      "If either parallel moves, the part isn't seated. Unclamp it and seat it again.",
+      "If it still rocks, put a piece of shim stock under the low corner.",
+    ],
+    escalate_if: ["The part still rocks after you shim it", "You are not sure the part is seated"],
+  },
+  two_places: {
+    title: "Measure the pocket in two places",
+    scope: "WI-114 Rev C, Op 20, BRK-2207 bracket, Step 6 (first-article measurement)",
+    applies_when: ["You measure the pocket length on a first part"],
+    do_not_apply_when: ["A different part or procedure revision"],
+    steps: [
+      "Measure the pocket in two places, not one.",
+      "Compare the two readings before you record anything.",
+      "If they differ, the part may have tipped in the vise and the pocket may be tapered.",
+    ],
+    escalate_if: ["The two readings differ", "You think the part tipped in the vise"],
+  },
+  cooling: {
+    title: "Let the first bracket cool before you measure the pocket",
+    scope: "WI-114 Rev C, Op 20, BRK-2207 bracket, Step 6 (first-article measurement)",
+    applies_when: ["The first part has just come off the machine", "The part feels warm to the touch"],
+    do_not_apply_when: ["A different part or procedure revision", "The part has already sat at shop temperature"],
+    steps: [
+      "Set the part on the granite plate, or flood it with coolant and wait about ten minutes.",
+      "Measure the pocket only after the part is at shop temperature.",
+      "If it is still out of tolerance once cool, follow Step 7 of the work instruction.",
+    ],
+    escalate_if: ["The pocket is still out of tolerance after the part has cooled", "You are not sure the part is at shop temperature"],
+  },
 };
 
-export function sampleAsk(question: string, cardId: string): AskResult {
-  const q = question.toLowerCase();
-  const inScope = /(measur|over|long|offset|mic|warm|hot|cool|first part|pocket)/.test(q);
-  if (!inScope) {
-    return {
-      in_scope: false,
-      answer: "No approved guidance covers this yet. Ask your lead or quality before you change anything.",
-      missing_information: [],
-      cited_card_ids: [],
-      cited_quotes: [],
-    };
-  }
-  return {
-    in_scope: true,
+function matchesDraft(card: CardDraft, draft: CardDraft): boolean {
+  const keys = ["title", "scope", "applies_when", "do_not_apply_when", "steps", "escalate_if"] as const;
+  return keys.every((k) => JSON.stringify(card[k]) === JSON.stringify(draft[k]));
+}
+
+export function sampleDraft(finding: Pick<Finding, "topic" | "veteran_quote">): CardDraft {
+  return SAMPLE_DRAFTS[kindOf(`${finding.topic} ${finding.veteran_quote}`)];
+}
+
+const SAMPLE_ANSWERS: Record<SampleKind, { test: RegExp; answer: string }> = {
+  seat: {
+    test: /(clamp|seat|chip|rock|shim|vise|parallel|tip)/,
+    answer:
+      "Wipe the chips off the vise jaws and the parallels, tap the part down, and try to slide the parallels. If either one moves, unclamp and seat it again. If it still rocks after you shim the low corner, ask your lead.",
+  },
+  two_places: {
+    test: /(two places|taper|one place|both ends|differ)/,
+    answer:
+      "Measure the pocket in two places, not one, and compare the readings before you record anything. If they differ, the part may have tipped in the vise. Tell your lead before you go on.",
+  },
+  cooling: {
+    test: /(measur|over|long|offset|mic|warm|hot|cool|first part|pocket)/,
     answer:
       "Don't change the wear offset yet. A warm first part can read about two thousandths long, so let it cool to shop temperature and measure again. If it is still over once it's cool, follow Step 7 and tell quality.",
+  },
+};
+
+// Answers only from the approved cards it is given, and cites the veteran's words from the card it used.
+// The recorded answer is used only for an approved card that still says exactly what the recorded draft says.
+// An edited card gets the refusal, so a recorded answer never contradicts what quality approved.
+// The most specific question wins: "two places" before clamping words, and both before general measuring words.
+export function sampleAsk(question: string, approved: Card[]): AskResult {
+  const q = question.toLowerCase();
+  // Pick the question's topic first. If its card is not approved, or was edited, refuse rather than answer from another card.
+  const kind = (["two_places", "seat", "cooling"] as const).find((k) => SAMPLE_ANSWERS[k].test.test(q));
+  const card = kind ? approved.find((c) => matchesDraft(c, SAMPLE_DRAFTS[kind])) : undefined;
+  const quote = card?.source_quotes.find((s) => s.source === "veteran")?.text;
+  if (kind && card && quote) {
+    return { in_scope: true, answer: SAMPLE_ANSWERS[kind].answer, missing_information: [], cited_card_ids: [card.id], cited_quotes: [quote] };
+  }
+  return {
+    in_scope: false,
+    answer: "No approved guidance covers this yet. Ask your lead or quality before you change anything.",
     missing_information: [],
-    cited_card_ids: [cardId],
-    cited_quotes: ["A 4 inch bracket that's maybe 40 degrees over shop temperature will read about two thousandths long."],
+    cited_card_ids: [],
+    cited_quotes: [],
   };
 }
