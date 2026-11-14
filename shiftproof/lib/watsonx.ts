@@ -13,16 +13,27 @@ export function modelId() {
   return process.env.WATSONX_MODEL_ID || "ibm/granite-4-h-small";
 }
 
+/** Turn an AbortSignal timeout into a plain reason for the failure banner. */
+async function timed<T>(seconds: number, call: () => Promise<T>): Promise<T> {
+  try {
+    return await call();
+  } catch (e) {
+    if (e instanceof Error && e.name === "TimeoutError") throw new Error(`No answer within ${seconds} seconds.`);
+    throw e;
+  }
+}
+
 async function iamToken(): Promise<string> {
   if (cachedToken && Date.now() < cachedToken.expiresAt - 60_000) return cachedToken.value;
-  const res = await fetch("https://iam.cloud.ibm.com/identity/token", {
+  const res = await timed(15, () => fetch("https://iam.cloud.ibm.com/identity/token", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded", Accept: "application/json" },
     body: new URLSearchParams({
       grant_type: "urn:ibm:params:oauth:grant-type:apikey",
       apikey: process.env.WATSONX_API_KEY ?? "",
     }),
-  });
+    signal: AbortSignal.timeout(15_000),
+  }));
   if (!res.ok) throw new Error(`IBM Cloud sign-in failed (${res.status}). Check WATSONX_API_KEY.`);
   const body = (await res.json()) as { access_token: string; expires_in: number };
   cachedToken = { value: body.access_token, expiresAt: Date.now() + body.expires_in * 1000 };
@@ -31,10 +42,11 @@ async function iamToken(): Promise<string> {
 
 export async function chat(messages: Msg[], maxTokens = 1200): Promise<string> {
   const base = (process.env.WATSONX_URL || "https://us-south.ml.cloud.ibm.com").replace(/\/$/, "");
-  const res = await fetch(`${base}/ml/v1/text/chat?version=2024-10-08`, {
+  const token = await iamToken();
+  const res = await timed(60, () => fetch(`${base}/ml/v1/text/chat?version=2024-10-08`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${await iamToken()}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
       Accept: "application/json",
     },
@@ -45,7 +57,9 @@ export async function chat(messages: Msg[], maxTokens = 1200): Promise<string> {
       max_tokens: maxTokens,
       temperature: 0,
     }),
-  });
+    // A stalled call would otherwise hold the request open; on timeout the route falls back to labelled sample output.
+    signal: AbortSignal.timeout(60_000),
+  }));
   if (!res.ok) {
     const detail = await res.text();
     throw new Error(`watsonx.ai request failed (${res.status}): ${detail.slice(0, 300)}`);

@@ -121,7 +121,9 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
   const [busy, setBusy] = useState("");
   useEffect(() => {
     setF({ title: card.title, scope: card.scope, steps: lines(card.steps), applies_when: lines(card.applies_when), do_not_apply_when: lines(card.do_not_apply_when), escalate_if: lines(card.escalate_if) });
-  }, [card]);
+    // Only when the saved card changes. Depending on [card] wiped unsaved edits on every card whenever any card reloaded.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [card.id, card.updated_at]);
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setF({ ...f, [k]: e.target.value });
   const run = async (name: string, fn: () => Promise<unknown>) => {
     setBusy(name);
@@ -129,15 +131,19 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
     setBusy("");
   };
   const save = () => run("save", () => api(`/api/cards/${card.id}`, "PUT", { edits: { title: f.title, scope: f.scope, steps: unlines(f.steps), applies_when: unlines(f.applies_when), do_not_apply_when: unlines(f.do_not_apply_when), escalate_if: unlines(f.escalate_if) } }));
-  const move = (to: string) => run(to, () => api(`/api/cards/${card.id}/status`, "POST", { to }));
   const dirty = f.title !== card.title || f.scope !== card.scope || f.steps !== lines(card.steps) || f.applies_when !== lines(card.applies_when)
     || f.do_not_apply_when !== lines(card.do_not_apply_when) || f.escalate_if !== lines(card.escalate_if);
+  // A sign-off applies to the saved card. With unsaved edits on screen it would approve text the reviewer isn't looking at.
+  const move = (to: string) => { if (!dirty) run(to, () => api(`/api/cards/${card.id}/status`, "POST", { to })); };
   return (
     <article className="sp-panel sp-card" aria-busy={!!busy}>
       <div className="sp-finding__head">
         <span className={tagClass(card.status)}>{card.status.replace("_", " ")}</span>
         <span className="sp-data sp-muted">{card.procedure} {card.procedure_revision}</span>
       </div>
+      {card.draft_source && (
+        <p className="sp-note">Card draft: {card.draft_source === "sample" ? "Sample output (offline), not a live model call." : `Granite on watsonx.ai · ${card.draft_model}`}</p>
+      )}
       <div className="sp-card__form">
       <div className="sp-field">
         <label className="sp-field__label" htmlFor={`t-${card.id}`}>Title</label>
@@ -171,15 +177,15 @@ function CardEditor({ card, role, onChange, onError }: { card: Card; role: Role;
       )}
       <div className="sp-row sp-card__actions">
         <button className="sp-btn" onClick={save} disabled={!!busy}>{busy === "save" ? "Saving..." : "Save edits"}</button>
-        <button className={`sp-btn${card.status === "candidate" ? " sp-btn--primary" : ""}`} onClick={() => move("expert_confirmed")} disabled={!!busy || card.status !== "candidate" || role !== "Veteran"}>
+        <button className={`sp-btn${card.status === "candidate" ? " sp-btn--primary" : ""}`} onClick={() => move("expert_confirmed")} disabled={!!busy || dirty || card.status !== "candidate" || role !== "Veteran"}>
           {busy === "expert_confirmed" ? "Confirming..." : "Confirm my account is accurate"}
         </button>
-        <button className={`sp-btn${card.status === "expert_confirmed" ? " sp-btn--primary" : ""}`} onClick={() => move("approved")} disabled={!!busy || card.status !== "expert_confirmed" || role !== "Quality lead"}>
+        <button className={`sp-btn${card.status === "expert_confirmed" ? " sp-btn--primary" : ""}`} onClick={() => move("approved")} disabled={!!busy || dirty || card.status !== "expert_confirmed" || role !== "Quality lead"}>
           {busy === "approved" ? "Approving..." : "Approve for training"}
         </button>
         {dirty && <span className="sp-note sp-card__dirty" role="status">Edits not saved</span>}
       </div>
-      <p className="sp-note">Saving edits sends the card back to candidate. Confirm needs the Veteran role; approve needs the Quality lead role.</p>
+      <p className="sp-note">Save your edits before you confirm or approve. Saving sends the card back to candidate. Confirm needs the Veteran role; approve needs the Quality lead role.</p>
     </article>
   );
 }
@@ -435,10 +441,7 @@ export default function Home() {
                 <div className="sp-row"><button className="sp-btn sp-btn--primary" onClick={() => setTab(1)}>Go to Compare</button></div>
               </div>
             )}
-            {cards.some((c) => c.source_quotes.length) && app && (
-              <p className="sp-note">Card drafts: {app.offline ? "Sample output (offline), not a live model call." : `Granite on watsonx.ai · ${app.model}`}</p>
-            )}
-            {cards.map((c) => <CardEditor key={c.id} card={c} role={role} onChange={load} onError={setError} />)}
+            {cards.map((c) => <CardEditor key={c.id} card={c} role={role} onChange={() => { setAsk(null); return load(); }} onError={setError} />)}
           </section>
         )}
 

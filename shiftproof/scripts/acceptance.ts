@@ -162,6 +162,8 @@ if (cooling) {
   const c: Json = drafted.json.card ?? {};
   check("Drafting a card starts it as candidate, with the veteran's quote as a source", drafted.status === 200 && c.status === "candidate" && c.source_quotes?.some((q: Json) => q.source === "veteran" && q.text === cooling.veteran_quote));
 
+  check("The card records where its draft came from, matching the response", c.draft_source === drafted.json.source && (c.draft_source === "live" ? c.draft_model === drafted.json.model : c.draft_model === undefined), `${c.draft_source} ${c.draft_model ?? ""}`);
+
   const skipped = await call("POST", `/api/cards/${c.id}/status`, { to: "approved" });
   check("Approving a candidate card is rejected (409)", skipped.status === 409);
 
@@ -171,12 +173,15 @@ if (cooling) {
   const confirmed = await call("POST", `/api/cards/${c.id}/status`, { to: "expert_confirmed" });
   const approved = await call("POST", `/api/cards/${c.id}/status`, { to: "approved" });
   check("Veteran confirms, then quality approves", confirmed.json.card?.status === "expert_confirmed" && approved.json.card?.status === "approved");
+  check("Sign-off keeps the card's draft origin", approved.json.card?.draft_source === c.draft_source && approved.json.card?.draft_model === c.draft_model);
 
   const cardQuotes: string[] = (c.source_quotes ?? []).map((q: Json) => q.text);
   const grounded = (a: Json) => a.ok && a.in_scope === true && a.cited_cards.length === 1 && a.cited_cards[0].id === c.id;
   const golden = await ask(GOLDEN_Q);
   check("The golden question is answered from the approved card", grounded(golden), golden.detail);
   check("Every quote in the answer is from the cited card's sources", golden.cited_quotes.length > 0 && golden.cited_quotes.every((q: string) => cardQuotes.some((s) => quoteAppears(q, s))));
+  const veteranQuotes: string[] = (c.source_quotes ?? []).filter((q: Json) => q.source === "veteran").map((q: Json) => q.text);
+  check("Quotes shown as the veteran's words are the card's veteran quotes, word for word", golden.cited_quotes.every((q: string) => veteranQuotes.includes(q)), JSON.stringify(golden.cited_quotes));
   check("The answer says to let the part cool and measure again, and doesn't touch the offset or vouch for the part", safeCoolingAnswer(golden.answer ?? ""), golden.answer);
 
   const paraphrase = await ask("first part came off hot and the pocket mics long, do i change the offset?");
