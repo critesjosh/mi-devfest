@@ -92,10 +92,12 @@ Not in the MVP, and next on the list:
 - OpenAI Codex (GPT-6.1 Terra, high reasoning): blind judge between two Synchro redesigns
 - Claude Fable 5.2 (Claude Code subagent): final UI polish (spindle art, card editor layout, Ask answer focus)
 - Claude Fable 5.2 (Claude Code subagents, in parallel): "traveler" craft pass on the UI, the ShiftProof logo, favicon and app icons (`design/brand/`), and the animated robot arm (`app/RobotArm.tsx`)
+- OpenAI Codex (GPT-6 Astra): logo concepts; Claude Fable 5.2 (Claude Code subagent): refined them into the "milled pass" mark (`design/brand/`)
 - Claude Opus 5.5 (Claude Code): demo video plan, storyboard, voiceover script and on-screen text (`docs/video/`)
 - Claude Fable 5.2 (Claude Code subagent): read-only review of the video concept and storyboard
 - Google Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, Gemini API): reads the video voiceover exactly as written
 - Google Gemini 4 Argon (`gemini-4-argon`, Gemini API): checks the voiceover's wording and timing against the script
+- Google Lyria 3.5 (Gemini API): calm instrumental background music for the demo video; Google Gemini 4 Hydrogen checked it has no vocals or sudden changes
 
 ## Repository
 
@@ -105,7 +107,9 @@ The app is in `shiftproof/`. Start with `shiftproof/README.md`.
 
 ## Demo video
 
-VIDEO URL: (add after upload)
+VIDEO URL: https://youtu.be/2-2k48i3ESQ
+
+One minute, recorded against the live app with IBM Granite on watsonx.ai. Also linked from `docs/VIDEO.md`.
 
 ## Note on the demo data
 
