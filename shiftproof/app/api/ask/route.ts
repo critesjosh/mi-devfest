@@ -38,7 +38,7 @@ export async function POST(req: Request) {
   let result: AskResult;
   let source: "live" | "sample" = "sample";
   let error: string | undefined;
-  result = sampleAsk(question, approved[0].id);
+  result = sampleAsk(question, approved);
   if (!isOffline()) {
     try {
       result = AskResultSchema.parse(await chatJson(ASK_SYSTEM, askUser(JSON.stringify(approved, null, 2), question), AskResultSchema));

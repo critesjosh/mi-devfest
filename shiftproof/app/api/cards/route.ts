@@ -5,7 +5,7 @@ import { chatJson, isOffline, modelId } from "@/lib/watsonx";
 import { DRAFT_SYSTEM, draftUser } from "@/lib/prompts";
 import { CardDraftSchema, type Card } from "@/lib/schemas";
 import { PROCEDURE, PROCEDURE_REVISION } from "@/lib/fixtures";
-import { SAMPLE_DRAFT } from "@/lib/offline";
+import { sampleDraft } from "@/lib/offline";
 import { readState, writeState } from "@/lib/store";
 import { err, msgOf, parseBody } from "../_util";
 
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
     return err("This finding has a quote that was not found in the source, so it cannot become a card.", 422);
   }
 
-  let draft = SAMPLE_DRAFT;
+  let draft = sampleDraft(finding);
   let source: "live" | "sample" = "sample";
   let error: string | undefined;
   if (!isOffline()) {

@@ -64,7 +64,7 @@ body, p { margin: 0; }
 /* Illustration slot. About hero-art wide; whatever sits here stands on the top edge of the overview sheet. */
 .sp-hero__art { display: none; }
 @media (min-width: 900px) {
-  .sp-hero { grid-template-columns: minmax(0, 1fr) var(--hero-art); gap: var(--space-8); margin-bottom: calc(-1 * var(--space-6)); }
+  .sp-hero { grid-template-columns: minmax(0, 1fr) var(--hero-art); gap: var(--space-8); margin-bottom: calc(-1 * var(--space-6)); min-height: var(--hero-min); }
   .sp-hero__titles { padding-bottom: var(--space-6); }
   .sp-hero__art { display: block; width: var(--hero-art); align-self: end; pointer-events: none; }
   .sp-hero__art svg { display: block; width: 100%; height: auto; overflow: visible; }
