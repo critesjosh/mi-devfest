@@ -54,6 +54,7 @@
   --quote-line: 22px;
   --tag-width: 160px;
   --hero-art: 240px;
+  --src-fold-offset: 568px;
   --text-hero: clamp(40px, 4.6vw, 64px);
   --text-figure: 56px;
   --text-heading: 22px;

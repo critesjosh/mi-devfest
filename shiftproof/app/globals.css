@@ -148,6 +148,8 @@ body, p { margin: 0; }
 .sp-grid2 > * { min-width: 0; }
 @media (max-width: 720px) { .sp-grid2 { grid-template-columns: 1fr; } }
 .sp-src { white-space: pre-wrap; max-height: 22.5rem; overflow: auto; }
+/* At 900px and up the two source documents end above the fold: the box shrinks with a short window, down to six rows of space-8. */
+@media (min-width: 900px) { .sp-src { max-height: clamp(calc(var(--space-8) * 6), calc(100svh - var(--src-fold-offset)), 22.5rem); } }
 /* Scroll cue: the source panes scroll, so the edge that has more text fades and says so. */
 .sp-scroll { position: relative; }
 .sp-scroll { border-radius: var(--radius-inner); }
