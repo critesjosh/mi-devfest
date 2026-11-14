@@ -8,7 +8,7 @@ import { sampleAsk } from "@/lib/offline";
 import { quoteAppears } from "@/lib/verify";
 import { approvedCardsFor, readState } from "@/lib/store";
 import { buildReply } from "@/lib/reply";
-import { msgOf, parseBody } from "../_util";
+import { err, msgOf, parseBody } from "../_util";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -48,9 +48,13 @@ export async function POST(req: Request) {
     }
   }
 
-  // Re-check approval after the model call: a card edited back to candidate while Granite was answering must not be cited.
-  const stillApproved = new Set(approvedCardsFor(PROCEDURE, PROCEDURE_REVISION, readState().cards).map((c) => c.id));
-  const byId = new Map(approved.filter((c) => stillApproved.has(c.id)).map((c) => [c.id, c]));
+  // The model answered from the approved cards as they were. If any of them was edited, re-approved or withdrawn
+  // meanwhile, its old text may be in the answer, so don't show it.
+  const now = new Map(approvedCardsFor(PROCEDURE, PROCEDURE_REVISION, readState().cards).map((c) => [c.id, c.updated_at]));
+  if (approved.some((c) => now.get(c.id) !== c.updated_at)) {
+    return err("A guide card changed while this answer was being written. Ask again.", 409);
+  }
+  const byId = new Map(approved.map((c) => [c.id, c]));
   const citedCards = result.in_scope ? result.cited_card_ids.filter((id, i, a) => byId.has(id) && a.indexOf(id) === i).map((id) => byId.get(id)!) : [];
   // An answer is shown only when it cites at least one approved card and says something. Otherwise the app, not the model,
   // writes the refusal, so an injected question can't put its own text on the apprentice's screen.
