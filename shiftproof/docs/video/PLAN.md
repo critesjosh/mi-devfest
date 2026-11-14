@@ -113,7 +113,7 @@ Everything else on screen is the app's own text or an exact fixture quote.
 
 ## 5. Voiceover script (final)
 
-Source of truth: `vo-script.txt` (spoken forms) and `captions.txt` (written forms). It is 134 words (`wc -w` on the spoken lines). In the Charon take checked at 3:50 PM, after Daniel's approved edits to Ask and Impact, the last word ends at 59.1 s.
+Source of truth: `vo-script.txt` (spoken forms) and `captions.txt` (written forms). It is 134 words (`wc -w` on the spoken lines). In the Charon take checked at 2:43 PM, after Daniel's approved edits to Ask and Impact, the last word ends at 59.1 s.
 
 > **[0:00.3]** An apprentice's first bracket reads two thousandths over. Work instruction one-fourteen, Rev C, says to adjust the wear offset.
 >
@@ -176,9 +176,9 @@ All media lives **outside git**, in `~/ShiftProof-video/` on Daniel's machine. T
 
 | Asset | Path | Made by | Status |
 |---|---|---|---|
-| Voiceover, beat files and joined | `~/ShiftProof-video/audio/vo-charon.wav`, `vo-charon-<beat>.wav` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, voice Charon), via `scripts/tts.py` | Rendered with the final cues and checked, 3:50 PM. Josh or Daniel still has to approve the voice (Open questions) |
-| Voiceover, normalised | `~/ShiftProof-video/audio/vo-final.wav` | ffmpeg `loudnorm` | Done: -16.9 LUFS, true peak -1.5 dBTP (3:50 PM take) |
-| Captions | `~/ShiftProof-video/audio/vo-final.srt` | `scripts/audio_check.py --srt` (Claude's words, Argon's timings) | Written from the 3:50 PM take (`vo-final.srt`) |
+| Voiceover, beat files and joined | `~/ShiftProof-video/audio/vo-charon.wav`, `vo-charon-<beat>.wav` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`, voice Charon), via `scripts/tts.py` | Rendered with the final cues and checked, 2:43 PM. Josh or Daniel still has to approve the voice (Open questions) |
+| Voiceover, normalised | `~/ShiftProof-video/audio/vo-final.wav` | ffmpeg `loudnorm` | Done: -16.9 LUFS, true peak -1.5 dBTP (2:43 PM take) |
+| Captions | `~/ShiftProof-video/audio/vo-final.srt` | `scripts/audio_check.py --srt` (Claude's words, Argon's timings) | Written from the 2:43 PM take (`vo-final.srt`) |
 | Motion graphics | `~/ShiftProof-video/motion/` (`S1.mov`, `S2.mov`, `S6.mov`, overlays as PNG with alpha) | Claude Opus 5.5, HTML and CSS on `design/tokens.css`, rendered with headless Chrome and ffmpeg (`prompts/motion-graphics.md`) | To do, before 4:15 PM |
 | Live capture, rehearsal | `~/ShiftProof-video/capture/rehearsal-*.mov` | Codex GPT-6.1 Terra (computer use), screen-recorded by a person | At the 4:30 PM freeze check |
 | Live capture, final | `~/ShiftProof-video/capture/final-*.mov` | Same | 5:00 PM |
@@ -193,9 +193,9 @@ All media lives **outside git**, in `~/ShiftProof-video/` on Daniel's machine. T
 | # | When (ET) | Step | Model or person | Done when |
 |---|---|---|---|---|
 | 1 | Done, 2:30 PM | Concept, storyboard, voiceover, on-screen text | Claude Opus 5.5 | This plan |
-| 2 | Done, 3:50 PM (Ask and Impact re-rendered with `--only ask,impact`). Redo only if the script or voice changes | Render the voiceover: `python3 -I shiftproof/docs/video/scripts/tts.py Charon ~/ShiftProof-video/audio/vo-charon.wav`. Gemini reads `vo-script.txt` and may not change a word. Listen once. If the voice is wrong, try `Orus`. If one beat reads slowly, redo only that beat with `--only <beat>` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`) | Joined file ends before 59.5 s, no beat overruns its cue. 3:50 PM take: 59.1 s after normalising |
-| 3 | Done, 3:50 PM | Normalise: `ffmpeg -i vo-charon.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 48000 vo-final.wav` | ffmpeg (no model) | — |
-| 4 | Done, 3:50 PM | Check wording, timing and levels, and write captions: `python3 -I shiftproof/docs/video/scripts/audio_check.py ~/ShiftProof-video/audio/vo-final.wav gemini-4-argon --srt ~/ShiftProof-video/audio/vo-final.srt` | Gemini 4 Argon (`gemini-4-argon`); `gemini-4-hydrogen` as the alternative | "All beats OK", levels OK |
+| 2 | Done, 2:43 PM (Ask and Impact re-rendered with `--only ask,impact`). Redo only if the script or voice changes | Render the voiceover: `python3 -I shiftproof/docs/video/scripts/tts.py Charon ~/ShiftProof-video/audio/vo-charon.wav`. Gemini reads `vo-script.txt` and may not change a word. Listen once. If the voice is wrong, try `Orus`. If one beat reads slowly, redo only that beat with `--only <beat>` | Gemini 3.8 Flash TTS (`gemini-3.8-flash-tts`) | Joined file ends before 59.5 s, no beat overruns its cue. 2:43 PM take: 59.1 s after normalising |
+| 3 | Done, 2:43 PM | Normalise: `ffmpeg -i vo-charon.wav -af loudnorm=I=-16:TP=-1.5:LRA=7 -ar 48000 vo-final.wav` | ffmpeg (no model) | — |
+| 4 | Done, 2:43 PM | Check wording, timing and levels, and write captions: `python3 -I shiftproof/docs/video/scripts/audio_check.py ~/ShiftProof-video/audio/vo-final.wav gemini-4-argon --srt ~/ShiftProof-video/audio/vo-final.srt` | Gemini 4 Argon (`gemini-4-argon`); `gemini-4-hydrogen` as the alternative | "All beats OK", levels OK |
 | 5 | By 4:15 PM | Build and render the motion graphics: S1, S2, S6, bug, lower thirds, chips, callouts, phone frame (`prompts/motion-graphics.md`) | Claude Opus 5.5 (Fable 5.2 if Opus is unavailable) | Renders reviewed against `DESIGN.md` at full size |
 | 6 | By 4:15 PM | Write `assemble.sh`: cuts, speed-ups, overlays, captions, audio, export (`prompts/assemble.md`) | Claude Sonnet 5.5 | A dry-run cut with placeholder clips plays end to end. The file is named `DRYRUN`, and it is never uploaded |
 | 7 | 4:30 PM | Rehearsal capture during the MVP freeze check (`prompts/codex-capture.md`) | Codex GPT-6.1 Terra, reasoning medium, computer use. Daniel runs Codex and the screen recording | Capture checklist passes |
@@ -219,9 +219,9 @@ Claude Fable 5.2 (subagent, read-only) reviewed draft v0 at about 2:15 PM agains
 | Never show a line added to WI-114; `expected.md` says the instruction isn't changed | Guard | Dropped the "blank line slides in under Step 6" shot. The instruction is only ever quoted as written |
 | The shot list described styles the app doesn't render yet (`DESIGN.md`: the app still uses the older styles) | Top 2 | "On screen" now names the app's text and elements by what they say ("verified in source", the status words, the source line), not by component class. The capture checklist verifies them on the real screen. Motion graphics use the design tokens, which is where the app is heading, and stay plain |
 | The fixture label appears only on the Compare panes, so later live shots show veteran quotes without it | Top 2 | Persistent bug "Live Granite · fictional training fixtures" from 0:19.8 to 0:52.8. Quote cards carry the label |
-| Click 2 and Click 3 too dense (S5a at 200 wpm) | Top 3 | Retimed: Review 0:30–0:40.5, Ask 0:40.5–0:52.8, impact from 0:52.8 (cues moved 0.3–0.5 s earlier at 3:45 PM to fit the approved edits). Voiceover cut from 144 words and measured in real TTS takes; the 3:50 PM take is 134 words and ends at 59.1 s |
+| Click 2 and Click 3 too dense (S5a at 200 wpm) | Top 3 | Retimed: Review 0:30–0:40.5, Ask 0:40.5–0:52.8, impact from 0:52.8 (cues moved 0.3–0.5 s earlier at 2:41 PM to fit the approved edits). Voiceover cut from 144 words and measured in real TTS takes; the 2:43 PM take is 134 words and ends at 59.1 s |
 | "Finds three gaps" is scripted before a nondeterministic call | High | No number in the voiceover: "flags what the instruction leaves out" |
-| "In the veteran's words" overclaims; Granite writes the answer | High | Now "quotes the veteran's words", with "can cite only approved cards" (Daniel's approved wording, 3:45 PM) |
+| "In the veteran's words" overclaims; Granite writes the answer | High | Now "quotes the veteran's words", with "can cite only approved cards" (Daniel's approved wording, 2:41 PM) |
 | Only one call carried the "trimmed" chip | Medium | A chip on every shortened call (Compare, Draft, Ask), with real seconds from Codex's log |
 | "Veteran machinist" lower third could read as a real person | Medium | Removed. Quote cards say "Marv K. (fictional)" and "Fictional training fixture" |
 | Ten seconds on one static card | Medium | S2 builds two quotes in sequence, with a highlight on "every part after that comes out short" |

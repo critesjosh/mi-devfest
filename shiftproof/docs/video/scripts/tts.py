@@ -77,7 +77,17 @@ def speak(text):
             print(f"  HTTP {e.code}, retrying in {wait} s")
             time.sleep(wait)
     part = data["candidates"][0]["content"]["parts"][0]
-    return base64.b64decode(part["inlineData"]["data"])
+    blob = base64.b64decode(part["inlineData"]["data"])
+    # Gemini TTS can return a whole WAV file: a 44-byte header, the audio, then a C2PA
+    # provenance chunk (~7.6 KB). Played as PCM, the header clicks at the start of each
+    # line and the C2PA bytes scratch at the end. Keep only the data chunk.
+    if blob[:4] == b"RIFF":
+        import io
+        with wave.open(io.BytesIO(blob)) as w:
+            if (w.getframerate(), w.getsampwidth(), w.getnchannels()) != (RATE, 2, 1):
+                sys.exit(f"Unexpected TTS audio format: {w.getparams()}")
+            return w.readframes(w.getnframes())
+    return blob
 
 
 def trim(pcm, floor=300):
