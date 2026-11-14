@@ -63,6 +63,9 @@ export const CardSchema = CardDraftSchema.extend({
   procedure_revision: z.string(),
   source_quotes: z.array(z.object({ source: z.enum(["instruction", "veteran"]), text: z.string() })),
   expert_answer: z.string().default(""),
+  // Where the first draft came from. Edits and sign-offs keep it; it never describes later human edits.
+  draft_source: z.enum(["live", "sample"]).optional(),
+  draft_model: z.string().optional(),
   status: CardStatus,
   confirmed_by: z.string().optional(),
   approved_by: z.string().optional(),

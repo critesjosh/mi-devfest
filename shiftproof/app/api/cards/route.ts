@@ -52,10 +52,18 @@ export async function POST(req: Request) {
       { source: "veteran" as const, text: finding.veteran_quote },
     ],
     expert_answer,
+    draft_source: source,
+    ...(source === "live" ? { draft_model: modelId() } : {}),
     status: "candidate",
     updated_at: new Date().toISOString(),
   };
-  state.cards.push(card);
-  writeState(state);
+  // Re-read after the model call: a reset or another edit may have landed while Granite was drafting.
+  // Writing the earlier snapshot back would undo it, and could restore an old approval.
+  const fresh = readState();
+  if (!fresh.compare?.findings.some((f) => f.id === finding_id)) {
+    return err("The demo was reset while this card was drafting. Run Find gaps again.", 409);
+  }
+  fresh.cards.push(card);
+  writeState(fresh);
   return NextResponse.json({ source, model: modelId(), ...(error ? { error } : {}), card });
 }
