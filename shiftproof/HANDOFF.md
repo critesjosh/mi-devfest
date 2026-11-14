@@ -95,7 +95,7 @@ Full text: `docs/MODEL_ROUTING.md`.
 1. Get the keys, run `npm run smoke`, and set `WATSONX_MODEL_ID`.
 2. Run the golden path live with `npm run dev`. Compare the output to `data/fixtures/expected.md`, and tune `lib/prompts.ts` until compare finds the 3 gaps without flagging Step 3, and the off-topic ask is refused.
 3. Have a model from a different family review the diff adversarially: prompt injection in a source, made-up quotes, skipping a review step, citations leaking from unapproved cards.
-4. Write the acceptance test script (stream 3).
+4. ~~Write the acceptance test script (stream 3).~~ Done on Nov 14 (PR #29): `npm run acceptance`, 36 of 36 checks pass against live Granite.
 5. 4:30 PM: MVP freeze check. 5:00 PM: feature freeze. Record the video. Submit at 5:45 PM.
 6. After today: `git pull`, commit, push. Update the README's AI-tool list.
 
