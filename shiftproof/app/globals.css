@@ -59,13 +59,16 @@ body, p { margin: 0; }
   margin: 0; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.015em;
   font-size: var(--text-hero); line-height: 0.95; text-wrap: balance;
 }
-.sp-hero__lede { font-size: var(--text-lede); line-height: calc(var(--space-6) + var(--space-1)); max-width: 46ch; color: var(--ink); }
+.sp-hero__lede { font-size: var(--text-lede); line-height: calc(var(--space-6) + var(--space-1)); max-width: 60ch; color: var(--ink); }
 .sp-hero__lede + .sp-btn { margin-top: var(--space-1); }
 /* Illustration slot. About hero-art wide; whatever sits here stands on the top edge of the overview sheet. */
 .sp-hero__art { display: none; }
 @media (min-width: 900px) {
-  .sp-hero { grid-template-columns: minmax(0, 1fr) var(--hero-art); gap: var(--space-8); margin-bottom: calc(-1 * var(--space-6)); min-height: var(--hero-min); }
-  .sp-hero__titles { padding-bottom: var(--space-6); }
+  .sp-hero { grid-template-columns: minmax(0, 1fr) var(--hero-art); gap: var(--space-8); margin-bottom: calc(-1 * var(--space-6)); }
+  .sp-hero__titles { padding-bottom: var(--space-4); grid-template-columns: minmax(0, max-content) auto; justify-content: start; align-items: end; column-gap: var(--space-6); }
+  .sp-hero__titles .sp-header__title { grid-column: 1 / -1; }
+  /* Compare's button sits beside the lede, so every step's hero is the same height: the illustration's. */
+  .sp-hero__lede + .sp-btn { margin-top: 0; }
   .sp-hero__art { display: block; width: var(--hero-art); align-self: end; pointer-events: none; }
   .sp-hero__art svg { display: block; width: 100%; height: auto; overflow: visible; }
 }
@@ -82,7 +85,7 @@ body, p { margin: 0; }
 .sp-sheet__cap { font-size: var(--text-small); line-height: var(--space-4); color: var(--ink-muted); font-weight: 500; display: flex; justify-content: space-between; gap: var(--space-3); flex-wrap: wrap; }
 @media (min-width: 720px) {
   .sp-sheet { grid-template-columns: minmax(0, 0.9fr) minmax(0, 2fr); }
-  .sp-sheet__cell { padding: var(--space-4) var(--space-6) var(--space-6); }
+  .sp-sheet__cell { padding: var(--space-4) var(--space-6); }
   .sp-sheet__cell:nth-child(2) { border-top: 0; border-left: var(--border-hairline) solid var(--rule); }
   .sp-sheet__cell--source { grid-column: 1 / -1; }
 }
@@ -121,7 +124,7 @@ body, p { margin: 0; }
 .sp-hang::after { content: ""; position: absolute; left: 50%; top: var(--space-2); width: var(--space-2); height: var(--space-2); margin-left: calc(-1 * var(--space-1) - var(--border-control)); border: var(--border-control) solid currentColor; border-radius: var(--radius-pill); background: var(--paper); }
 .sp-hang--hold { color: var(--hold); background: var(--hold-bg); border-color: var(--hold); }
 .sp-hang--accept { color: var(--accept); background: var(--accept-bg); border-color: var(--accept); }
-.sp-hang__title { font-size: var(--text-small); line-height: var(--space-4); font-weight: 500; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.sp-hang__title { font-size: var(--text-small); line-height: var(--space-4); font-weight: 500; color: var(--ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 @media (hover: hover) and (pointer: fine) {
   .sp-hang { transition: transform var(--dur-base) var(--ease-out); }
   .sp-hang:hover { transform: rotate(0deg); }
@@ -219,6 +222,12 @@ body, p { margin: 0; }
     margin: 0 calc(-1 * var(--space-6)); padding: var(--space-3) var(--space-6);
     border-top: var(--border-hairline) solid var(--rule);
   }
+}
+/* Phones: two rows instead of three, so the sticky bar covers less of the card. Approve and the unsaved note take the full width. */
+@media (max-width: 599px) {
+  .sp-card__actions { display: grid; grid-template-columns: auto minmax(0, 1fr); }
+  .sp-card__actions .sp-btn { padding-inline: var(--space-3); }
+  .sp-card__actions > :nth-child(n + 3) { grid-column: 1 / -1; }
 }
 .sp-findings-top { scroll-margin-top: var(--space-6); }
 .sp-findings-top:empty { display: none; }
