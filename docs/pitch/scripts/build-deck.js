@@ -393,7 +393,7 @@ bullets(
     "Demo roles, not real sign-in. The review order is enforced in code; who clicks is a demo switch.",
     "One procedure, one revision: WI-114 Rev C, a fictional fixture.",
     "Text in, no audio capture yet.",
-    "Checks pass by hand. Scripted acceptance tests are in progress.",
+    "Scripted acceptance checks pass against live Granite, but only on one fictional fixture.",
   ],
   { x: 0.7, y: 1.95, w: 4.0, h: 2.85, size: 14, gap: 10 },
 );
@@ -411,7 +411,7 @@ bullets(
   { x: 5.3, y: 1.95, w: 4.0, h: 2.85, size: 14, gap: 10 },
 );
 s.addNotes(
-  "2:45 to 3:00, limits and next. Be straight about what it doesn't do yet: demo roles, one revision, text only, scripted tests still in progress. Next is voice capture so the veteran talks instead of types, real manuals through Docling, blocking reuse when a revision changes, and moving the veteran-to-quality hand-off onto watsonx Orchestrate. Ask already runs through Orchestrate: the shiftproof_apprentice agent calls the app's Ask route, so the same trust rules apply.",
+  "2:45 to 3:00, limits and next. Be straight about what it doesn't do yet: demo roles, one revision, text only, and the acceptance checks run on one fictional fixture. Next is voice capture so the veteran talks instead of types, real manuals through Docling, blocking reuse when a revision changes, and moving the veteran-to-quality hand-off onto watsonx Orchestrate. Ask already runs through Orchestrate: the shiftproof_apprentice agent calls the app's Ask route, so the same trust rules apply.",
 );
 
 // ==================================================================
