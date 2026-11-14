@@ -8,7 +8,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "smoke": "node --env-file-if-exists=.env.local --experimental-strip-types scripts/smoke-watsonx.ts",
-    "tokens": "node design/build-tokens.mjs"
+    "tokens": "node design/build-tokens.mjs",
+    "acceptance": "node --no-warnings --env-file-if-exists=.env.local --experimental-strip-types scripts/acceptance.ts"
   },
   "dependencies": {
     "next": "15.5.29",

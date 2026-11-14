@@ -24,7 +24,21 @@ npm run smoke                # checks IBM Cloud sign-in and the Granite model
 npm run dev                  # http://localhost:3000
 ```
 
-`npm run smoke` needs Node 22.6 or newer (it runs TypeScript directly). The watsonx.ai project must have the watsonx.ai Runtime service associated, or every model call returns 403.
+With the app running, `npm run acceptance` checks the acceptance criteria from issue #1 and `data/fixtures/expected.md`, then resets the demo. It checks:
+
+- quote verification against the fixtures;
+- the three expected gaps, and that Step 3 is not flagged;
+- review order;
+- approved-only Ask, scoped to the procedure revision;
+- safe answers that never vouch for the part;
+- the off-topic refusal;
+- a prompt injection in the question, and one written into a source (sent through the live Compare prompt);
+- editing a card sends it back to candidate;
+- a full reset-and-run in under 90 seconds.
+
+It reports which steps used the live model and which used sample output. Set `SHIFTPROOF_BASE` to test another deploy, and `SHIFTPROOF_EXPECT_LIVE=1` to fail if any step served sample output. With live keys it makes about seven watsonx.ai calls.
+
+`npm run smoke` and `npm run acceptance` need Node 22.6 or newer (they run TypeScript directly). The watsonx.ai project must have the watsonx.ai Runtime service associated, or every model call returns 403.
 
 No key yet? Set `SHIFTPROOF_OFFLINE=1` (or leave the key empty). The app then uses recorded sample output, and every result shows a "Sample output (offline)" banner. Never present sample output as a live model call.
 
