@@ -1,17 +1,24 @@
 # ShiftProof handoff (orchestrator)
 
-Last updated: 2026-11-13, about 12:30 PM ET. Written by Claude Opus 5.5 so a fresh Claude Code session can take over as orchestrator.
+Last updated: 2026-11-14, by Claude Opus 5.5 (orchestrator). The Nov 13 notes are condensed under "History".
 
 ## Where things stand
 
-- **Project:** ShiftProof, Michigan DevFest Hackathon 2026, Manufacturing focus. Proposal and constraints: GitHub issue #1 in `critesjosh/mi-devfest`. Alternatives #2–4 were considered and not chosen (all closed). **Live workstreams, owners and checkpoints: issue #5.**
-- **Deadlines:** MVP demo today. Submit by 5:45 PM ET (hard close 6:00 PM), presentations 6:30 PM. The IBM portal says final submissions close Sun Nov 15, 2:00 PM ET. Treat today as the real deadline until an organizer says otherwise.
-- **Checkpoints:** MVP working 4:30 PM, feature freeze 5:00 PM, 1-minute video uploaded 5:30 PM.
-- **Code:** `shiftproof/` (Next.js 15 + TypeScript). Builds and type-checks. The full golden path passes in a browser in offline mode at 1280px and 375px wide.
-- **Update, about 1:30 PM:** live Granite works end to end in us-south with `ibm/granite-4-h-small`. The Runtime service (`watsonx-Hackathon WML`) was associated with the project through the API. Prompts were tuned, and Compare, Review and Ask match `expected.md` across repeated live runs. Codex review (GPT-6.1 Sol) found two trust holes, both fixed and re-approved: quote verification ignored +/- signs and ellipsis order, and an injected Ask question could show model text without an approved citation. The server now writes the refusal itself. Next: step 4, the acceptance test script.
-- **Update, design and copy:** the design system is in `DESIGN.md` and `design/` (tokens, components, previews), mirrored in Claude Design. The copy contract is `COPY.md`. Root `AGENTS.md` points every agent (Claude, Codex, Gemini) to both. The app does not use the new tokens yet; that is the next UI task (stream 4).
-- **Demo tip:** in Review, give the cooling follow-up a plain answer, for example "About ten minutes on the granite plate, until it feels the same temperature as the plate. I never touch the offset off a warm part." An answer about taking two readings confuses Granite's Ask answer.
-- **Git:** the files were copied into the local folder but **not committed**. The local clone was one commit behind `origin/main`, so run `git pull` before you commit. Cloud Claude sessions can't push to this repo because the Claude GitHub App isn't installed on it.
+- **Project:** ShiftProof, Michigan DevFest Hackathon 2026, Manufacturing focus. Proposal and acceptance criteria: GitHub issue #1 in `critesjosh/mi-devfest`. Workstreams and owners: issue #5.
+- **Status:** the MVP was submitted on Nov 13 (`docs/SUBMISSION.md`, video in `docs/VIDEO.md`, deck in `docs/pitch/`). Judging and presentations are on Nov 15. The IBM portal says final submissions close Sun Nov 15, 2:00 PM ET.
+- **Live app:** IBM Code Engine (ca-tor, one instance), on Granite (`ibm/granite-4-h-small`, us-south). The URL is shared privately and stays out of the repo. Daniel's orchestrator session deploys every merge to `main`. Each deploy runs a live golden test that leaves a card behind, so the demo is reset to empty afterwards. As of PR #31 it runs `33ed74a`, reset to empty.
+- **Tests:** `npm run acceptance` (PR #29, extended in #31) checks issue #1's criteria end to end. The last live run passed 39 of 39 with every model step live, in about 13 s. It resets the demo when it finishes.
+- **Hardening on Nov 14 (PR #31):** GPT-6 Astra proposed the review and Claude Fable 5.2 verified and re-scoped it. Cards now record whether their draft was live or sample. Confirm and Approve are disabled while a card has unsaved edits. Ask shows the cited card's own veteran quote, never the model's string. Drafting no longer overwrites a reset or edit made during the model call. Ask refuses if a card changed mid-answer. watsonx.ai calls time out after 15 s for sign-in and 60 s for chat, then fall back to labelled sample output.
+- **UI (PRs #26 to #28):** each step's content and Compare's source panels fit above the fold on a laptop. The offline sample cards match their finding.
+- **Registry:** IBM Container Registry free tier, 512 MB. Old images were leaving untagged copies that still counted against the quota, which blocked a deploy on Nov 14. The deploy script now prunes them, and usage is about 126 MB.
+- **Demo tip:** in Review, give the cooling follow-up a plain answer, for example "About ten minutes on the granite plate, until it feels the same temperature as the plate. I never touch the offset off a warm part."
+
+## Known gaps (not fixed yet)
+
+- **Answer text isn't checked against the card.** Ask requires an approved card citation and shows that card's veteran quote, but the model's answer sentences are not verified. Fable rates this the largest remaining hole. Fix: build the answer from the cited card's steps and escalation lines.
+- **Numeric fragments pass quote verification.** `quoteAppears("0.002", "... 10.002 in.")` returns true (`lib/verify.ts`), and so do word fragments ("chip" in "chips"). Fix: boundary checks for each ellipsis part. Deferred because every Compare depends on this verifier.
+- **Demo-only identity and storage.** Anyone can call reset and status changes. Approver names are hard-coded. State is one JSON file inside the container. These are known MVP limits.
+- **Narrow acceptance suite.** It drafts and approves only the cooling card, and checks answers with keyword patterns.
 
 ## Decisions already made (don't reopen)
 
@@ -34,10 +41,12 @@ Last updated: 2026-11-13, about 12:30 PM ET. Written by Claude Opus 5.5 so a fre
 | `lib/prompts.ts` | Granite system and user prompts (compare, draft, ask) |
 | `lib/watsonx.ts` | IAM token, `/ml/v1/text/chat`, JSON extraction with one retry |
 | `lib/verify.ts`, `lib/store.ts` | Quote verification, review states, JSON-file store in `.data/` |
-| `lib/offline.ts` | Labeled sample output |
+| `lib/offline.ts` | Labelled sample output |
 | `app/api/*` | `state`, `compare`, `cards`, `cards/[id]`, `cards/[id]/status`, `ask`, `reset` |
 | `app/page.tsx` | Single-page UI with three tabs and a demo role switcher |
+| `lib/reply.ts` | Plain-text Ask reply for watsonx Orchestrate |
 | `scripts/smoke-watsonx.ts` | `npm run smoke`: checks IBM sign-in and the model ID |
+| `scripts/acceptance.ts` | `npm run acceptance`: issue #1 acceptance checks against a running app (resets it) |
 
 ## Get the IBM credentials (for `.env.local`)
 
@@ -90,23 +99,44 @@ Full text: `docs/MODEL_ROUTING.md`.
 - Delegates don't commit. The supervisor tests and commits, and notes which model wrote what. Keep the README's AI-tool disclosure up to date.
 - Always pin Codex's model and reasoning level.
 
-## Next steps, in order
+## Next steps
 
-1. Get the keys, run `npm run smoke`, and set `WATSONX_MODEL_ID`.
-2. Run the golden path live with `npm run dev`. Compare the output to `data/fixtures/expected.md`, and tune `lib/prompts.ts` until compare finds the 3 gaps without flagging Step 3, and the off-topic ask is refused.
-3. Have a model from a different family review the diff adversarially: prompt injection in a source, made-up quotes, skipping a review step, citations leaking from unapproved cards.
-4. ~~Write the acceptance test script (stream 3).~~ Done on Nov 14 (PR #29): `npm run acceptance`, 36 of 36 checks pass against live Granite.
-5. 4:30 PM: MVP freeze check. 5:00 PM: feature freeze. Record the video. Submit at 5:45 PM.
-6. After today: `git pull`, commit, push. Update the README's AI-tool list.
+Before judging (Nov 15):
+
+1. Freeze `main` except for demo-breaking fixes.
+2. One person runs the demo. Stage the state once, and don't run `npm run acceptance` or the golden test against the live app after that, because both reset it or add cards.
+3. Keep the offline mode (`SHIFTPROOF_OFFLINE=1`, every result labelled "Sample output") and the recorded video ready as fallbacks.
+4. Jason: mirror the deck's one-line limits change in Google Slides ("Scripted acceptance checks pass against live Granite, but only on one fictional fixture."), then export the PDF again.
+
+After judging: a two-week pilot with one shop. This is Fable's order; it reworks Astra's ranking around dependencies.
+
+1. Durable, transactional storage with version checks on writes. Everything below depends on it.
+2. Real sign-in, with server-side roles for confirm, approve, edit and reset. Record real approver names.
+3. Immutable history: card versions, who signed off on which version, and withdrawal.
+4. Build Ask answers from the cited card's content, with structured applies-when and does-not-apply-when conditions.
+5. Paired test cases per card: questions it must answer, and close ones it must refuse, run in acceptance.
+6. Docling ingestion of the shop's real documents, then more than one procedure.
+7. Block a card from answering when its procedure revision changes, until it is reviewed again.
+8. Recruit the shop and quality lead in week 1, and run a supervised shadow pilot in week 2.
+
+Later: numeric and word boundaries in quote verification, audio capture, watsonx.governance, and integration with the shop's document-control system.
+
+## History
+
+- **Nov 13:**
+  - Live Granite worked end to end by about 1:30 PM, after the watsonx.ai Runtime service was associated with the project.
+  - Codex fixed two trust holes: quote signs and ellipsis order, and the server-written refusal.
+  - The design system (`DESIGN.md`, `design/`) and copy contract (`COPY.md`) landed, followed by the Synchro-style redesign, the logo, the video and the deck.
+  - From 1:30 PM all changes went through PRs, with cross-family review.
+- **Nov 14:**
+  - PRs #26 to #31: sample-card matching, above-the-fold layout, the acceptance script, and the trust fixes above.
 
 ## Kickoff prompt (paste into a new Claude Code session)
 
-Open a terminal in `/Users/daniel/Dev/REPOS/GitHub/mi-devfest`, run `claude` (add `--dangerously-skip-permissions` if you want no prompts), and paste:
+Open a terminal in `/Users/daniel/Dev/REPOS/GitHub/mi-devfest`, run `claude`, and paste:
 
 ```
-You are the orchestrator and release lead for ShiftProof, our Michigan DevFest 2026 hackathon project. Read shiftproof/HANDOFF.md and shiftproof/docs/MODEL_ROUTING.md first, then shiftproof/data/fixtures/expected.md. Follow the routing rules: you (Opus) plan, orchestrate and do final QA; delegate routine implementation, search and reviews to cheaper tiers or other providers (Codex, Gemini, DeepSeek) where available, pinning model and effort; reviews go to a different model family than the implementer; only Anthropic models write user-facing copy. Delegates don't commit; you review, test, and commit with the model noted.
+You are the orchestrator and release lead for ShiftProof, our Michigan DevFest 2026 hackathon project. Read AGENTS.md, shiftproof/HANDOFF.md and shiftproof/docs/MODEL_ROUTING.md first. Follow the routing rules: you (Opus) plan, orchestrate and do final QA; delegate routine work to cheaper tiers or other providers, pinning model and effort; reviews go to a different model family than the implementer; only Anthropic models write user-facing copy. Delegates don't commit. Every change goes through a PR, never a push to main.
 
-Deadline: submit by 5:45 PM ET today. MVP must work end to end by 4:30 PM; feature freeze 5:00 PM.
-
-Start with HANDOFF.md "Next steps" step 1: check that shiftproof/.env.local exists and run `npm run smoke`. If it passes, run the live golden path against expected.md and tune lib/prompts.ts. Don't change the decisions listed in HANDOFF.md without asking me. Before each step, tell me the plan in two lines and which model you're routing it to.
+Start from HANDOFF.md "Where things stand" and "Next steps". Don't change the decisions listed in HANDOFF.md without asking me. Never print or commit keys, project IDs or the live app URL.
 ```
