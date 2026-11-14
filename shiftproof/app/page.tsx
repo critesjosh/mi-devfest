@@ -305,7 +305,7 @@ export default function Home() {
             <p className="sp-hero__lede">{ledes[tab - 1]}</p>
             {tab === 1 && <button className="sp-btn sp-btn--primary" onClick={findGaps} disabled={busy === "compare" || !app}>{busy === "compare" ? "Finding gaps..." : "Find gaps"}</button>}
           </div>
-          {/* Illustration slot: about 300px wide (--hero-art). Whatever goes here stands on the sheet's top edge. */}
+          {/* Illustration slot: about 240px wide (--hero-art). Whatever goes here stands on the sheet's top edge. */}
           <div className="sp-hero__art"><RobotArm working={busy === "compare" || busy === "ask" || busy.startsWith("draft-")} /></div>
         </div>
 

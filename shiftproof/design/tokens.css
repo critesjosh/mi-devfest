@@ -52,10 +52,9 @@
   --rail-width: 84px;
   --page-max: 1240px;
   --quote-line: 22px;
-  --tag-width: 132px;
-  --hero-art: 300px;
-  --hero-min: 228px;
-  --text-hero: clamp(40px, 5.4vw, 72px);
+  --tag-width: 160px;
+  --hero-art: 240px;
+  --text-hero: clamp(40px, 4.6vw, 64px);
   --text-figure: 56px;
   --text-heading: 22px;
   --text-lede: 18px;
